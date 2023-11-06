@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.waiting.waitingnow.mapper.deskMapper">
+
+    <insert id="insert">
+        insert into desk (desk_number, member_number, desk_store_number, desk_people)
+        values (#{deskNumber}, #{memberNumber}, #{deskStoreNumber}, #{deskPeople})
+    </insert>
+
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.DeskVO">
+        select * from desk where desk_number = #{deskNumber}
+    </select>
+
+    <!-- 사장님 번호로 찾기 -->
+    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.DeskVO">
+        select * from desk where member_number = #{memberNumber}
+    </select>
+
+    <!-- 테이블 인원 수정하기 -->
+    <update id="update">
+        update desk set desk_people = #{deskPeople}}
+        where member_number = #{memberNumber} and desk_store_number = #{deskStoreNumber}
+    </update>
+
+    <!-- 매장에서 테이블 삭제하기 -->
+    <delete id="delete">
+        delete from desk where member_number = #{memberNumber} and desk_store_number = #{deskStoreNumber}
+    </delete>
+</mapper>
+

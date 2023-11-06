@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.waiting.waitingnow.mapper.preorderMapper">
+
+    <insert id="insert">
+        insert into preorder (preorder_number, waiting_number, menu_number, preorder_menu_count)
+        values (#{preorderNumber}, #{waitingNumber}, #{menuNumber}, #{preorderMenuCount})
+    </insert>
+
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.preorderVO">
+        select * from preorder where preorder_number = #{preorderNumber}
+    </select>
+
+    <!-- 웨이팅 번호로 탐색-->
+    <select id="selectByWaiting" resultType="com.waiting.waitingnow.domain.preorderVO">
+        select * from preorder where waiting_number = #{waitingNumber}
+    </select>
+
+    <!-- TODO 업데이트 하려면 다 지우고 다시 등록하는 것이 좋은가?-->
+
+
+
+</mapper>
+

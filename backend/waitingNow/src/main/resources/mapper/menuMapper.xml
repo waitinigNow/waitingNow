@@ -7,8 +7,8 @@
 <mapper namespace="com.waiting.waitingnow.mapper.menuMapper">
 
     <insert id="insert">
-        insert into menu (menu_number, menu_name, menu_price, menu_file, menu_category, member_number)
-        values (#{menuNumber}, #{menuName}, #{menuPrice}, #{menuFile}, #{menuCategory}, #{memberNumber})
+        insert into menu (menu_number, menu_name, menu_price, menu_file, menu_category, menu_option, member_number)
+        values (#{menuNumber}, #{menuName}, #{menuPrice}, #{menuFile}, #{menuCategory}, #{menuOption}, #{memberNumber})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.menuVO">
@@ -22,7 +22,7 @@
 
     <!-- 메뉴 변경하기 -->
     <update id="update">
-        update member set menu_name = #{menuName}, menu_price = #{menuPrice}, menu_file=#{menuFile}, menu_category = #{menuCategory}
+        update member set menu_name = #{menuName}, menu_price = #{menuPrice}, menu_file=#{menuFile}, menu_category = #{menuCategory}, menu_option = #{menuOption}
         where member_number = #{memberNumber}
     </update>
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.waiting.waitingnow.mapper.optionMenuMapper">
+
+    <insert id="insert">
+        insert into optionmenu (option_menu_key, menu_number, option_menu_name, option_menu_price, option_menu_category)
+        values (#{optionMenuKey}, #{menuNumber}, #{optionMenuName}, #{optionMenuPrice} #{optionMenuCategory})
+    </insert>
+
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.optionMenuVO">
+        select * from optionmenu where option_menu_key = #{optionMenuKey}
+    </select>
+
+    <!-- 메뉴 번호로 찾기 -->
+    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.optionMenuVO">
+        select * from optionmenu where menu_number = #{menuNumber}
+    </select>
+
+
+    <!-- 메뉴 번호로 지우기 -->
+    <delete id="delete">
+        delete from optionmenu where option_menu_key = #{optionMenuKey}
+    </delete>
+
+
+</mapper>
+

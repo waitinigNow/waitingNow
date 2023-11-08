@@ -28,7 +28,7 @@
 
     <!-- 메뉴 번호로 지우기 -->
     <delete id="delete">
-        delete from member where member_number = #{member_number}
+        delete from member where member_number = #{memberNumber}
     </delete>
 
 

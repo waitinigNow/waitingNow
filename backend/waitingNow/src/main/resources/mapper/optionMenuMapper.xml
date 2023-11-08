@@ -11,12 +11,12 @@
         values (#{optionMenuKey}, #{menuNumber}, #{optionMenuName}, #{optionMenuPrice} #{optionMenuCategory})
     </insert>
 
-    <select id="selectByid" resultType="com.waiting.waitingnow.domain.optionMenuVO">
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.OptionMenuVO">
         select * from optionmenu where option_menu_key = #{optionMenuKey}
     </select>
 
     <!-- 메뉴 번호로 찾기 -->
-    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.optionMenuVO">
+    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.OptionMenuVO">
         select * from optionmenu where menu_number = #{menuNumber}
     </select>
 

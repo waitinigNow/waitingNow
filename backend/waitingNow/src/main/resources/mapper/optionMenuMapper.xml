@@ -16,7 +16,7 @@
     </select>
 
     <!-- 메뉴 번호로 찾기 -->
-    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.OptionMenuVO">
+    <select id="selectByMenu" resultType="com.waiting.waitingnow.domain.OptionMenuVO">
         select * from optionmenu where menu_number = #{menuNumber}
     </select>
 

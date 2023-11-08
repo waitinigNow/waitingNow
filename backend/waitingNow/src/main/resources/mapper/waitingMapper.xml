@@ -21,7 +21,7 @@
     </select>
 
     <!-- 통계 : 날짜로 검색 -->
-    <select id="selectByWaitingAvailable" resultType="com.waiting.waitingnow.domain.waitingVO">
+    <select id="selectByDate" resultType="com.waiting.waitingnow.domain.waitingVO">
         select * from waiting where waiting_date = #{waitingDate} and member_number = #{memberNumber}
     </select>
 

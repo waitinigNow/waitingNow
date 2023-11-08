@@ -8,7 +8,7 @@ public class MenuVO {
     private String menuFile;
     private String menuCategory;
     private int memberNumber;
-    private int memberOption;
+    private int menuOption;
 
     public int getMenuNumber() {
         return menuNumber;
@@ -58,11 +58,11 @@ public class MenuVO {
         this.memberNumber = memberNumber;
     }
 
-    public int getMemberOption() {
-        return memberOption;
+    public int getMenuOption() {
+        return menuOption;
     }
 
-    public void setMemberOption(int memberOption) {
-        this.memberOption = memberOption;
+    public void setMenuOption(int menuOption) {
+        this.menuOption = menuOption;
     }
 }

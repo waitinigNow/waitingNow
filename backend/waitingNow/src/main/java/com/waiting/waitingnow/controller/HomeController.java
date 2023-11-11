@@ -25,7 +25,9 @@ public class HomeController {
     
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    // FIXME @ModelAttribute를 사용할 필요가 없음, jsp를 사용하는 것이 아니기 때문에.
+    /**
+     * @see @ModelAttribute를 사용할 필요가 없음, jsp를 사용하는 것이 아니기 때문에.
+     */
     @ResponseBody
     @RequestMapping(value = { "/login" }, method = RequestMethod.POST)
     public ResponseEntity<MemberVO> login(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
@@ -38,6 +40,15 @@ public class HomeController {
             logger.info(e.toString());
             return new ResponseEntity( "Not Matched", HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
+    public ResponseEntity signup(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
+        if(memberService.signUpMember(member)){
+            return new ResponseEntity( "Success", HttpStatus.OK);
+        }
+        else{ return new ResponseEntity( "duplicate email", HttpStatus.BAD_REQUEST); }
     }
 
 }

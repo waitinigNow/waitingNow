@@ -48,4 +48,8 @@ public class MemberDAO {
     public void updatePreorderAvailable(MemberVO member) throws Exception {
         sqlSession.update(namespace + ".updatePreorderAvailable", member);
     }
+
+    public int selectLastMemberNumber(){
+        return (int)sqlSession.selectOne(namespace + ".selectLastMemberNumber")+1;
+    }
 }

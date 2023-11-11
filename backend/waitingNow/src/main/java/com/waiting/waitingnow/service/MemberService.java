@@ -28,9 +28,14 @@ public class MemberService {
      * @param member
      * @return 회원가입여부
      */
-    public void signUpMember(MemberVO member) throws Exception {
-        memberDAO.insert(member);
-        // return 값 고민해야함.
+    public boolean signUpMember(MemberVO member) throws Exception {
+        member.setMemberNumber(memberDAO.selectLastMemberNumber());
+        // TODO 이메일 중복만 확인함.
+        if(memberDAO.selectByMemberEmailToMember(member.getMemberEmail())==null){
+            memberDAO.insert(member);
+            return true;
+        }
+        return false;
     }
 
     /***

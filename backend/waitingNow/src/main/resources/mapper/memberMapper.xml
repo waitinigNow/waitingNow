@@ -25,6 +25,10 @@
         select * from member where memberEmail = #{memberEmail}
     </select>
 
+    <select id="selectLastMemberNumber" resultType="int">
+        select count(memberNumber) from member
+    </select>
+
     <!-- 선주문 가능 여부 설정하기 -->
     <update id="updatePreorderAvailable">
         update member set memberPreorder = #{memberPreorder}}

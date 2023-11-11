@@ -9,7 +9,6 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +31,5 @@ public class SendMessageService {
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 
         logger.info(response.toString());
-
     }
 }

@@ -8,6 +8,7 @@ import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,17 @@ public class SendMessageService {
     private static final Logger logger = LoggerFactory.getLogger(SendMessageService.class);
 
     final DefaultMessageService messageService;
-
-    public SendMessageService(ApplicationArguments args){
-        this.messageService = NurigoApp.INSTANCE.initialize(args.getOptionValues("apiKey").get(0), args.getOptionValues("apiSecret").get(0), "https://api.coolsms.co.kr");
+    private final ApplicationArguments applicationArguments;
+    @Autowired
+    public SendMessageService(ApplicationArguments applicationArguments){
+        this.applicationArguments = applicationArguments;
+        this.messageService = NurigoApp.INSTANCE.initialize(applicationArguments.getOptionValues("apiKey").get(0), applicationArguments.getOptionValues("apiSecret").get(0), "https://api.coolsms.co.kr");
     }
-    public void sendMessage(MemberVO member, ApplicationArguments args){
+    public void sendMessage(MemberVO member, String randomNumber){
         Message message = new Message();
-        message.setFrom(args.getOptionValues("sendPhoneNumber").get(0));
+        message.setFrom(applicationArguments.getOptionValues("sendPhoneNumber").get(0));
         message.setTo(member.getMemberPhone());
-        message.setText("한글 45자, 영자 90자 이하 입력되면 자동으로 SMS타입의 메시지가 추가됩니다.");
+        message.setText("[웨이팅 나우] 인증번호는 "+randomNumber+ " 입니다.");
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 
         logger.info(response.toString());

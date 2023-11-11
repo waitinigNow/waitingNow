@@ -13,18 +13,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Member;
+
 /**
  * 로그인, 회원가입 기능
  */
 @RestController
 public class HomeController {
     private final MemberService memberService;
-    private final SendMessageService messageService;
+    private final SendMessageService sendMessageService;
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public HomeController(MemberService memberService, SendMessageService messageService){
+    public HomeController(MemberService memberService, SendMessageService sendMessageService){
         this.memberService = memberService;
-        this.messageService = messageService;
+        this.sendMessageService = sendMessageService;
     }
     
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -55,4 +57,19 @@ public class HomeController {
         else{ return new ResponseEntity( "duplicate PhoneNumber", HttpStatus.BAD_REQUEST); }
     }
 
+    @ResponseBody
+    @RequestMapping(value = { "/signup/phoneAuth" }, method = RequestMethod.POST)
+    public ResponseEntity phoneAuth(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
+        try{
+            java.util.Random generator = new java.util.Random();
+            generator.setSeed(System.currentTimeMillis());
+            String randomNumber = String.valueOf(generator.nextInt(1000000) % 1000000);
+
+            sendMessageService.sendMessage(member, randomNumber);
+            return new ResponseEntity(randomNumber , HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -46,7 +46,7 @@ public class SessionService {
         // 예시: 세션에 username 값을 등록하는 경우
         String username = request.getHeader("member");
         session.setAttribute("member", member);
-        logger.info(member.getMemberEmail() + "세션 등록했습니다.");
+        logger.info(member.getMemberPhone() + "세션 등록했습니다.");
     }
 
 

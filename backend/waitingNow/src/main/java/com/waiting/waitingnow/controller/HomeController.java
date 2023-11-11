@@ -31,7 +31,7 @@ public class HomeController {
     @ResponseBody
     @RequestMapping(value = { "/login" }, method = RequestMethod.POST)
     public ResponseEntity<MemberVO> login(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
-        logger.info("Email : " + member.getMemberEmail());
+        logger.info("Phone : " + member.getMemberPhone());
         try{
             MemberVO full_member = memberService.loginMember(member, request);
             return new ResponseEntity<>(full_member, HttpStatus.OK);
@@ -48,7 +48,7 @@ public class HomeController {
         if(memberService.signUpMember(member)){
             return new ResponseEntity( "Success", HttpStatus.OK);
         }
-        else{ return new ResponseEntity( "duplicate email", HttpStatus.BAD_REQUEST); }
+        else{ return new ResponseEntity( "duplicate PhoneNumber", HttpStatus.BAD_REQUEST); }
     }
 
 }

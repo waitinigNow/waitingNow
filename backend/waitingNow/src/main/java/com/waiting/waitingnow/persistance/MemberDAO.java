@@ -28,21 +28,21 @@ public class MemberDAO {
     }
 
     /**
-     * @param memberEmail
+     * @param memberPhone
      * @return memberPW
      * @throws Exception
      */
-    public String selectByMemberEmailToPW(String memberEmail) throws Exception {
-        return sqlSession.selectOne(namespace + ".selectByMemberEmailToPW", memberEmail);
+    public String selectByMemberPhoneToPW(String memberPhone) throws Exception {
+        return sqlSession.selectOne(namespace + ".selectByMemberPhoneToPW", memberPhone);
     }
 
     /**
-     * @param memberEmail
+     * @param memberPhone
      * @return memberVO
      * @throws Exception
      */
-    public MemberVO selectByMemberEmailToMember(String memberEmail) throws Exception {
-        return sqlSession.selectOne(namespace + ".selectByMemberEmailToMember", memberEmail);
+    public MemberVO selectByMemberPhoneToMember(String memberPhone) throws Exception {
+        return sqlSession.selectOne(namespace + ".selectByMemberPhoneToMember", memberPhone);
     }
 
     public void updatePreorderAvailable(MemberVO member) throws Exception {

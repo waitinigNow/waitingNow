@@ -7,22 +7,22 @@
 <mapper namespace="com.waiting.waitingnow.mapper.memberMapper">
 
     <insert id="insert">
-        insert into member (memberNumber, memberName, memberEmail, memberPhone, memberPassword, memberStoreName, memberStorePhone, memberStoreCategory, memberPreorder)
-        values (#{memberNumber}, #{memberName}, #{memberEmail}, #{memberPhone}, #{memberPassword}, #{memberStoreName}, #{memberStorePhone}, #{memberStoreCategory}, #{memberPreorder})
+        insert into member (memberNumber, memberName, memberPhone, memberPassword, memberStoreName, memberStorePhone, memberStoreCategory, memberPreorder)
+        values (#{memberNumber}, #{memberName}, #{memberPhone}, #{memberPassword}, #{memberStoreName}, #{memberStorePhone}, #{memberStoreCategory}, #{memberPreorder})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.MemberVO">
         select * from member where memberNumber = #{memberNumber}
     </select>
 
-    <!-- 이메일로 비밀번호 찾기 -->
-    <select id="selectByMemberEmailToPW" resultType="String">
-        select memberPassword from member where memberEmail = #{memberEmail}
+    <!-- 전화번호로 비밀번호 찾기 -->
+    <select id="selectByMemberPhoneToPW" resultType="String">
+        select memberPassword from member where memberPhone = #{memberPhone}
     </select>
 
-    <!-- 이메일로 비밀번호 찾기 -->
-    <select id="selectByMemberEmailToMember" resultType="com.waiting.waitingnow.domain.MemberVO">
-        select * from member where memberEmail = #{memberEmail}
+    <!-- 전화번호로 객체 찾기 -->
+    <select id="selectByMemberPhoneToMember" resultType="com.waiting.waitingnow.domain.MemberVO">
+        select * from member where memberPhone = #{memberPhone}
     </select>
 
     <select id="selectLastMemberNumber" resultType="int">

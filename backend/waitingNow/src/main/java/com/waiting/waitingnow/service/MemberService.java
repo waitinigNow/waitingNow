@@ -31,7 +31,7 @@ public class MemberService {
     public boolean signUpMember(MemberVO member) throws Exception {
         member.setMemberNumber(memberDAO.selectLastMemberNumber());
         // TODO 이메일 중복만 확인함.
-        if(memberDAO.selectByMemberEmailToMember(member.getMemberEmail())==null){
+        if(memberDAO.selectByMemberPhoneToMember(member.getMemberPhone())==null){
             memberDAO.insert(member);
             return true;
         }
@@ -40,14 +40,14 @@ public class MemberService {
 
     /***
      * 로그인 하는 메소드
-     * @param member (Email, PW)
+     * @param member (Phone, PW)
      * @param request
      * @return 로그인 되었으면, 완성된 객체 전달함. 아니면 null
      */
     public MemberVO loginMember(MemberVO member, HttpServletRequest request) throws Exception {
-        String memberPassword = memberDAO.selectByMemberEmailToPW(member.getMemberEmail());
+        String memberPassword = memberDAO.selectByMemberPhoneToPW(member.getMemberPhone());
         if (memberPassword.matches(member.getMemberPassword())) {
-            MemberVO full_member = memberDAO.selectByMemberEmailToMember(member.getMemberEmail());
+            MemberVO full_member = memberDAO.selectByMemberPhoneToMember(member.getMemberPhone());
             logger.info(full_member.getMemberName());
             SessionService.registerSession(full_member, request); //TODO 세션 등록 시 확인 여부
             return full_member;

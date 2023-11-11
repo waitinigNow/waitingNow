@@ -11,12 +11,12 @@
         values (#{preorderNumber}, #{waitingNumber}, #{menuNumber}, #{preorderMenuCount})
     </insert>
 
-    <select id="selectByid" resultType="com.waiting.waitingnow.domain.preorderVO">
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.PreorderVO">
         select * from preorder where preorder_number = #{preorderNumber}
     </select>
 
     <!-- 웨이팅 번호로 탐색-->
-    <select id="selectByWaiting" resultType="com.waiting.waitingnow.domain.preorderVO">
+    <select id="selectByWaiting" resultType="com.waiting.waitingnow.domain.PreorderVO">
         select * from preorder where waiting_number = #{waitingNumber}
     </select>
 

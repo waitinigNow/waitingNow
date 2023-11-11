@@ -11,12 +11,12 @@
         values (#{menuNumber}, #{menuName}, #{menuPrice}, #{menuFile}, #{menuCategory}, #{menuOption}, #{memberNumber})
     </insert>
 
-    <select id="selectByid" resultType="com.waiting.waitingnow.domain.menuVO">
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.MenuVO">
         select * from menu where menu_number = #{menuNumber}
     </select>
 
     <!-- 이메일로 비밀번호 찾기 -->
-    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.menuVO">
+    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.MenuVO">
         select * from member where member_number = #{memberNumber}
     </select>
 

@@ -11,17 +11,17 @@
         values (#{waitingNumber}, #{waitingCustomerNumber}, #{waitingPhone}, #{waitingPeople}, #{waitingDate}, #{waitingAvailable}, #{memberNumber})
     </insert>
 
-    <select id="selectByid" resultType="com.waiting.waitingnow.domain.waitingVO">
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.WaitingVO">
         select * from waiting where waiting_number = #{waitingNumber}
     </select>
 
     <!-- 사장 마다 상태에 따라 선별 -->
-    <select id="selectByWaitingAvailable" resultType="com.waiting.waitingnow.domain.waitingVO">
+    <select id="selectByWaitingAvailable" resultType="com.waiting.waitingnow.domain.WaitingVO">
         select * from waiting where waiting_available = #{waitingAvailable} and member_number = #{memberNumber}
     </select>
 
     <!-- 통계 : 날짜로 검색 -->
-    <select id="selectByDate" resultType="com.waiting.waitingnow.domain.waitingVO">
+    <select id="selectByDate" resultType="com.waiting.waitingnow.domain.WaitingVO">
         select * from waiting where waiting_date = #{waitingDate} and member_number = #{memberNumber}
     </select>
 

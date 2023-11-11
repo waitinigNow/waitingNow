@@ -8,7 +8,7 @@ public class MemberVO {
     private String memberPassword;
     private String memberStoreName;
     private String memberStorePhone;
-    private int memberStoreCategory;
+    private String memberStoreCategory;
     private boolean memberPreorder;
 
     public int getMemberNumber() {
@@ -67,11 +67,11 @@ public class MemberVO {
         this.memberStorePhone = memberStorePhone;
     }
 
-    public int getMemberStoreCategory() {
+    public String getMemberStoreCategory() {
         return memberStoreCategory;
     }
 
-    public void setMemberStoreCategory(int memberStoreCategory) {
+    public void setMemberStoreCategory(String memberStoreCategory) {
         this.memberStoreCategory = memberStoreCategory;
     }
 

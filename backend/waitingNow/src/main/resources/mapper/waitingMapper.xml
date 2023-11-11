@@ -7,29 +7,29 @@
 <mapper namespace="com.waiting.waitingnow.mapper.waitingMapper">
 
     <insert id="insert">
-        insert into waiting (waiting_number, waiting_customer_number, waiting_phone, waiting_people, waiting_date, waiting_available, member_number)
+        insert into waiting (waitingNumber, waitingCustomerNumber, waitingPhone, waitingPeople, waitingDate, waitingAvailable, memberNumber)
         values (#{waitingNumber}, #{waitingCustomerNumber}, #{waitingPhone}, #{waitingPeople}, #{waitingDate}, #{waitingAvailable}, #{memberNumber})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where waiting_number = #{waitingNumber}
+        select * from waiting where waitingNumber = #{waitingNumber}
     </select>
 
     <!-- 사장 마다 상태에 따라 선별 -->
     <select id="selectByWaitingAvailable" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where waiting_available = #{waitingAvailable} and member_number = #{memberNumber}
+        select * from waiting where waitingAvailable = #{waitingAvailable} and memberNumber = #{memberNumber}
     </select>
 
     <!-- 통계 : 날짜로 검색 -->
     <select id="selectByDate" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where waiting_date = #{waitingDate} and member_number = #{memberNumber}
+        select * from waiting where waitingDate = #{waitingDate} and memberNumber = #{memberNumber}
     </select>
 
     <!-- 웨이팅 상태 변경하기 -->
     <!-- TODO 추후 전화번호로 바꾸어도 됨. -->
     <update id="updateWaitingAvailable">
-        update waiting set waiting_available = #{waitingAvailable}
-        where waiting_number = #{waitingNumber} and  waiting_available = #{waitingAvailable}
+        update waiting set waitingAvailable = #{waitingAvailable}
+        where waitingNumber = #{waitingNumber} and  waitingAvailable = #{waitingAvailable}
     </update>
 
 

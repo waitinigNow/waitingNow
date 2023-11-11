@@ -7,23 +7,28 @@
 <mapper namespace="com.waiting.waitingnow.mapper.memberMapper">
 
     <insert id="insert">
-        insert into member (member_number, member_name, member_email, member_phone, member_password, member_store_name, member_store_phone, member_store_category, member_preorder)
+        insert into member (memberNumber, memberName, memberEmail, memberPhone, memberPassword, memberStoreName, memberStorePhone, memberStoreCategory, memberPreorder)
         values (#{memberNumber}, #{memberName}, #{memberEmail}, #{memberPhone}, #{memberPassword}, #{memberStoreName}, #{memberStorePhone}, #{memberStoreCategory}, #{memberPreorder})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.MemberVO">
-        select * from member where member_number = #{memberNumber}
+        select * from member where memberNumber = #{memberNumber}
     </select>
 
     <!-- 이메일로 비밀번호 찾기 -->
-    <select id="selectByMemberEmail" resultType="String">
-        select member_password from member where member_email = #{memberEmail}
+    <select id="selectByMemberEmailToPW" resultType="String">
+        select memberPassword from member where memberEmail = #{memberEmail}
+    </select>
+
+    <!-- 이메일로 비밀번호 찾기 -->
+    <select id="selectByMemberEmailToMember" resultType="com.waiting.waitingnow.domain.MemberVO">
+        select * from member where memberEmail = #{memberEmail}
     </select>
 
     <!-- 선주문 가능 여부 설정하기 -->
     <update id="updatePreorderAvailable">
-        update member set member_preorder = #{memberPreorder}}
-        where member_number = #{memberNumber}
+        update member set memberPreorder = #{memberPreorder}}
+        where memberNumber = #{memberNumber}
     </update>
 
 </mapper>

@@ -13,6 +13,8 @@ public class SessionService {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionService.class);
 
+    public SessionService () {}
+
     /**
      * sesstion을 확인하는 메소드
      * @param request : 생성해서 넘겨주기만 하면 됨.
@@ -35,15 +37,16 @@ public class SessionService {
 
     /**
      * 세션을 등록하는 메소드
-     * @param request : 생성해서 넘겨주기만 하면 됨.
      * @param member : 등록할 memberVO 객체를 주세요.
+     * @param request : 생성해서 넘겨주기만 하면 됨.
      */
-    public void registerSession(HttpServletRequest request, MemberVO member) {
+    public static void registerSession(MemberVO member, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
         // 예시: 세션에 username 값을 등록하는 경우
         String username = request.getHeader("member");
         session.setAttribute("member", member);
+        logger.info(member.getMemberEmail() + "세션 등록했습니다.");
     }
 
 

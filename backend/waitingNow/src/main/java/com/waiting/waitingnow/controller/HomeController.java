@@ -2,10 +2,13 @@ package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.service.MemberService;
+import com.waiting.waitingnow.service.SendMessageService;
 import jakarta.servlet.http.HttpServletRequest;
+import net.nurigo.sdk.message.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HomeController {
     private final MemberService memberService;
-
+    private final SendMessageService messageService;
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public HomeController(MemberService memberService){
+    public HomeController(MemberService memberService, SendMessageService messageService){
         this.memberService = memberService;
+        this.messageService = messageService;
     }
     
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);

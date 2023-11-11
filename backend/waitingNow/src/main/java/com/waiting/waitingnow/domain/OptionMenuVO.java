@@ -1,6 +1,6 @@
 package com.waiting.waitingnow.domain;
 
-public class optionMenuVO {
+public class OptionMenuVO {
     private int optionMenuKey;
     private int menuNumber;
     private String optionMenu_Name;

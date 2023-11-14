@@ -1,6 +1,7 @@
 {
   "name": "waitingnow",
   "version": "0.1.0",
+  "main": "public/main.ts",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -22,9 +23,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "wait-on http://localhost:3000 && electron .",
-    "compile-main": "tsc ./src/main/main.ts --outdir ./compile-main && tsc ./src/main/preload.ts --outdir ./compile-main",
-    "dev": "concurrently \"npm start\" \"npm run electron\""
+    "electron-start": "electron .",
+    "compile-main": "tsc ./pubilc/main.ts --outdir ./compile-main",
+    "dev": "concurrently \"npm start\" \"npm run electron-start\""
   },
   "eslintConfig": {
     "extends": [
@@ -54,5 +55,6 @@
     "electron-builder": "^24.6.4",
     "electron-is-dev": "^2.0.0",
     "wait-on": "^7.1.0"
-  }
+  },
+  "type": "module"
 }

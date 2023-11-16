@@ -64,6 +64,10 @@ public class MemberService {
         else { return "false";}
         */
     }
+
+    public MemberVO searchMember(MemberVO member) throws Exception{
+        return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone());
+    }
 }
 
 

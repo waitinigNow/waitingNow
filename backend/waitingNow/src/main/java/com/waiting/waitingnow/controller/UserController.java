@@ -45,5 +45,19 @@ public class UserController {
         MemberVO newMember = memberService.updateMemberPhone(member);
         return new ResponseEntity<>(newMember, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @RequestMapping(value = { "/user/setting/preorder" }, method = RequestMethod.POST)
+    public ResponseEntity userUpdatePreorder(@RequestBody MemberVO member) throws Exception {
+        try{
+            memberService.updatePreorder(member);
+            return new ResponseEntity("Change Preorder Available : " + member.isMemberPreorder(), HttpStatus.OK);
+
+        }
+        catch(Exception e){
+            logger.info(e.toString());
+            return new ResponseEntity<>("No matching phoneNumber", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 

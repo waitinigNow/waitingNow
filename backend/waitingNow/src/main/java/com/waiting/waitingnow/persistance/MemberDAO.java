@@ -57,4 +57,8 @@ public class MemberDAO {
         sqlSession.update(namespace + ".updateMemberPhone" , member);
         return selectByMemberPhoneToMember(member.getNewPhoneNumber());
     }
+
+    public void updatePreorder(MemberVO member) throws Exception{
+        sqlSession.update(namespace+".updatePreorderAvailable", member);
+    }
 }

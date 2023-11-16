@@ -74,6 +74,10 @@ public class MemberService {
     public MemberVO updateMemberPhone(MemberVO member) throws Exception{
         return memberDAO.updateMemberPhone(member);
     }
+
+    public void updatePreorder(MemberVO member) throws Exception{
+        memberDAO.updatePreorder(member);
+    }
 }
 
 

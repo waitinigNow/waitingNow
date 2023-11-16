@@ -31,12 +31,12 @@
 
     <!-- 선주문 가능 여부 설정하기 -->
     <update id="updatePreorderAvailable">
-        update member set memberPreorder = #{memberPreorder}}
-        where memberNumber = #{memberNumber}
+        update member set memberPreorder = #{memberPreorder}
+        where memberPhone = #{memberPhone}
     </update>
 
     <update id="updateMemberPhone">
-        update member set memberPhone = #{newPhoneNumber}}
+        update member set memberPhone = #{newPhoneNumber}
         where memberPhone = #{memberPhone}
     </update>
 

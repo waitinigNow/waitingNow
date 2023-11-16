@@ -1,14 +1,5 @@
 import { atom } from "recoil";
-
-export interface UserTypes {
-  memberName: string;
-  memberPhone: string;
-  memberPassword: string;
-  memberStoreName: string;
-  memberStorePhone: string; //null 가능
-  memberStoreCategory: string;
-  memberPreorder: boolean;
-}
+import { UserTypes } from "components/UserInfoInputForm";
 
 //recoil state 생성
 export const userState = atom<UserTypes>({

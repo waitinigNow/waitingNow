@@ -58,7 +58,7 @@ public class HomeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = { "/signup/phoneAuth" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "/user/phone/auth" }, method = RequestMethod.POST)
     public ResponseEntity phoneAuth(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
         try{
             java.util.Random generator = new java.util.Random();

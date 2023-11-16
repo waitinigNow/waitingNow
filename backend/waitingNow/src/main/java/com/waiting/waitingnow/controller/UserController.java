@@ -37,7 +37,13 @@ public class UserController {
        catch(NullPointerException e){
            return new ResponseEntity( "No matching phoneNumber", HttpStatus.BAD_REQUEST);
        }
+    }
 
+    @ResponseBody
+    @RequestMapping(value = { "/user/setting/phonenumber" }, method = RequestMethod.PATCH)
+    public ResponseEntity<MemberVO> userUpdatePhonenumber(@RequestBody MemberVO member) throws Exception {
+        MemberVO newMember = memberService.updateMemberPhone(member);
+        return new ResponseEntity<>(newMember, HttpStatus.OK);
     }
 }
 

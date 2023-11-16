@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
+
 @Service
 public class MemberService {
     private final MemberDAO memberDAO;
@@ -68,6 +70,11 @@ public class MemberService {
     public MemberVO searchMember(MemberVO member) throws Exception{
         return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone());
     }
+
+    public MemberVO updateMemberPhone(MemberVO member) throws Exception{
+        return memberDAO.updateMemberPhone(member);
+    }
 }
+
 
 

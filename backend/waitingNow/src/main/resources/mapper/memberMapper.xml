@@ -35,5 +35,10 @@
         where memberNumber = #{memberNumber}
     </update>
 
+    <update id="updateMemberPhone">
+        update member set memberPhone = #{newPhoneNumber}}
+        where memberPhone = #{memberPhone}
+    </update>
+
 </mapper>
 

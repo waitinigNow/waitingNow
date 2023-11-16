@@ -52,4 +52,9 @@ public class MemberDAO {
     public int selectLastMemberNumber(){
         return (int)sqlSession.selectOne(namespace + ".selectLastMemberNumber")+1;
     }
+
+    public MemberVO updateMemberPhone(MemberVO member) throws Exception{
+        sqlSession.update(namespace + ".updateMemberPhone" , member);
+        return selectByMemberPhoneToMember(member.getNewPhoneNumber());
+    }
 }

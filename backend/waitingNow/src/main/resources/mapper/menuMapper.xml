@@ -7,28 +7,28 @@
 <mapper namespace="com.waiting.waitingnow.mapper.menuMapper">
 
     <insert id="insert">
-        insert into menu (menu_number, menu_name, menu_price, menu_file, menu_category, menu_option, member_number)
+        insert into menu (menuNumber, menuName, menuPrice, menuFile, menuCategory, menuOption, memberNumber)
         values (#{menuNumber}, #{menuName}, #{menuPrice}, #{menuFile}, #{menuCategory}, #{menuOption}, #{memberNumber})
     </insert>
 
-    <select id="selectByid" resultType="com.waiting.waitingnow.domain.menuVO">
-        select * from menu where menu_number = #{menuNumber}
+    <select id="selectByid" resultType="com.waiting.waitingnow.domain.MenuVO">
+        select * from menu where menuNumber = #{menuNumber}
     </select>
 
     <!-- 이메일로 비밀번호 찾기 -->
-    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.menuVO">
-        select * from member where member_number = #{memberNumber}
+    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.MenuVO">
+        select * from member where memberNumber = #{memberNumber}
     </select>
 
     <!-- 메뉴 변경하기 -->
     <update id="update">
-        update member set menu_name = #{menuName}, menu_price = #{menuPrice}, menu_file=#{menuFile}, menu_category = #{menuCategory}, menu_option = #{menuOption}
-        where member_number = #{memberNumber}
+        update member set menuName = #{menuName}, menuPrice = #{menuPrice}, menuFile=#{menuFile}, menuCategory = #{menuCategory}, menuOption = #{menuOption}
+        where memberNumber = #{memberNumber}
     </update>
 
     <!-- 메뉴 번호로 지우기 -->
     <delete id="delete">
-        delete from member where member_number = #{memberNumber}
+        delete from member where memberNumber = #{memberNumber}
     </delete>
 
 

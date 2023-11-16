@@ -3,12 +3,11 @@ package com.waiting.waitingnow.domain;
 public class MemberVO {
     private int memberNumber;
     private String memberName;
-    private String memberEmail;
     private String memberPhone;
     private String memberPassword;
     private String memberStoreName;
     private String memberStorePhone;
-    private int memberStoreCategory;
+    private String memberStoreCategory;
     private boolean memberPreorder;
 
     public int getMemberNumber() {
@@ -25,14 +24,6 @@ public class MemberVO {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
-    }
-
-    public String getMemberEmail() {
-        return memberEmail;
-    }
-
-    public void setMemberEmail(String memberEmail) {
-        this.memberEmail = memberEmail;
     }
 
     public String getMemberPhone() {
@@ -67,11 +58,11 @@ public class MemberVO {
         this.memberStorePhone = memberStorePhone;
     }
 
-    public int getMemberStoreCategory() {
+    public String getMemberStoreCategory() {
         return memberStoreCategory;
     }
 
-    public void setMemberStoreCategory(int memberStoreCategory) {
+    public void setMemberStoreCategory(String memberStoreCategory) {
         this.memberStoreCategory = memberStoreCategory;
     }
 

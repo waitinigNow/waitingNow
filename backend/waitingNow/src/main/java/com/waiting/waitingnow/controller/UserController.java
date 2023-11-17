@@ -40,6 +40,20 @@ public class UserController {
     }
 
     @ResponseBody
+    @RequestMapping(value = { "/user/setting" }, method = RequestMethod.POST)
+    public ResponseEntity settingMember(@RequestBody MemberVO member) throws Exception {
+        try{
+            // 회원정보 업데이트 시켜줌.
+            memberService.updateMember(member);
+            return new ResponseEntity( "Changed!", HttpStatus.OK);
+        }
+        catch(Exception e){
+            logger.info(e.toString());
+            return new ResponseEntity<>("No matching phoneNumber", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ResponseBody
     @RequestMapping(value = { "/user/setting/phonenumber" }, method = RequestMethod.PATCH)
     public ResponseEntity<MemberVO> userUpdatePhonenumber(@RequestBody MemberVO member) throws Exception {
         MemberVO newMember = memberService.updateMemberPhone(member);

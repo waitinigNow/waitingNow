@@ -71,6 +71,9 @@ public class MemberService {
         return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone());
     }
 
+    public void updateMember(MemberVO member) throws Exception{
+        memberDAO.updateMember(member);
+    }
     public MemberVO updateMemberPhone(MemberVO member) throws Exception{
         return memberDAO.updateMemberPhone(member);
     }

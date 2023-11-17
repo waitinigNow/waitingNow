@@ -53,6 +53,10 @@ public class MemberDAO {
         return (int)sqlSession.selectOne(namespace + ".selectLastMemberNumber")+1;
     }
 
+    public void updateMember(MemberVO member) throws Exception{
+        sqlSession.update(namespace + ".updateMember", member);
+    }
+
     public MemberVO updateMemberPhone(MemberVO member) throws Exception{
         sqlSession.update(namespace + ".updateMemberPhone" , member);
         return selectByMemberPhoneToMember(member.getNewPhoneNumber());

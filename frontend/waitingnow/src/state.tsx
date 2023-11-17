@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { UserTypes } from "components/UserInfoInputForm";
+import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 
 //recoil state 생성
 export const userState = atom<UserTypes>({
@@ -8,6 +8,12 @@ export const userState = atom<UserTypes>({
     memberName: "",
     memberPhone: "",
     memberPassword: "",
+  },
+});
+
+export const storeState = atom<StoreTypes>({
+  key: "store",
+  default: {
     memberStoreName: "",
     memberStorePhone: "",
     memberStoreCategory: "",

@@ -6,15 +6,13 @@ export interface UserTypes {
   memberName: string;
   memberPhone: string;
   memberPassword: string;
+}
+
+export interface StoreTypes {
   memberStoreName: string;
   memberStorePhone: string; //null 가능
   memberStoreCategory: string;
   memberPreorder: boolean;
-}
-
-interface InputChange {
-  name: string;
-  value: string;
 }
 
 export default function UserInfoInputForm() {
@@ -27,25 +25,24 @@ export default function UserInfoInputForm() {
 
   const [error, setError] = useState<string>("");
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // setUser({
-    //   memberName: name,
-    //   memberPassword: password,
-    //   memberPhone: phone,
-    // });
-  };
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target as InputChange;
+    const {
+      target: { name, value },
+    } = e;
 
     if (name === "name") {
-      setMemberName(value);
+      setMemberName((prevUser) => ({
+        ...prevUser,
+        memberName: value,
+      }));
     }
 
     if (name === "password") {
-      setMemberPassword(value);
+      setMemberPassword((prevUser) => ({
+        ...prevUser,
+        memberPassword: value,
+      }));
+      console.log("password:", memberName.memberPassword);
     }
 
     if (name === "password_confirm") {
@@ -53,19 +50,22 @@ export default function UserInfoInputForm() {
 
       if (value?.length < 8) {
         setError("비밀번호는 8자리 이상으로 입력해주세요.");
-      } else if (value !== memberPassword) {
+      } else if (value !== memberPassword.memberPassword) {
         setError("비밀번호가 일치하지 않습니다.");
       } else {
         setError("");
       }
     }
-    if (name === "phone") {
-      setMemberPhone(value);
-    }
   };
 
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
+  const onAuthCheck = async (e: React.FormEvent<HTMLInputElement>) => {};
+
   return (
-    <form onSubmit={onSubmit} className="form_signup">
+    <form className="form_signup">
       <div className="form_block">
         <label htmlFor="name">이름</label>
         <input type="name" name="name" id="name" required onChange={onChange} />
@@ -105,11 +105,11 @@ export default function UserInfoInputForm() {
           인증번호 전송
         </button>
       </div>
-      <div className="form_block">
+      {/* <div className="form_block">
         <button className="btn-submit" type="submit" value="회원가입">
-          회원가입 하기
+          다음
         </button>
-      </div>
+      </div> */}
     </form>
   );
 }

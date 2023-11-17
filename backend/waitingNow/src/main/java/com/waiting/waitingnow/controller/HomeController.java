@@ -61,12 +61,19 @@ public class HomeController {
     @RequestMapping(value = { "/user/phone/auth" }, method = RequestMethod.POST)
     public ResponseEntity phoneAuth(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
         try{
-            java.util.Random generator = new java.util.Random();
-            generator.setSeed(System.currentTimeMillis());
-            String randomNumber = String.valueOf(generator.nextInt(1000000) % 1000000);
+            // 기존에 멤버가 없으면 실행함.
+            MemberVO findMember = memberService.searchMember(member);
+            if(findMember == null){
+                java.util.Random generator = new java.util.Random();
+                generator.setSeed(System.currentTimeMillis());
+                String randomNumber = String.valueOf(generator.nextInt(1000000) % 1000000);
 
-            sendMessageService.sendMessage(member, randomNumber);
-            return new ResponseEntity(randomNumber , HttpStatus.OK);
+                sendMessageService.sendMessage(member, randomNumber);
+                return new ResponseEntity(randomNumber , HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity("duplicate Phone Number" , HttpStatus.OK);
+            }
         }
         catch(Exception e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);

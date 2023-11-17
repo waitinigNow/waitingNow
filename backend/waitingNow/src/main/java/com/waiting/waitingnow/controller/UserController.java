@@ -1,6 +1,7 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.domain.MemberVO;
+import com.waiting.waitingnow.requestDomain.statisticVO;
 import com.waiting.waitingnow.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,12 @@ public class UserController {
             logger.info(e.toString());
             return new ResponseEntity<>("No matching phoneNumber", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = { "/user/setting/statistics"}, method = RequestMethod.POST)
+    public void statisticsMember(@RequestBody statisticVO statistic) throws Exception {
+        memberService.statisticsMember(statistic);
     }
 }
 

@@ -53,6 +53,14 @@ public class MemberDAO {
         return (int)sqlSession.selectOne(namespace + ".selectLastMemberNumber")+1;
     }
 
+    /**
+     * 전화번호로 memberNumber 조회하는 메소드
+     * @return memberNumber
+     */
+    public int selectMyMemberNumber(String memberPhone){
+        return (int)sqlSession.selectOne(namespace + ".selectMyMemberNumber", memberPhone);
+    }
+
     public void updateMember(MemberVO member) throws Exception{
         sqlSession.update(namespace + ".updateMember", member);
     }

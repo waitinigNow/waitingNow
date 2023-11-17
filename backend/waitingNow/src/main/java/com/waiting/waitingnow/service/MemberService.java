@@ -1,7 +1,11 @@
 package com.waiting.waitingnow.service;
 
 import com.waiting.waitingnow.domain.MemberVO;
+import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.persistance.MemberDAO;
+import com.waiting.waitingnow.persistance.WaitingDAO;
+import com.waiting.waitingnow.requestDomain.DateVO;
+import com.waiting.waitingnow.requestDomain.statisticVO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,18 +13,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Member;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MemberService {
     private final MemberDAO memberDAO;
+    private final WaitingDAO waitingDAO;
     private final SessionService sessionService;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 
     @Autowired
-    public MemberService(MemberDAO memberDAO, SessionService sessionService) {
+    public MemberService(MemberDAO memberDAO, SessionService sessionService, WaitingDAO waitingDAO) {
         this.memberDAO = memberDAO;
         this.sessionService = sessionService;
+        this.waitingDAO = waitingDAO;
     }
 
     // 세션 확인하는 메소드도 필요함
@@ -81,6 +90,16 @@ public class MemberService {
     public void updatePreorder(MemberVO member) throws Exception{
         memberDAO.updatePreorder(member);
     }
+
+    public void statisticsMember(statisticVO statistic) throws Exception{
+
+        WaitingVO waiting = new WaitingVO();
+        waiting.setMemberNumber(memberDAO.selectMyMemberNumber(statistic.getMemberPhone()));
+        waiting.setWaitingDate(statistic.getWaitingDate()+ " %");
+        List<WaitingVO> waitings = waitingDAO.selectByDate(waiting);
+
+    }
+
 }
 
 

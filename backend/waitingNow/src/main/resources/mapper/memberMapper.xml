@@ -15,6 +15,10 @@
         select * from member where memberNumber = #{memberNumber}
     </select>
 
+    <select id="selectMyMemberNumber" resultType="Int">
+        select memberNumber from member where memberPhone = #{memberPhone}
+    </select>
+
     <!-- 전화번호로 비밀번호 찾기 -->
     <select id="selectByMemberPhoneToPW" resultType="String">
         select memberPassword from member where memberPhone = #{memberPhone}

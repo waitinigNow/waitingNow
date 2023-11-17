@@ -7,7 +7,7 @@ public class WaitingVO {
     private int waitingCustomerNumber;
     private String waitingPhone;
     private int waitingPeople;
-    private Date waitingDate;
+    private String waitingDate;
     private String waitingAvailable;
     private int memberNumber;
 
@@ -43,11 +43,11 @@ public class WaitingVO {
         this.waitingPeople = waitingPeople;
     }
 
-    public Date getWaitingDate() {
+    public String getWaitingDate() {
         return waitingDate;
     }
 
-    public void setWaitingDate(Date waitingDate) {
+    public void setWaitingDate(String waitingDate) {
         this.waitingDate = waitingDate;
     }
 

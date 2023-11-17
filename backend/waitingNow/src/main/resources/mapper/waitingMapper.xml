@@ -22,7 +22,7 @@
 
     <!-- 통계 : 날짜로 검색 -->
     <select id="selectByDate" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where waitingDate = #{waitingDate} and memberNumber = #{memberNumber}
+        select * from waiting, member where waiting.memberNumber = #{memberNumber} and member.memberNumber = #{memberNumber} and waitingDate like #{waitingDate}
     </select>
 
     <!-- 웨이팅 상태 변경하기 -->

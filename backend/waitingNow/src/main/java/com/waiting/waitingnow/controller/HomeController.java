@@ -6,7 +6,6 @@ import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.service.MemberService;
 import com.waiting.waitingnow.service.SendMessageService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,8 +86,8 @@ public class HomeController {
         // 회원 가입 완료
         if(memberService.signUpMember(member)){
             restResponse = RestResponse.builder()
-                    .code(HttpStatus.OK.value())
-                    .httpStatus(HttpStatus.OK)
+                    .code(HttpStatus.CREATED.value())
+                    .httpStatus(HttpStatus.CREATED)
                     .message("Success Signup")
                     .data(member)
                     .build();
@@ -128,15 +127,15 @@ public class HomeController {
                 else sendMessageService.sendMessage(newPhoneNumber.getNewPhoneNumber(), randomNumber);
 
                 restResponse = RestResponse.builder()
-                        .code(HttpStatus.OK.value())
-                        .httpStatus(HttpStatus.OK)
+                        .code(HttpStatus.CREATED.value())
+                        .httpStatus(HttpStatus.CREATED)
                         .message("Success send Message")
                         .data(randomNumber)
                         .build();
                 return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
             }
             
-            // 중복되는 전화번호가 있으면, 실행
+            // 중복되는 전화번호가 있으면, ForBidden
             else{
                 restResponse = RestResponse.builder()
                         .code(HttpStatus.FORBIDDEN.value())
@@ -150,6 +149,7 @@ public class HomeController {
         
         // 메세지 발송에 대한 오류일 때
         catch(Exception e){
+            logger.info(e.getMessage());
             restResponse = RestResponse.builder()
                     .code(HttpStatus.SERVICE_UNAVAILABLE.value())
                     .httpStatus(HttpStatus.SERVICE_UNAVAILABLE)

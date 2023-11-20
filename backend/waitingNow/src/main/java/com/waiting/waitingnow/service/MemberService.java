@@ -93,11 +93,18 @@ public class MemberService {
         memberDAO.updateMember(member);
     }
     public MemberVO updateMemberPhone(NewPhoneNumberVO newPhoneNumber) throws Exception{
+        if(memberDAO.selectByMemberPhoneToMember(newPhoneNumber.getMemberPhone()) == null) {
+            throw new NullPointerException("일치 하는 전화번호 없음");
+        }
+        else if(newPhoneNumber.getNewPhoneNumber().matches(newPhoneNumber.getMemberPhone())){
+            throw new IllegalArgumentException("두 전화번호가 동일 합니다.");
+        }
         return memberDAO.updateMemberPhone(newPhoneNumber);
     }
 
-    public void updatePreorder(MemberVO member) throws Exception{
+    public boolean updatePreorder(MemberVO member) throws Exception{
         memberDAO.updatePreorder(member);
+        return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone()).isMemberPreorder();
     }
 
     public DateVO statisticsMember(StatisticVO statistic) throws Exception{

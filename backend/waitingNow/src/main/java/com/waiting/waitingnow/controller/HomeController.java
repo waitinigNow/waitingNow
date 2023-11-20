@@ -29,15 +29,23 @@ public class HomeController {
         this.memberService = memberService;
         this.sendMessageService = sendMessageService;
     }
-    
+
+    public String randomAuthNumber(){
+        java.util.Random generator = new java.util.Random();
+        generator.setSeed(System.currentTimeMillis());
+        String randomNumber = String.valueOf(generator.nextInt(1000000) % 1000000);
+
+        return randomNumber;
+    }
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     /**
-     * 로그인 하는 API
-     * @see @ModelAttribute를 사용할 필요가 없음, jsp를 사용하는 것이 아니기 때문에.
+     * [ 로그인 하는 API ]
      * @apiNote  1. 성공적으로 로그인 했을 때
      *  / 2. 일치하는 전화번호가 없을 때, NullpointerException 발생
      *  / 3. 패스워드가 일치 하지 않을 때, IllegalArgumentException 발생
+     * @throws NullPointerException 일치하는 전화번호가 없을 때
+     * @throws IllegalArgumentException 패스워드가 일치 하지 않을 때
      */
     @ResponseBody
     @RequestMapping(value = { "/login" }, method = RequestMethod.POST)
@@ -76,9 +84,8 @@ public class HomeController {
     }
 
     /**
-     * 회원가입 하는 API
-     * @apiNote  1. 회원 가입을 완료했을 때
-     *  / 2. 중복되는 전화번호가 있을 때
+     * [ 회원가입 하는 API ]
+     * @apiNote  1. 회원 가입을 완료했을 때 / 2. 중복되는 전화번호가 있을 때
      */
     @ResponseBody
     @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
@@ -113,40 +120,35 @@ public class HomeController {
     @ResponseBody
     @RequestMapping(value = { "/user/phone/auth" }, method = RequestMethod.POST)
     public ResponseEntity phoneAuth(@RequestBody NewPhoneNumberVO newPhoneNumber, HttpServletRequest request) throws Exception {
+        // 기존에 멤버가 존재하는 경우
         try{
-            // 기존에 멤버가 없으면 실행함.
-            MemberVO findMember = memberService.searchMember(newPhoneNumber.getMemberPhone());
-            if(findMember == null){
-                java.util.Random generator = new java.util.Random();
-                generator.setSeed(System.currentTimeMillis());
-                String randomNumber = String.valueOf(generator.nextInt(1000000) % 1000000);
+            memberService.searchMember(newPhoneNumber.getMemberPhone());
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.FORBIDDEN.value())
+                    .httpStatus(HttpStatus.FORBIDDEN)
+                    .message("이미 존재하는 전화번호입니다.")
+                    .data(null)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
 
-                // [signup] getNewPhoneNumber가 null일 때
-                if(newPhoneNumber.getNewPhoneNumber() == null) sendMessageService.sendMessage(newPhoneNumber.getMemberPhone(), randomNumber);
-                // [Phone Number Change] getNewPhoneNumber가 있으면
-                else sendMessageService.sendMessage(newPhoneNumber.getNewPhoneNumber(), randomNumber);
-
-                restResponse = RestResponse.builder()
-                        .code(HttpStatus.CREATED.value())
-                        .httpStatus(HttpStatus.CREATED)
-                        .message("Success send Message")
-                        .data(randomNumber)
-                        .build();
-                return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
-            }
-            
-            // 중복되는 전화번호가 있으면, ForBidden
-            else{
-                restResponse = RestResponse.builder()
-                        .code(HttpStatus.FORBIDDEN.value())
-                        .httpStatus(HttpStatus.FORBIDDEN)
-                        .message("이미 존재하는 전화번호입니다.")
-                        .data(null)
-                        .build();
-                return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
-            }
         }
-        
+        // 기존에 멤버가 없으면 실행함.
+        catch(NullPointerException e){
+            // 인증번호 생성
+            String randomNumber = randomAuthNumber();
+
+            // 전화번호 인증 할 번호가 memberPhone에 담겨서 날라옴.
+            sendMessageService.sendMessage(newPhoneNumber.getMemberPhone(), randomNumber);
+
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.CREATED.value())
+                    .httpStatus(HttpStatus.CREATED)
+                    .message("Success send Message")
+                    .data(randomNumber)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+
         // 메세지 발송에 대한 오류일 때
         catch(Exception e){
             logger.info(e.getMessage());
@@ -159,6 +161,4 @@ public class HomeController {
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
     }
-
-
 }

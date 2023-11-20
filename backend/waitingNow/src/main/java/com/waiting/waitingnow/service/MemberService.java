@@ -75,8 +75,18 @@ public class MemberService {
         */
     }
 
+    /**
+     * 전화번호로 회원 찾는 메소드
+     * @param memberPhone
+     * @return
+     * @throws NullPointerException : 일치하는 전화번호가 없을 때, 발생 시킴
+     */
     public MemberVO searchMember(String memberPhone) throws Exception{
-        return memberDAO.selectByMemberPhoneToMember(memberPhone);
+        MemberVO member = memberDAO.selectByMemberPhoneToMember(memberPhone);
+        if(member == null){
+            throw new NullPointerException("일치하는 전화번호 없음");
+        }
+        return member;
     }
 
     public void updateMember(MemberVO member) throws Exception{

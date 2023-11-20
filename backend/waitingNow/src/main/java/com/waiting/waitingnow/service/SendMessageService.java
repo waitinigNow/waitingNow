@@ -23,10 +23,10 @@ public class SendMessageService {
         this.applicationArguments = applicationArguments;
         this.messageService = NurigoApp.INSTANCE.initialize(applicationArguments.getOptionValues("apiKey").get(0), applicationArguments.getOptionValues("apiSecret").get(0), "https://api.coolsms.co.kr");
     }
-    public void sendMessage(MemberVO member, String randomNumber){
+    public void sendMessage(String memberPhone, String randomNumber){
         Message message = new Message();
         message.setFrom(applicationArguments.getOptionValues("sendPhoneNumber").get(0));
-        message.setTo(member.getMemberPhone());
+        message.setTo(memberPhone);
         message.setText("[웨이팅 나우] 인증번호는 "+randomNumber+ " 입니다.");
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 

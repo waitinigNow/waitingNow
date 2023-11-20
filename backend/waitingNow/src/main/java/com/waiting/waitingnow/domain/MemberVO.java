@@ -9,7 +9,6 @@ public class MemberVO {
     private String memberStorePhone;
     private String memberStoreCategory;
     private boolean memberPreorder;
-    private String newPhoneNumber;
 
     public int getMemberNumber() {
         return memberNumber;
@@ -75,11 +74,4 @@ public class MemberVO {
         this.memberPreorder = memberPreorder;
     }
 
-    public String getNewPhoneNumber() {
-        return newPhoneNumber;
-    }
-
-    public void setNewPhoneNumber(String newPhoneNumber) {
-        this.newPhoneNumber = newPhoneNumber;
-    }
 }

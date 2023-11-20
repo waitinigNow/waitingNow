@@ -1,7 +1,9 @@
 package com.waiting.waitingnow.controller;
 
+import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import com.waiting.waitingnow.domain.MemberVO;
-import com.waiting.waitingnow.requestDomain.statisticVO;
+import com.waiting.waitingnow.DTO.DateVO;
+import com.waiting.waitingnow.DTO.StatisticVO;
 import com.waiting.waitingnow.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 public class UserController {
@@ -27,7 +28,7 @@ public class UserController {
     @RequestMapping(value = { "/user" }, method = RequestMethod.POST)
     public ResponseEntity<Object> user(@RequestBody MemberVO member) throws Exception {
        try{
-           MemberVO NewMember = memberService.searchMember(member);
+           MemberVO NewMember = memberService.searchMember(member.getMemberPhone());
            if(NewMember == null){
                throw new NullPointerException();
            }
@@ -54,8 +55,8 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = { "/user/setting/phonenumber" }, method = RequestMethod.PATCH)
-    public ResponseEntity<MemberVO> userUpdatePhonenumber(@RequestBody MemberVO member) throws Exception {
-        MemberVO newMember = memberService.updateMemberPhone(member);
+    public ResponseEntity<MemberVO> userUpdatePhonenumber(@RequestBody NewPhoneNumberVO newPhoneNumber) throws Exception {
+        MemberVO newMember = memberService.updateMemberPhone(newPhoneNumber);
         return new ResponseEntity<>(newMember, HttpStatus.OK);
     }
 
@@ -75,8 +76,15 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = { "/user/setting/statistics"}, method = RequestMethod.POST)
-    public void statisticsMember(@RequestBody statisticVO statistic) throws Exception {
-        memberService.statisticsMember(statistic);
+    public ResponseEntity<Object> statisticsMember(@RequestBody StatisticVO statistic) throws Exception {
+        try{
+            DateVO date = memberService.statisticsMember(statistic);
+            return new ResponseEntity<>(date, HttpStatus.OK);
+        }
+        catch (NullPointerException e){
+            logger.info(e.toString());
+            return new ResponseEntity<>("No matching phoneNumber", HttpStatus.BAD_REQUEST);
+        }
     }
 }
 

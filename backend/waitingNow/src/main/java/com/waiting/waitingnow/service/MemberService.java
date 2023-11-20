@@ -1,20 +1,18 @@
 package com.waiting.waitingnow.service;
 
+import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.persistance.MemberDAO;
 import com.waiting.waitingnow.persistance.WaitingDAO;
-import com.waiting.waitingnow.requestDomain.DateVO;
-import com.waiting.waitingnow.requestDomain.statisticVO;
+import com.waiting.waitingnow.DTO.DateVO;
+import com.waiting.waitingnow.DTO.StatisticVO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +39,8 @@ public class MemberService {
      */
     public boolean signUpMember(MemberVO member) throws Exception {
         member.setMemberNumber(memberDAO.selectLastMemberNumber());
-        // TODO 이메일 중복만 확인함.
+        // TODO T/F로 구분하지 말고 Exception 발생이면 더 좋을듯?
+        // 전화번호 중복
         if(memberDAO.selectByMemberPhoneToMember(member.getMemberPhone())==null){
             memberDAO.insert(member);
             return true;
@@ -63,7 +62,7 @@ public class MemberService {
             SessionService.registerSession(full_member, request); //TODO 세션 등록 시 확인 여부
             return full_member;
         } else {
-            return null;
+            throw new IllegalArgumentException("Not matched Password");
         }
          /*
          @TODO PassWordEncoder 추가했을 때, 코드 변경
@@ -76,30 +75,33 @@ public class MemberService {
         */
     }
 
-    public MemberVO searchMember(MemberVO member) throws Exception{
-        return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone());
+    public MemberVO searchMember(String memberPhone) throws Exception{
+        return memberDAO.selectByMemberPhoneToMember(memberPhone);
     }
 
     public void updateMember(MemberVO member) throws Exception{
         memberDAO.updateMember(member);
     }
-    public MemberVO updateMemberPhone(MemberVO member) throws Exception{
-        return memberDAO.updateMemberPhone(member);
+    public MemberVO updateMemberPhone(NewPhoneNumberVO newPhoneNumber) throws Exception{
+        return memberDAO.updateMemberPhone(newPhoneNumber);
     }
 
     public void updatePreorder(MemberVO member) throws Exception{
         memberDAO.updatePreorder(member);
     }
 
-    public void statisticsMember(statisticVO statistic) throws Exception{
-
+    public DateVO statisticsMember(StatisticVO statistic) throws Exception{
         WaitingVO waiting = new WaitingVO();
         waiting.setMemberNumber(memberDAO.selectMyMemberNumber(statistic.getMemberPhone()));
         waiting.setWaitingDate(statistic.getWaitingDate()+ " %");
         List<WaitingVO> waitings = waitingDAO.selectByDate(waiting);
-
+        DateVO date = new DateVO();
+        for(int i=0;i<waitings.size();i++){
+            String times = waitings.get(i).getWaitingDate();
+            date.setCustomer(Integer.valueOf(times.substring(11, 13)));
+        }
+        return date;
     }
-
 }
 
 

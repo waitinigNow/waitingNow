@@ -1,4 +1,4 @@
-package com.waiting.waitingnow.requestDomain;
+package com.waiting.waitingnow.DTO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,7 @@ public class DateVO {
         return customer;
     }
 
-    public void setCustomer(ArrayList<Integer> customer, int time, int count) {
-        customer.set(time, count);
-        this.customer = customer;
+    public void setCustomer(int time) {
+        this.customer.set(time, this.customer.get(time)+1);
     }
 }

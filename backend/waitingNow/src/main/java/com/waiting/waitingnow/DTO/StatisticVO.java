@@ -1,9 +1,9 @@
-package com.waiting.waitingnow.requestDomain;
+package com.waiting.waitingnow.DTO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class statisticVO {
+public class StatisticVO {
     private String memberPhone;
     private Date waitingDate;
 

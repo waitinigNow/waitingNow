@@ -1,5 +1,6 @@
 package com.waiting.waitingnow.persistance;
 
+import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -65,9 +66,9 @@ public class MemberDAO {
         sqlSession.update(namespace + ".updateMember", member);
     }
 
-    public MemberVO updateMemberPhone(MemberVO member) throws Exception{
-        sqlSession.update(namespace + ".updateMemberPhone" , member);
-        return selectByMemberPhoneToMember(member.getNewPhoneNumber());
+    public MemberVO updateMemberPhone(NewPhoneNumberVO newPhoneNumber) throws Exception{
+        sqlSession.update(namespace + ".updateMemberPhone" , newPhoneNumber);
+        return selectByMemberPhoneToMember(newPhoneNumber.getNewPhoneNumber());
     }
 
     public void updatePreorder(MemberVO member) throws Exception{

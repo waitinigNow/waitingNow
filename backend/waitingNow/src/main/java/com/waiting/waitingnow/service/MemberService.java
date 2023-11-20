@@ -1,24 +1,33 @@
 package com.waiting.waitingnow.service;
 
+import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import com.waiting.waitingnow.domain.MemberVO;
+import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.persistance.MemberDAO;
+import com.waiting.waitingnow.persistance.WaitingDAO;
+import com.waiting.waitingnow.DTO.DateVO;
+import com.waiting.waitingnow.DTO.StatisticVO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemberService {
     private final MemberDAO memberDAO;
+    private final WaitingDAO waitingDAO;
     private final SessionService sessionService;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 
     @Autowired
-    public MemberService(MemberDAO memberDAO, SessionService sessionService) {
+    public MemberService(MemberDAO memberDAO, SessionService sessionService, WaitingDAO waitingDAO) {
         this.memberDAO = memberDAO;
         this.sessionService = sessionService;
+        this.waitingDAO = waitingDAO;
     }
 
     // 세션 확인하는 메소드도 필요함
@@ -30,7 +39,8 @@ public class MemberService {
      */
     public boolean signUpMember(MemberVO member) throws Exception {
         member.setMemberNumber(memberDAO.selectLastMemberNumber());
-        // TODO 이메일 중복만 확인함.
+        // TODO T/F로 구분하지 말고 Exception 발생이면 더 좋을듯?
+        // 전화번호 중복
         if(memberDAO.selectByMemberPhoneToMember(member.getMemberPhone())==null){
             memberDAO.insert(member);
             return true;
@@ -52,7 +62,7 @@ public class MemberService {
             SessionService.registerSession(full_member, request); //TODO 세션 등록 시 확인 여부
             return full_member;
         } else {
-            return null;
+            throw new IllegalArgumentException("Not matched Password");
         }
          /*
          @TODO PassWordEncoder 추가했을 때, 코드 변경
@@ -64,6 +74,52 @@ public class MemberService {
         else { return "false";}
         */
     }
+
+    /**
+     * 전화번호로 회원 찾는 메소드
+     * @param memberPhone
+     * @return
+     * @throws NullPointerException : 일치하는 전화번호가 없을 때, 발생 시킴
+     */
+    public MemberVO searchMember(String memberPhone) throws Exception{
+        MemberVO member = memberDAO.selectByMemberPhoneToMember(memberPhone);
+        if(member == null){
+            throw new NullPointerException("일치하는 전화번호 없음");
+        }
+        return member;
+    }
+
+    public void updateMember(MemberVO member) throws Exception{
+        memberDAO.updateMember(member);
+    }
+    public MemberVO updateMemberPhone(NewPhoneNumberVO newPhoneNumber) throws Exception{
+        if(memberDAO.selectByMemberPhoneToMember(newPhoneNumber.getMemberPhone()) == null) {
+            throw new NullPointerException("일치 하는 전화번호 없음");
+        }
+        else if(newPhoneNumber.getNewPhoneNumber().matches(newPhoneNumber.getMemberPhone())){
+            throw new IllegalArgumentException("두 전화번호가 동일 합니다.");
+        }
+        return memberDAO.updateMemberPhone(newPhoneNumber);
+    }
+
+    public boolean updatePreorder(MemberVO member) throws Exception{
+        memberDAO.updatePreorder(member);
+        return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone()).isMemberPreorder();
+    }
+
+    public DateVO statisticsMember(StatisticVO statistic) throws Exception{
+        WaitingVO waiting = new WaitingVO();
+        waiting.setMemberNumber(memberDAO.selectMyMemberNumber(statistic.getMemberPhone()));
+        waiting.setWaitingDate(statistic.getWaitingDate()+ " %");
+        List<WaitingVO> waitings = waitingDAO.selectByDate(waiting);
+        DateVO date = new DateVO();
+        for(int i=0;i<waitings.size();i++){
+            String times = waitings.get(i).getWaitingDate();
+            date.setCustomer(Integer.valueOf(times.substring(11, 13)));
+        }
+        return date;
+    }
 }
+
 
 

@@ -73,4 +73,5 @@ public class MemberVO {
     public void setMemberPreorder(boolean memberPreorder) {
         this.memberPreorder = memberPreorder;
     }
+
 }

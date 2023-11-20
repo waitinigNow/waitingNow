@@ -15,6 +15,10 @@
         select * from member where memberNumber = #{memberNumber}
     </select>
 
+    <select id="selectMyMemberNumber" resultType="Int">
+        select memberNumber from member where memberPhone = #{memberPhone}
+    </select>
+
     <!-- 전화번호로 비밀번호 찾기 -->
     <select id="selectByMemberPhoneToPW" resultType="String">
         select memberPassword from member where memberPhone = #{memberPhone}
@@ -29,10 +33,35 @@
         select count(memberNumber) from member
     </select>
 
+    <!-- 회원 정보 업데이트 -->
+    <update id="updateMember">
+        UPDATE member
+        <set>
+            <if test="memberPassword != null">
+                memberPassword = #{memberPassword},
+            </if>
+            <if test="memberStoreName != null">
+                memberStoreName = #{memberStoreName},
+            </if>
+            <if test="memberStorePhone != null">
+                memberStorePhone = #{memberStorePhone},
+            </if>
+            <if test="memberStoreCategory != null">
+                memberStoreCategory = #{memberStoreCategory},
+            </if>
+        </set>
+        WHERE memberPhone = #{memberPhone}
+    </update>
+
     <!-- 선주문 가능 여부 설정하기 -->
     <update id="updatePreorderAvailable">
-        update member set memberPreorder = #{memberPreorder}}
-        where memberNumber = #{memberNumber}
+        update member set memberPreorder = #{memberPreorder}
+        where memberPhone = #{memberPhone}
+    </update>
+
+    <update id="updateMemberPhone">
+        update member set memberPhone = #{newPhoneNumber}
+        where memberPhone = #{memberPhone}
     </update>
 
 </mapper>

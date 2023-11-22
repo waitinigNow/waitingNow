@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
 }
 
 code {
@@ -19,7 +20,7 @@ code {
 }
 
 .form .form_signup {
-  width: 826px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -28,7 +29,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 117px;
+  margin-top: 40px;
+  margin-bottom: 80px;
 }
 
 .form_block label {
@@ -51,9 +53,24 @@ code {
   width: 600px;
 }
 
-#phone.phone-input {
+.form_block.check_box {
+  /* width: 30px; */
+  margin-bottom: 30px;
+}
+
+.form_block.phone-margin {
+  margin-bottom: 30px;
+}
+
+#phone.phone_input {
   width: 427px;
   height: 40px;
+}
+
+#auth.phone_check {
+  width: 427px;
+  height: 40px;
+  margin-top: 0px;
 }
 
 .btn-auth {

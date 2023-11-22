@@ -1,5 +1,8 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
 import { UserTypes } from "components/UserInfoInputForm";
+import { useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userState } from "state";
 
 const baseURL = "http://localhost:8080";
 const client: Axios = axios.create({
@@ -39,3 +42,15 @@ export const postData = async <T,>(
     throw new Error();
   }
 };
+
+// 핸드폰 번호 인증
+export async function phoneAuth(memberPhoneValue: string) {
+  try {
+    const response = await axios.post("/user/phone/auth", {
+      memberPhone: memberPhoneValue,
+    }); //memberphone값 전달
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

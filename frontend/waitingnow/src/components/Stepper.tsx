@@ -5,17 +5,30 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import UserInfoInputForm from "./UserInfoInputForm";
 
+import { useRecoilValue } from "recoil";
+import { userState } from "state";
+import { toast } from "react-toastify";
+
 const steps = ["사용자 정보 입력", "스토어 등록"];
 
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
+  const userStateValue = useRecoilValue(userState);
 
   const handleNext = () => {
-    let newSkipped = skipped;
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    // 모든 입력항목이 채워졌는지 check
+    const isFormValid = Object.values(userStateValue).every(
+      (value) => value !== ""
+    );
+    if (isFormValid) {
+      let newSkipped = skipped;
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+      console.log(userStateValue);
+    } else {
+      alert("모든 필수 항목을 입력하세요.");
+    }
   };
 
   const handleBack = () => {
@@ -34,7 +47,16 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box width={1536} height={864}>
+    <Box
+      width={1536}
+      height={864}
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+    >
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps: { completed?: boolean } = {};
@@ -62,7 +84,7 @@ export default function HorizontalLinearStepper() {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <button
               className="btn-submit"
-              type="submit"
+              type="button"
               value="next"
               disabled={activeStep === 0}
               onClick={handleBack}
@@ -73,7 +95,7 @@ export default function HorizontalLinearStepper() {
             {/* {activeStep === steps.length - 1 ? "Finish" : "Next"} */}
             <button
               className="btn-submit"
-              type="submit"
+              type="button"
               value="next"
               onClick={handleNext}
             >

@@ -54,10 +54,20 @@ export async function phoneAuth(memberPhoneValue: string) {
 
 // 회원가입
 export interface SignupParams extends UserTypes, StoreTypes {}
-
 export async function signup(params: SignupParams) {
   try {
     const response = await axios.post("/signup", params);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 로그인
+export async function login(formData: { phone: string; password: string }) {
+  console.log(formData);
+  try {
+    const response = await axios.post("/login", formData);
+    return response.data.code;
   } catch (error) {
     console.log(error);
   }

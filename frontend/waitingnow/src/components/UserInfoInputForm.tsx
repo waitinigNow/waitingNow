@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue, atom } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, authState } from "state";
 import { phoneAuth } from "api/api";
 import { toast } from "react-toastify";

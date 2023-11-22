@@ -9,6 +9,7 @@ import { useRecoilValue } from "recoil";
 import { userState, storeState, authState } from "state";
 import { styled } from "@mui/system";
 import { SignupParams, signup } from "api/api";
+import { toast } from "react-toastify";
 
 const steps = ["사용자 정보 입력", "스토어 등록"];
 
@@ -37,9 +38,9 @@ export default function HorizontalLinearStepper() {
       if (isCorrectValue && isUserFormValid) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       } else if (isCorrectValue === false) {
-        alert("인증이 완료되지 않았습니다.");
+        toast.error("인증이 완료되지 않았습니다.");
       } else {
-        alert("모든 필수 항목을 입력하세요.");
+        toast.warning("모든 필수 항목을 입력하세요.");
       }
     } else if (activeStep === 1) {
       const isStoreFormValid = Object.values(storeStateValue).every(
@@ -49,7 +50,7 @@ export default function HorizontalLinearStepper() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         signup(signupData);
       } else {
-        alert("모든 필수 항목을 입력하세요.");
+        toast.warning("모든 필수 항목을 입력하세요.");
       }
     }
     console.log("Data", signupData);

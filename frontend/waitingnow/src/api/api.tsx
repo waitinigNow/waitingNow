@@ -1,8 +1,5 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
-import { UserTypes } from "components/UserInfoInputForm";
-import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { userState } from "state";
+import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 
 const baseURL = "http://localhost:8080";
 const client: Axios = axios.create({
@@ -48,8 +45,19 @@ export async function phoneAuth(memberPhoneValue: string) {
   try {
     const response = await axios.post("/user/phone/auth", {
       memberPhone: memberPhoneValue,
-    }); //memberphone값 전달
+    });
     return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 회원가입
+export interface SignupParams extends UserTypes, StoreTypes {}
+
+export async function signup(params: SignupParams) {
+  try {
+    const response = await axios.post("/signup", params);
   } catch (error) {
     console.log(error);
   }

@@ -8,6 +8,7 @@ import StoreInfoInputForm from "./StoreInfoInputForm";
 import { useRecoilValue } from "recoil";
 import { userState, storeState, authState } from "state";
 import { styled } from "@mui/system";
+import { SignupParams, signup } from "api/api";
 
 const steps = ["사용자 정보 입력", "스토어 등록"];
 
@@ -22,6 +23,11 @@ export default function HorizontalLinearStepper() {
   const userStateValue = useRecoilValue(userState);
   const storeStateValue = useRecoilValue(storeState);
   const isCorrectValue = useRecoilValue(authState);
+
+  const signupData: SignupParams = {
+    ...userStateValue,
+    ...storeStateValue,
+  };
 
   const handleNext = () => {
     if (activeStep === 0) {
@@ -41,11 +47,12 @@ export default function HorizontalLinearStepper() {
       );
       if (isStoreFormValid) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        signup(signupData);
       } else {
         alert("모든 필수 항목을 입력하세요.");
       }
     }
-    console.log(userStateValue, storeStateValue);
+    console.log("Data", signupData);
   };
 
   const handleBack = () => {
@@ -92,9 +99,8 @@ export default function HorizontalLinearStepper() {
         <React.Fragment>
           <div className="form_block">
             <div className="finish_text">
-              <text>회원가입이 완료되었습니다!</text>
-              <br />
-              <text>가입한 계정으로 로그인을 진행하세요.</text>
+              <p>회원가입이 완료되었습니다!</p>
+              <p>가입한 계정으로 로그인을 진행하세요.</p>
             </div>
           </div>
           <Box

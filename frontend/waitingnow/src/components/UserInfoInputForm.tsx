@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios, { Axios, AxiosRequestConfig } from "axios";
 import { useRecoilState, useRecoilValue, atom } from "recoil";
-import { userState } from "state";
+import { userState, authState } from "state";
 import { phoneAuth } from "api/api";
 import { toast } from "react-toastify";
 
@@ -27,7 +26,7 @@ export default function UserInfoInputForm() {
   const [memberAuthCode, setMemberAuthCode] = useState<string>("");
 
   const [authCode, setAuthCode] = useState<string>("");
-  const [isCheck, setIsCheck] = useState(false);
+  const [isCorrect, setIsCorrect] = useRecoilState(authState);
   const [error, setError] = useState<string>("");
   const memberPhoneValue = useRecoilValue(userState).memberPhone;
 
@@ -86,7 +85,7 @@ export default function UserInfoInputForm() {
 
   const onAuthCheck = () => {
     if (memberAuthCode == authCode) {
-      setIsCheck(true);
+      setIsCorrect(true);
       toast.success("인증되었습니다.");
     } else {
       toast.error("인증번호가 일치하지않습니다.");
@@ -167,11 +166,6 @@ export default function UserInfoInputForm() {
           인증번호 확인
         </button>
       </div>
-      {/* <div className="form_block">
-        <button className="btn-submit" type="submit" value="회원가입">
-          다음
-        </button>
-      </div> */}
     </form>
   );
 }

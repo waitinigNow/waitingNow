@@ -102,3 +102,9 @@ button:focus {
   border: 1px solid transparent;
   outline: 0;
 }
+
+.finish_text {
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+}

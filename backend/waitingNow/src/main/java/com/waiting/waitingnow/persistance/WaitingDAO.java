@@ -49,4 +49,18 @@ public class WaitingDAO {
         sqlSession.update(namespace + ".updateWaitingAvailable", waiting);
     }
 
+    /***
+     * @return 마지막 다음 번호 (이제 사용될 번호)
+     */
+    public int selectLastWaitingNumber() throws Exception {
+        return (int)sqlSession.selectOne(namespace+".selectLastWaitingNumber")+1;
+    }
+
+    /***
+     * @return 마지막 다음 번호 (이제 사용될 번호)
+     */
+    public int selectCustomerNumber(int memberNumber) throws Exception {
+        return (int)sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber)+1;
+    }
+
 }

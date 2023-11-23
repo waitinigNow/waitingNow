@@ -93,6 +93,11 @@ public class WaitingController {
         }
     }
 
+    /**
+     * 웨이팅 호출하는 api 메소드
+     * @apiNote 1. waiting 호출 성공 시 / 2. 파라미터 둘 중에 하나라도 잘못됨
+     * @throws Exception
+     */
     @ResponseBody
     @RequestMapping(value = {"/waiting/call"}, method = RequestMethod.GET)
     public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestParam(value = "memberNumber") int memberNumber) throws Exception {
@@ -111,7 +116,7 @@ public class WaitingController {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
-        // 2. 파라미터 둘 중에 하나라도 잘못되면?
+        // 2. 파라미터 둘 중에 하나라도 잘못됨
         catch (Exception e){
             restResponse = RestResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
@@ -122,9 +127,15 @@ public class WaitingController {
         }
     }
 
+    /**
+     * 웨이팅 상태를 변경하는 api
+     * @apiNote 1. 성공적으로 상태를 변경함 / 2. 파라미터 둘 중에 하나라도 잘못됨
+     * @throws Exception
+     */
     @ResponseBody
     @RequestMapping(value = {"/waiting/status"}, method = RequestMethod.PATCH)
     public ResponseEntity waitingChangeStatus(@RequestBody WaitingVO waiting) throws Exception {
+        // 1. 성공적으로 상태를 변경함
         try{
             WaitingVO newWaiting = waitingService.waitingChangeStatus(waiting);
             restResponse = RestResponse.builder()
@@ -135,12 +146,42 @@ public class WaitingController {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
-        // 2. 파라미터 둘 중에 하나라도 잘못되면?
+        // 2. 파라미터 둘 중에 하나라도 잘못됨
         catch (Exception e){
             restResponse = RestResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)
                     .message(e.toString())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    /**
+     * 현재 대기 인원을 찾는 api
+     * @apiNote
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/waiting/now/people"}, method = RequestMethod.GET)
+    public ResponseEntity waitingNowPeople(@RequestParam int memberNumber) throws Exception {
+        // 1. 현재 인원을 출력함
+        try{
+            int people = waitingService.waitingNowPeople(memberNumber);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message("현재 대기 인원 : "+Integer.toString(people)+"(대기/입장가능 상태)")
+                    .data(people)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 2. memberNumber가 잘못된 경우
+        catch (Exception e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("사장님의 회원번호가 잘못되었습니다.")
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }

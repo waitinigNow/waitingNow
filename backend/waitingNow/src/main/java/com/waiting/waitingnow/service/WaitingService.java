@@ -56,4 +56,7 @@ public class WaitingService {
         return selectByid(newWaiting.getWaitingNumber());
     }
 
+    public int waitingNowPeople(int memberNumber) throws Exception{
+        return waitingDAO.selectPeopleByMemberNumber(memberNumber);
+    }
 }

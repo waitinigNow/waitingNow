@@ -67,4 +67,11 @@ public class WaitingDAO {
         return sqlSession.selectOne(namespace + ".waitingSearchByCustomerNumber",waiting);
     }
 
+    /***
+     * 현재 대기 인원 출력
+     */
+    public int selectPeopleByMemberNumber(int memberNumber) throws Exception {
+        return (int)sqlSession.selectOne(namespace+".selectPeopleByMemberNumber", memberNumber);
+    }
+
 }

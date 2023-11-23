@@ -44,5 +44,9 @@
         select * from waiting where memberNumber = #{memberNumber} and waitingCustomerNumber = #{waitingCustomerNumber};
     </select>
 
+    <select id="selectPeopleByMemberNumber" resultType="int">
+        select count(*) from waiting where memberNumber = #{memberNumber} and (waitingAvailable like "대기" or waitingAvailable like "입장 가능");
+    </select>
+
 </mapper>
 

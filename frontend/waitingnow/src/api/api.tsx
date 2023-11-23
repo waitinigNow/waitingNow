@@ -57,6 +57,7 @@ export interface SignupParams extends UserTypes, StoreTypes {}
 export async function signup(params: SignupParams) {
   try {
     const response = await axios.post("/signup", params);
+    return response.data.code;
   } catch (error) {
     console.log(error);
   }

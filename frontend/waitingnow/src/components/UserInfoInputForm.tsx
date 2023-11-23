@@ -43,29 +43,44 @@ export default function UserInfoInputForm() {
     }
 
     if (name === "password") {
+      const passwordRegex = /^[a-zA-Z0-9?!\@]+$/;
+
       setMemberPassword((prevUser) => ({
         ...prevUser,
         memberPassword: value,
       }));
+      if (value?.length < 4) {
+        setError("비밀번호는 4자리 이상으로 입력해주세요.");
+      } else if (!value?.match(passwordRegex)) {
+        setError(
+          "비밀번호 형식이 올바르지 않습니다. 영문 대소문자, 숫자와 특수기호(?,!,@)만 사용이 가능합니다."
+        );
+      }
     }
 
     if (name === "password_confirm") {
       setMemberPasswordConfirm(value);
+      const passwordRegex = /^[a-zA-Z0-9?!\@]+$/;
 
-      if (value?.length < 4) {
-        setError("비밀번호는 4자리 이상으로 입력해주세요.");
-      } else if (value !== memberPassword.memberPassword) {
+      if (value !== memberPassword.memberPassword) {
         setError("비밀번호가 일치하지 않습니다.");
-      } else {
-        setError("");
+      } else if (!value?.match(passwordRegex)) {
+        setError(
+          "비밀번호 형식이 올바르지 않습니다. 영문 대소문자, 숫자와 특수기호(?,!,@)만 사용이 가능합니다."
+        );
       }
     }
 
     if (name === "phone") {
+      const phoneRegex = /^\d{11}$/;
       setMemberPhone((prevUser) => ({
         ...prevUser,
         memberPhone: value,
       }));
+
+      if (!value?.match(phoneRegex)) {
+        setError("전화번호 형식에 옳지않습니다. 번호 11자리를 입력해주세요.");
+      }
     }
 
     if (name === "auth") {
@@ -165,6 +180,13 @@ export default function UserInfoInputForm() {
         >
           인증번호 확인
         </button>
+      </div>
+      <div className="form_block">
+        {error && error?.length > 0 && (
+          <div className="form__block">
+            <div className="form__error">{error}</div>
+          </div>
+        )}
       </div>
     </form>
   );

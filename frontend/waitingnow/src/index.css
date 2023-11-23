@@ -108,3 +108,8 @@ button:focus {
   align-items: center;
   justify-content: center;
 }
+
+.form__error {
+  color: red;
+  font-size: 16px;
+}

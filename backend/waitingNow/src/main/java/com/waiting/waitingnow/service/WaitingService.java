@@ -43,4 +43,17 @@ public class WaitingService {
         waitingDAO.insert(waiting);
     }
 
+    public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{
+        WaitingVO newWaiting = waitingDAO.waitingSearchByCustomerNumber(waiting);
+        newWaiting.setWaitingAvailable("입장 가능");
+        return newWaiting;
+    }
+
+    public WaitingVO waitingChangeStatus(WaitingVO waiting) throws Exception{
+        WaitingVO newWaiting = waitingSearchByCustomerNumber(waiting);
+        newWaiting.setWaitingAvailable(waiting.getWaitingAvailable());
+        waitingDAO.updateWaitingAvailable(newWaiting);
+        return selectByid(newWaiting.getWaitingNumber());
+    }
+
 }

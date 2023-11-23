@@ -4,6 +4,7 @@ import com.waiting.waitingnow.DTO.RestResponse;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.persistance.WaitingDAO;
+import com.waiting.waitingnow.service.SendMessageService;
 import com.waiting.waitingnow.service.WaitingService;
 import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
@@ -19,17 +20,19 @@ public class WaitingController {
     private static final Logger logger = LoggerFactory.getLogger(WaitingController.class);
 
     private final WaitingService waitingService;
+    private final SendMessageService sendMessageService;
 
     RestResponse<Object> restResponse = new RestResponse<>();
 
     @Autowired
-    public WaitingController(WaitingService waitingService) {
+    public WaitingController(WaitingService waitingService,SendMessageService sendMessageService) {
         this.waitingService = waitingService;
+        this.sendMessageService = sendMessageService;
     }
 
     /**
      * 웨이팅 등록하는 API
-     * @apiNote 1. waiting 등록 성공 시 / 2. 일치하는 시징님 회원 번호가 없을 때
+     * @apiNote 1. waiting 등록 성공 시 / 2. 일치하는 사장님 회원 번호가 없을 때
      * @throws Exception
      */
     @ResponseBody
@@ -47,7 +50,7 @@ public class WaitingController {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
-        // 2. 일치하는 시징님 회원 번호가 없을 때
+        // 2. 일치하는 사장님 회원 번호가 없을 때
         catch (NullPointerException e){
             restResponse = RestResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
@@ -81,6 +84,59 @@ public class WaitingController {
         }
         // 2. 일치하는 웨이팅 번호가 없을 때
         catch (NullPointerException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.toString())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"/waiting/call"}, method = RequestMethod.GET)
+    public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestParam(value = "memberNumber") int memberNumber) throws Exception {
+        // 1. waiting 호출 성공 시
+        WaitingVO waiting = new WaitingVO();
+        waiting.setWaitingCustomerNumber(waitingCustomerNumber);
+        waiting.setMemberNumber(memberNumber);
+        try{
+            WaitingVO newWaiting = waitingService.waitingSearchByCustomerNumber(waiting);
+            String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message(sentMessage)
+                    .data(newWaiting)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 2. 파라미터 둘 중에 하나라도 잘못되면?
+        catch (Exception e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.toString())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"/waiting/status"}, method = RequestMethod.PATCH)
+    public ResponseEntity waitingChangeStatus(@RequestBody WaitingVO waiting) throws Exception {
+        try{
+            WaitingVO newWaiting = waitingService.waitingChangeStatus(waiting);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message("상태가 [" + newWaiting.getWaitingAvailable() + "]으로 변경되었습니다")
+                    .data(newWaiting)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 2. 파라미터 둘 중에 하나라도 잘못되면?
+        catch (Exception e){
             restResponse = RestResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)

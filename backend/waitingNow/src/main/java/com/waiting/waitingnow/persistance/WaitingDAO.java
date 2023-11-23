@@ -63,4 +63,8 @@ public class WaitingDAO {
         return (int)sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber)+1;
     }
 
+    public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{
+        return sqlSession.selectOne(namespace + ".waitingSearchByCustomerNumber",waiting);
+    }
+
 }

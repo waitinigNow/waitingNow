@@ -1,5 +1,8 @@
 package com.waiting.waitingnow.domain;
 
+import java.util.List;
+import java.util.Map;
+
 public class MenuVO {
 
     private int menuNumber;
@@ -8,7 +11,7 @@ public class MenuVO {
     private String menuFile;
     private String menuCategory;
     private int memberNumber;
-    private int menuOption;
+    private Map<String, List<OptionMenuVO>> menuOption;
 
     public int getMenuNumber() {
         return menuNumber;
@@ -58,11 +61,11 @@ public class MenuVO {
         this.memberNumber = memberNumber;
     }
 
-    public int getMenuOption() {
+    public Map<String, List<OptionMenuVO>> getMenuOption() {
         return menuOption;
     }
 
-    public void setMenuOption(int menuOption) {
+    public void setMenuOption( Map<String, List<OptionMenuVO>> menuOption) {
         this.menuOption = menuOption;
     }
 }

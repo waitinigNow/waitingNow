@@ -1,12 +1,9 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
-import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.domain.WaitingVO;
-import com.waiting.waitingnow.persistance.WaitingDAO;
 import com.waiting.waitingnow.service.SendMessageService;
 import com.waiting.waitingnow.service.WaitingService;
-import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +105,7 @@ public class WaitingController {
         try{
             WaitingVO newWaiting = waitingService.waitingSearchByCustomerNumber(waiting);
             String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);
+            // TODO 추후 선주문 내용도 담겨야함.
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)

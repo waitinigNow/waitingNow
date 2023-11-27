@@ -1,20 +1,14 @@
-import React from "react";
+import Routers from "./components/Routers";
 import "./App.css";
-import MainForm from 'components/Main';
-import MainNum from 'components/MainNum';
-import CompleteModal from 'components/CompleteModal'
-import MainTel from 'components/MainTel'
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  return  ( 
-  < >
-    {/* <MainForm></MainForm> */}
-    {/* <MainNum></MainNum> */}
-    {/* <CompleteModal></CompleteModal> */}
-    {/* <MainTel></MainTel> */}
-  </>
-
+  return (
+    <>
+      <ToastContainer />
+      <Routers />;
+    </>
   );
 }
 

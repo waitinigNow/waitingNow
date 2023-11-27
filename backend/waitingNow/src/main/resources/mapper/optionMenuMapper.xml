@@ -7,23 +7,23 @@
 <mapper namespace="com.waiting.waitingnow.mapper.optionMenuMapper">
 
     <insert id="insert">
-        insert into optionmenu (option_menu_key, menu_number, option_menu_name, option_menu_price, option_menu_category)
+        insert into optionmenu (optionMenuKey, menuNumber, optionMenuName, optionMenuPrice, optionMenuCategory)
         values (#{optionMenuKey}, #{menuNumber}, #{optionMenuName}, #{optionMenuPrice} #{optionMenuCategory})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.OptionMenuVO">
-        select * from optionmenu where option_menu_key = #{optionMenuKey}
+        select * from optionmenu where optionMenuKey = #{optionMenuKey}
     </select>
 
     <!-- 메뉴 번호로 찾기 -->
     <select id="selectByMenu" resultType="com.waiting.waitingnow.domain.OptionMenuVO">
-        select * from optionmenu where menu_number = #{menuNumber}
+        select * from optionmenu where menuNumber = #{menuNumber}
     </select>
 
 
     <!-- 메뉴 번호로 지우기 -->
     <delete id="delete">
-        delete from optionmenu where option_menu_key = #{optionMenuKey}
+        delete from optionmenu where optionMenuKey = #{optionMenuKey}
     </delete>
 
 

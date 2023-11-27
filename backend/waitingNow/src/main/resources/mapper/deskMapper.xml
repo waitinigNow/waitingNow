@@ -7,28 +7,28 @@
 <mapper namespace="com.waiting.waitingnow.mapper.deskMapper">
 
     <insert id="insert">
-        insert into desk (desk_number, member_number, desk_store_number, desk_people)
+        insert into desk (deskNumber, memberNumber, deskStoreNumber, deskPeople)
         values (#{deskNumber}, #{memberNumber}, #{deskStoreNumber}, #{deskPeople})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.DeskVO">
-        select * from desk where desk_number = #{deskNumber}
+        select * from desk where deskNumber = #{deskNumber}
     </select>
 
     <!-- 사장님 번호로 찾기 -->
     <select id="selectByMember" resultType="com.waiting.waitingnow.domain.DeskVO">
-        select * from desk where member_number = #{memberNumber}
+        select * from desk where memberNumber = #{memberNumber}
     </select>
 
     <!-- 테이블 인원 수정하기 -->
     <update id="update">
-        update desk set desk_people = #{deskPeople}}
-        where member_number = #{memberNumber} and desk_store_number = #{deskStoreNumber}
+        update desk set deskPeople = #{deskPeople}}
+        where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
     </update>
 
     <!-- 매장에서 테이블 삭제하기 -->
     <delete id="delete">
-        delete from desk where member_number = #{memberNumber} and desk_store_number = #{deskStoreNumber}
+        delete from desk where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
     </delete>
 </mapper>
 

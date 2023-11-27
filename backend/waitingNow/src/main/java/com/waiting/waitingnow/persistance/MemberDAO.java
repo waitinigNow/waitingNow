@@ -18,15 +18,38 @@ public class MemberDAO {
         sqlSession.insert(namespace + ".insert", member);
     }
 
+    /**
+     * @param memberNumber
+     * @return memberVO
+     * @throws Exception
+     */
     public MemberVO selectByid(int memberNumber) throws Exception {
         return sqlSession.selectOne(namespace + ".selectByid", memberNumber);
     }
 
-    public MemberVO selectByMemberEmail(String memberEmail) throws Exception {
-        return sqlSession.selectOne(namespace + ".selectByMemberEmail", memberEmail);
+    /**
+     * @param memberPhone
+     * @return memberPW
+     * @throws Exception
+     */
+    public String selectByMemberPhoneToPW(String memberPhone) throws Exception {
+        return sqlSession.selectOne(namespace + ".selectByMemberPhoneToPW", memberPhone);
+    }
+
+    /**
+     * @param memberPhone
+     * @return memberVO
+     * @throws Exception
+     */
+    public MemberVO selectByMemberPhoneToMember(String memberPhone) throws Exception {
+        return sqlSession.selectOne(namespace + ".selectByMemberPhoneToMember", memberPhone);
     }
 
     public void updatePreorderAvailable(MemberVO member) throws Exception {
         sqlSession.update(namespace + ".updatePreorderAvailable", member);
+    }
+
+    public int selectLastMemberNumber(){
+        return (int)sqlSession.selectOne(namespace + ".selectLastMemberNumber")+1;
     }
 }

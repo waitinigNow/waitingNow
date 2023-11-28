@@ -138,7 +138,7 @@ public class HomeController {
             String randomNumber = randomAuthNumber();
 
             // 전화번호 인증 할 번호가 memberPhone에 담겨서 날라옴.
-            sendMessageService.sendMessage(newPhoneNumber.getMemberPhone(), randomNumber);
+            sendMessageService.sendAuthMessage(newPhoneNumber.getMemberPhone(), randomNumber);
 
             restResponse = RestResponse.builder()
                     .code(HttpStatus.CREATED.value())

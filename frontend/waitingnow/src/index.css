@@ -124,7 +124,11 @@ code {
 }
 
 .waiting-index {
-  margin-right: 130px;
+  margin-right: 50px;
+}
+
+.index-number {
+  font-size: 30px;
 }
 
 .waiting-info {
@@ -152,6 +156,7 @@ code {
   display: flex;
   align-items: center;
   color: #ff9400;
+  font-size: 25px;
 }
 
 .waiting-time {

@@ -1,33 +1,33 @@
 import { useState } from "react";
 import styled from "styled-components";
 import LoginForm from "./LoginForm";
-import TableList from "./TableList";
+import WaitingList from "./WaitingList";
 
 const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1520px;
+  width: 1270px;
   margin: auto;
 `;
 
 const TabMenu = styled.ul`
-  width: 1520px;
-  height: 75px;
+  width: 1270px;
+  height: 40px;
   background-color: #fff;
   color: rgb(131, 131, 131);
   font-weight: bold;
   display: flex;
-  flex-direction: row;
   align-items: center;
   list-style: none;
   margin-top: 10px;
 
   .submenu {
     display: flex;
-    width: calc(100% / 3);
+    justify-content: center;
+    width: calc(100% / 2);
     padding: 10px;
-    font-size: 32px;
+    font-size: 22px;
     transition: 0.5s;
     border-radius: 10px 10px 0px 0px;
   }
@@ -35,6 +35,7 @@ const TabMenu = styled.ul`
   .focused {
     background-color: rgb(255, 255, 255);
     color: rgb(21, 20, 20);
+    border-bottom: 3px solid #000000;
   }
 
   & div.desc {
@@ -46,13 +47,12 @@ const Desc = styled.div`
   text-align: center;
 `;
 
-export const Tab = () => {
+export default function WaitingTab() {
   const [currentTab, clickTab] = useState(0);
 
   const menuArr = [
-    { name: "웨이팅", content: <TableList /> },
-    { name: "테이블 & 주문", content: "Tab menu TWO" },
-    { name: "더보기", content: "" },
+    { name: "대기팀", content: <WaitingList /> },
+    { name: "완료", content: "Tab menu TWO" },
   ];
 
   const selectMenuHandler = (index: number) => {
@@ -78,4 +78,4 @@ export const Tab = () => {
       </TabWrapper>
     </>
   );
-};
+}

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainPage from "pages/main";
 import SignUpPage from "pages/signup";
 import LoginPage from "pages/login";
-import { Tab } from "./Tab";
+import MainMenu from "components/MainMenu";
 
 interface RouterProps {
   isAuthenticated: boolean;
@@ -14,7 +14,7 @@ export default function Routers() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Tab />} />
+          <Route path="/" element={<MainMenu />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
         </Routes>

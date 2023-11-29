@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import UserInfoInputForm from "./UserInfoInputForm";
 import StoreInfoInputForm from "./StoreInfoInputForm";
 import { useRecoilValue } from "recoil";
-import { userState, storeState, authState } from "state";
+import { userState, storeState, authState } from "Storestate";
 import { SignupParams, signup } from "api/api";
 import { toast } from "react-toastify";
 

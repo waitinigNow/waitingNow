@@ -56,7 +56,7 @@ export async function phoneAuth(memberPhoneValue: string) {
 export interface SignupParams extends UserTypes, StoreTypes {}
 export async function signup(params: SignupParams) {
   try {
-    const response = await axios.post("/signup", params);
+    const response = await client.post("/signup", params);
     return response.data.code;
   } catch (error) {
     console.log(error);
@@ -67,8 +67,20 @@ export async function signup(params: SignupParams) {
 export async function login(formData: { phone: string; password: string }) {
   console.log(formData);
   try {
-    const response = await axios.post("/login", formData);
-    return response.data.code;
+    const response = await client.post("/login", formData);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//웨이팅 테이블 조회
+export async function tableList(memberNumber: string) {
+  try {
+    const response = await client.get("/waiting", {
+      params: { memberNumber: memberNumber },
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
   }

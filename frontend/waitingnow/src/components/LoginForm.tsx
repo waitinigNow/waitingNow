@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { memberNumberState } from "state";
 import { login } from "api/api";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ phone: "", password: "" });
+  const [memberNumber, setMemberNumber] =
+    useRecoilState<number>(memberNumberState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,8 +21,9 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       const loggedInUser = await login(formData);
-      if (loggedInUser.code === 200) {
+      if (loggedInUser && loggedInUser.status === 200) {
         // 로그인 성공
+        setMemberNumber(loggedInUser?.data.memberNumber);
         toast("로그인에 성공하였습니다.");
         navigate("/");
       } else {

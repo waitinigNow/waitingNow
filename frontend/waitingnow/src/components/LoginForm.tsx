@@ -7,14 +7,16 @@ import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ phone: "", password: "" });
+  const [formData, setFormData] = useState({
+    memberPhone: "",
+    memberPassword: "",
+  });
   const [memberNumber, setMemberNumber] =
     useRecoilState<number>(memberNumberState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    console.log(formData);
+    setFormData((prevFromData) => ({ ...formData, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +26,7 @@ export default function LoginForm() {
       if (loggedInUser && loggedInUser.status === 200) {
         // 로그인 성공
         setMemberNumber(loggedInUser?.data.memberNumber);
-        toast("로그인에 성공하였습니다.");
+        toast.success("로그인에 성공하였습니다.");
         navigate("/");
       } else {
         // 로그인 실패
@@ -41,7 +43,7 @@ export default function LoginForm() {
           <label htmlFor="name">전화번호</label>
           <input
             type="text"
-            name="phone"
+            name="memberPhone"
             id="phone"
             required
             onChange={handleChange}
@@ -51,14 +53,14 @@ export default function LoginForm() {
           <label htmlFor="password">비밀번호</label>
           <input
             type="password"
-            name="password"
+            name="memberPassword"
             id="password"
             required
             onChange={handleChange}
           />
         </div>
         <div className="form_block">
-          <button className="btn-submit" type="button" value="login">
+          <button className="btn-submit" type="submit" value="login">
             로그인하기
           </button>
         </div>

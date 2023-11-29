@@ -90,6 +90,7 @@ export default function UserInfoInputForm() {
 
   const onAuthSend = async () => {
     console.log("인증번호 전송");
+    console.log(memberPhone);
     try {
       const verificationCode = await phoneAuth(memberPhoneValue);
       setAuthCode(verificationCode);

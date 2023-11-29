@@ -1,9 +1,10 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
 import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 
-const baseURL = "http://118.222.85.227:8080";
+const baseURL = "http://210.99.231.158:8080";
 const client: Axios = axios.create({
   baseURL: baseURL,
+  withCredentials: true,
 });
 
 interface APIResponse<T> {
@@ -58,6 +59,7 @@ export interface SignupParams extends UserTypes, StoreTypes {}
 export async function signup(params: SignupParams) {
   try {
     const response = await client.post("/signup", params);
+    console.log(response);
     return response.data.code;
   } catch (error) {
     console.log(error);
@@ -65,10 +67,14 @@ export async function signup(params: SignupParams) {
 }
 
 // 로그인
-export async function login(formData: { phone: string; password: string }) {
+export async function login(formData: {
+  memberPhone: string;
+  memberPassword: string;
+}) {
   console.log(formData);
   try {
     const response = await client.post("/login", formData);
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -76,9 +82,9 @@ export async function login(formData: { phone: string; password: string }) {
 }
 
 //웨이팅 테이블 조회
-export async function tableList(memberNumber: string) {
+export async function tableList(memberNumber: number) {
   try {
-    const response = await client.get("/waiting", {
+    const response = await client.get("/waiting/now", {
       params: { memberNumber: memberNumber },
     });
     return response.data;

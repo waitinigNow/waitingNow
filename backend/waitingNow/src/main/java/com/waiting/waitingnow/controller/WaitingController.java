@@ -1,6 +1,7 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
+import com.waiting.waitingnow.DTO.WaitingStatusVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.service.SendMessageService;
 import com.waiting.waitingnow.service.WaitingService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class WaitingController {
@@ -180,6 +183,37 @@ public class WaitingController {
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)
                     .message("사장님의 회원번호가 잘못되었습니다.")
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    /**
+     * 회원 번호로 상태에 따른 사람 리스트 출력하기 (대기중 / 완료)
+     * @param waitingStatus
+     * @apiNote 1. waiting List 조회 성공 시 / 2. 일치하는 웨이팅 번호가 없을 때
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/waiting/now"}, method = RequestMethod.GET)
+    public ResponseEntity waitingSearchList(WaitingStatusVO waitingStatus) throws Exception {
+        logger.info("/waiting/now 호출");
+        try{
+            List<WaitingVO> waitings = waitingService.waitingNowList(waitingStatus);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message(waitingStatus.getMemberNumber() + "번 사장님의 웨이팅 손님 리스트 조회")
+                    .data(waitings)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 2. 일치하는 사장님 번호가 없을 때
+        catch (NullPointerException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.toString())
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }

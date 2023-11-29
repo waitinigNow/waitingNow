@@ -1,5 +1,6 @@
 package com.waiting.waitingnow.service;
 
+import com.waiting.waitingnow.DTO.WaitingStatusVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.persistance.MemberDAO;
 import com.waiting.waitingnow.persistance.WaitingDAO;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -58,5 +60,15 @@ public class WaitingService {
 
     public int waitingNowPeople(int memberNumber) throws Exception{
         return waitingDAO.selectPeopleByMemberNumber(memberNumber);
+    }
+
+    public List<WaitingVO> waitingNowList(WaitingStatusVO waitingStatus) throws Exception{
+        List<WaitingVO> waitings = waitingDAO.selectWaitingListByMemberNumber(waitingStatus);
+        if(waitings != null) {
+            return waitings;
+        }
+        else {
+            throw new NullPointerException("존재하지 않는 회원 번호입니다.");
+        }
     }
 }

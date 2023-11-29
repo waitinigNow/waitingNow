@@ -124,10 +124,10 @@ code {
 }
 
 .waiting-index {
-  margin-right: 50px;
+  margin-right: 30px;
 }
 
-.index-number {
+.waiting-index span {
   font-size: 30px;
 }
 
@@ -159,6 +159,10 @@ code {
   font-size: 25px;
 }
 
+.waiting-people span {
+  margin-left: 5px;
+}
+
 .waiting-time {
   display: flex;
   align-items: center;
@@ -178,7 +182,7 @@ code {
 }
 
 .button-block button {
-  width: 132px;
+  width: 140px;
   height: 60px;
   border: transparent;
   border-radius: 10px;
@@ -194,12 +198,14 @@ code {
 }
 
 .btn-in {
+  padding: 10px;
   background-color: #d2ffc7;
   color: #027c00;
   font-size: 25px;
 }
 
 .btn-not-in {
+  padding: 10px;
   background-color: #ffdada;
   color: #ff2222;
   font-size: 25px;

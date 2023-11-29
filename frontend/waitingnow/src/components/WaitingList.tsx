@@ -5,6 +5,20 @@ import checkIcon from "assets/checkIcon.png";
 import notIcon from "assets/notIcon.png";
 import styled from "styled-components";
 
+const StyledButton = styled.button``;
+
+const ContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Icon = styled.img`
+  margin-top: 5px;
+`;
+
+const Text = styled.div``;
+
 export default function WaitingList() {
   // 임의 데이터
   const waitingData = [
@@ -43,13 +57,13 @@ export default function WaitingList() {
       {waitingData.map((data, index) => (
         <div className="list-item" key={index}>
           <div className="waiting-index">
-            <span className="index-number">{index + 1}</span>
+            <span>{index + 1}</span>
           </div>
           <div className="waiting-info">
             <span className="waiting-phone">{data.waitingPhone}</span>
             <div className="waiting-detail">
               <div className="waiting-people">
-                <img src={personIcon} alt={`Person ${index}`} />
+                <img src={personIcon} alt={`People ${index}`} />
                 <span>{data.waitingPeople}</span>
               </div>
               <div className="waiting-time">
@@ -61,7 +75,7 @@ export default function WaitingList() {
           <div className="button-block">
             <button className="btn-call">
               <span className="call-label">호출</span>
-              <span className="time-in">타이머</span>
+              {/* <span className="time-in">타이머</span> */}
             </button>
             <button className="btn-in">입장</button>
             <button className="btn-not-in">미입장</button>

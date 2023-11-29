@@ -14,7 +14,7 @@ const TabMenu = styled.ul`
   width: 1520px;
   height: 75px;
   background-color: #fff;
-  color: rgb(131, 131, 131);
+  color: rgb(175, 175, 175);
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -33,7 +33,7 @@ const TabMenu = styled.ul`
 
   .focused {
     background-color: rgb(255, 255, 255);
-    color: rgb(21, 20, 20);
+    color: #ff9400;
   }
 
   & div.desc {
@@ -50,8 +50,8 @@ export default function MainMenu() {
 
   const menuArr = [
     { name: "웨이팅", content: <WaitingTab /> },
-    { name: "테이블 & 주문", content: "Tab menu TWO" },
-    { name: "더보기", content: "" },
+    { name: "테이블 & 주문", content: "테이블 UI" },
+    { name: "더보기", content: "Setting" },
   ];
 
   const selectMenuHandler = (index: number) => {

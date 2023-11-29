@@ -4,6 +4,9 @@ import timeIcon from "assets/time.png";
 import checkIcon from "assets/checkIcon.png";
 import notIcon from "assets/notIcon.png";
 import styled from "styled-components";
+import { tableList } from "api/api";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { memberNumberState } from "Storestate";
 
 const StyledButton = styled.button``;
 
@@ -20,7 +23,8 @@ const Icon = styled.img`
 const Text = styled.div``;
 
 export default function WaitingList() {
-  // 임의 데이터
+  const memberNumber = useRecoilValue(memberNumberState);
+
   const waitingData = [
     {
       waitingNumber: 7,

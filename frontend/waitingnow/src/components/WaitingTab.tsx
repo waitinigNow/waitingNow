@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import LoginForm from "./LoginForm";
-import WaitingList from "./WaitingList";
+import LoginForm from "components/LoginForm";
+import WaitingList from "components/WaitingList";
 
 const TabWrapper = styled.div`
   display: flex;

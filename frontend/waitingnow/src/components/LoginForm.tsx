@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "Storestate";
-import { login } from "api/api";
+import { login, tableList } from "api/api";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {
@@ -26,7 +26,9 @@ export default function LoginForm() {
       if (loggedInUser && loggedInUser.status === 200) {
         // 로그인 성공
         setMemberNumber(loggedInUser?.data.memberNumber);
+        const response = await tableList(memberNumber);
         toast.success("로그인에 성공하였습니다.");
+        console.log(response);
         navigate("/");
       } else {
         // 로그인 실패

@@ -24,6 +24,11 @@ public class MenuService {
 
     public Map<String, List<MenuVO>> selectByMember(int memberNumber) throws Exception{
         List<MenuVO> menus = menuDAO.selectByMember(memberNumber);
+        if(menus.size() == 0){
+            throw new NullPointerException("일치하는 사장님의 회원번호가 없습니다");
+        }
+
+        // 메뉴마다 옵션 Map으로 할당함
         for(int i = 0 ; i < menus.size() ; i++){
             MenuVO menu = menus.get(i);
             menu.setMenuOption(setMenuOptionToMap(optionMenuDAO.selectByMenu(menu.getMenuNumber())));

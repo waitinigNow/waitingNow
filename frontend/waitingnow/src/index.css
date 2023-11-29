@@ -95,8 +95,8 @@ code {
   cursor: pointer;
 }
 
-button:hover,
-button:focus {
+.btn-submit:not([disabled]):hover,
+.btn-submit:not([disabled]):focus {
   background: #ff9400;
   color: white;
   border: 1px solid transparent;
@@ -112,4 +112,119 @@ button:focus {
 .form__error {
   color: red;
   font-size: 16px;
+}
+
+/* list item */
+.list-item {
+  width: 1270px;
+  height: 95px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.waiting-index {
+  margin-right: 130px;
+}
+
+.waiting-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.waiting-phone {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 23px;
+}
+
+.waiting-detail {
+  display: flex;
+  margin-top: auto;
+  font-size: 21px;
+  gap: 10px;
+}
+
+.waiting-people {
+  display: flex;
+  align-items: center;
+  color: #ff9400;
+}
+
+.waiting-time {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* table list button */
+.button-block {
+  padding: 20px;
+  text-align: right;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-left: auto;
+  text-align: right;
+}
+
+.button-block button {
+  width: 132px;
+  height: 60px;
+  border: transparent;
+  border-radius: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.btn-call {
+  padding: 2px;
+  background-color: #ffeeda;
+  color: #ff9400;
+  font-size: 25px;
+}
+
+.btn-in {
+  background-color: #d2ffc7;
+  color: #027c00;
+  font-size: 25px;
+}
+
+.btn-not-in {
+  background-color: #ffdada;
+  color: #ff2222;
+  font-size: 25px;
+}
+
+.btn-call:hover,
+.btn-call:focus {
+  background: #ff9400;
+  color: white;
+  border: 1px solid transparent;
+  outline: 0;
+}
+
+.btn-in:hover,
+.btn-in:focus {
+  background: #05ce01;
+  color: white;
+  border: 1px solid transparent;
+  outline: 0;
+}
+
+.btn-not-in:hover,
+.btn-not-in:focus {
+  background: hsl(0, 100%, 65%);
+  color: white;
+  border: 1px solid transparent;
+  outline: 0;
+}
+
+.time-in {
+  font-size: 16px;
+  margin: 0;
 }

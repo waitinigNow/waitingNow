@@ -1,7 +1,7 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
 import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 
-const baseURL = "http://localhost:8080";
+const baseURL = "http://118.222.85.227:8080";
 const client: Axios = axios.create({
   baseURL: baseURL,
 });
@@ -42,8 +42,9 @@ export const postData = async <T,>(
 
 // 핸드폰 번호 인증
 export async function phoneAuth(memberPhoneValue: string) {
+  console.log("전송");
   try {
-    const response = await axios.post("/user/phone/auth", {
+    const response = await client.post("/user/phone/auth", {
       memberPhone: memberPhoneValue,
     });
     return response.data.data;

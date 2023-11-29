@@ -1,9 +1,10 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
 import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 
-const baseURL = "http://localhost:8080";
+const baseURL = "http://210.99.231.158:8080";
 const client: Axios = axios.create({
   baseURL: baseURL,
+  withCredentials: true,
 });
 
 interface APIResponse<T> {
@@ -42,8 +43,9 @@ export const postData = async <T,>(
 
 // 핸드폰 번호 인증
 export async function phoneAuth(memberPhoneValue: string) {
+  console.log("전송");
   try {
-    const response = await axios.post("/user/phone/auth", {
+    const response = await client.post("/user/phone/auth", {
       memberPhone: memberPhoneValue,
     });
     return response.data.data;
@@ -54,10 +56,38 @@ export async function phoneAuth(memberPhoneValue: string) {
 
 // 회원가입
 export interface SignupParams extends UserTypes, StoreTypes {}
-
 export async function signup(params: SignupParams) {
   try {
-    const response = await axios.post("/signup", params);
+    const response = await client.post("/signup", params);
+    console.log(response);
+    return response.data.code;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 로그인
+export async function login(formData: {
+  memberPhone: string;
+  memberPassword: string;
+}) {
+  console.log(formData);
+  try {
+    const response = await client.post("/login", formData);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//웨이팅 테이블 조회
+export async function tableList(memberNumber: number) {
+  try {
+    const response = await client.get("/waiting/now", {
+      params: { memberNumber: memberNumber },
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
   }

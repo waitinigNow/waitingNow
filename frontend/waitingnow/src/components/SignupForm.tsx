@@ -1,15 +1,14 @@
 import React, { useState, ReactNode } from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
+import { useNavigate } from "react-router-dom";
 import UserInfoInputForm from "./UserInfoInputForm";
 import StoreInfoInputForm from "./StoreInfoInputForm";
 import { useRecoilValue } from "recoil";
-import { userState, storeState, authState } from "state";
-import { styled } from "@mui/system";
+import { userState, storeState, authState } from "Storestate";
 import { SignupParams, signup } from "api/api";
 import { toast } from "react-toastify";
+
+import { Box, Stepper, Step, StepLabel } from "@mui/material";
+import { styled } from "@mui/system";
 
 const steps = ["사용자 정보 입력", "스토어 등록"];
 
@@ -24,6 +23,7 @@ export default function HorizontalLinearStepper() {
   const userStateValue = useRecoilValue(userState);
   const storeStateValue = useRecoilValue(storeState);
   const isCorrectValue = useRecoilValue(authState);
+  const navigate = useNavigate();
 
   const signupData: SignupParams = {
     ...userStateValue,
@@ -71,6 +71,10 @@ export default function HorizontalLinearStepper() {
     }
   };
 
+  const onClick = () => {
+    navigate("/login");
+  };
+
   return (
     <Box
       width={1536}
@@ -103,6 +107,16 @@ export default function HorizontalLinearStepper() {
               <p>회원가입이 완료되었습니다!</p>
               <p>가입한 계정으로 로그인을 진행하세요.</p>
             </div>
+          </div>
+          <div className="form_block">
+            <button
+              className="btn-submit"
+              type="button"
+              value="login"
+              onClick={onClick}
+            >
+              로그인 하러가기➡️
+            </button>
           </div>
           <Box
             sx={{

@@ -25,3 +25,8 @@ export const authState = atom<boolean>({
   key: "authStateKey",
   default: true, //추후에 서버에서 테스트할 땐 false로 변경 필요
 });
+
+export const memberNumberState = atom<number>({
+  key: "memberNumberKey",
+  default: 0,
+});

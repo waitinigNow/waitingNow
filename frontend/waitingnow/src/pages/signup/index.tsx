@@ -1,12 +1,12 @@
 import React from "react";
-import Stepper from "components/Stepper";
+import SignupForm from "components/SignupForm";
 import { RecoilRoot } from "recoil";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
     <>
       <RecoilRoot>
-        <Stepper />
+        <SignupForm />
       </RecoilRoot>
     </>
   );

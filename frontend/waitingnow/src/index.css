@@ -1,3 +1,10 @@
+#root {
+  --maincolor: #ff9400;
+  --maincolor-font: #404040;
+  --unitcolor: rgba(64, 64, 64, 0.33);
+  --clubcolor: #808080;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -97,7 +104,7 @@ code {
 
 .btn-submit:not([disabled]):hover,
 .btn-submit:not([disabled]):focus {
-  background: #ff9400;
+  background: var(--maincolor);
   color: white;
   border: 1px solid transparent;
   outline: 0;
@@ -155,7 +162,7 @@ code {
 .waiting-people {
   display: flex;
   align-items: center;
-  color: #ff9400;
+  color: var(--maincolor);
   font-size: 25px;
 }
 
@@ -193,7 +200,7 @@ code {
 .btn-call {
   padding: 2px;
   background-color: #ffeeda;
-  color: #ff9400;
+  color: var(--maincolor);
   font-size: 25px;
 }
 
@@ -213,7 +220,7 @@ code {
 
 .btn-call:hover,
 .btn-call:focus {
-  background: #ff9400;
+  background: var(--maincolor);
   color: white;
   border: 1px solid transparent;
   outline: 0;
@@ -238,4 +245,49 @@ code {
 .time-in {
   font-size: 16px;
   margin: 0;
+}
+
+/* tableList */
+.table-list {
+  width: 1270px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start;
+  justify-content: flex-start; */
+}
+
+.table-text {
+  margin-bottom: 20px;
+}
+
+.table-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.table-info {
+  font-size: 30px;
+}
+
+.table-number {
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.table-people {
+  color: var(--maincolor);
+  margin-left: 10px;
+}
+
+.table-text {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.sit-check {
+  font-size: 28px;
 }

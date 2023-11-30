@@ -115,4 +115,18 @@ public class PreorderService {
         }
         return newPreorders;
     }
+
+    /**
+     * 선주문 삭제하는 메소드
+     * @param preorder
+     * @throws Exception
+     */
+    public void deletePreorder(SetPreorderVO preorder) throws Exception{
+        List<PreorderVO> preorders = preorderDAO.selectByWaiting(preorder.getWaitingNumber());
+        for(PreorderVO preorderVO : preorders){
+            // preorderNumber로 옵션, 선주문 삭제함
+            preorderDAO.deleteOptions(preorderVO.getPreorderNumber());
+            preorderDAO.delete(preorderVO.getPreorderNumber());
+        }
+    }
 }

@@ -19,5 +19,10 @@
         select * from optionpreorder where preorderNumber = #{preorderNumber}
     </select>
 
+    <!-- 선주문 번호로 지우기! -->
+    <delete id="delete">
+        delete from optionpreorder where preorderNumber = #{preorderNumber}
+    </delete>
+
 </mapper>
 

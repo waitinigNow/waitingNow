@@ -35,7 +35,7 @@ public class PreorderContrller {
      */
     @RequestMapping(value = {"/preorder"}, method = RequestMethod.POST)
     public ResponseEntity preorder(@RequestBody SetPreorderVO preorder) throws Exception {
-        logger.info(String.valueOf(preorder.getMenu().get(0).getMenuCount()));
+        logger.info("선주문 등록 호출");
         try{
             List<MenuPreorderVO> menus =  preorderService.setPreorder(preorder);
             restResponse = RestResponse.builder()
@@ -56,8 +56,7 @@ public class PreorderContrller {
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
     }
-
-
+    
     /***
      * 선주문 조회하는 API
      * @param waitingNumber
@@ -81,6 +80,39 @@ public class PreorderContrller {
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)
                     .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    /***
+     * 선주문 변경하는 API
+     * @param preorder
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = {"/preorder/edit"}, method = RequestMethod.PATCH)
+    public ResponseEntity preorderEdit(@RequestBody SetPreorderVO preorder) throws Exception {
+        // 기존에 있던 선주문 모두 delete하고
+        // 그냥 다시 등록하면 됨
+        logger.info("선주문 수정 호출");
+        try{
+            preorderService.deletePreorder(preorder);
+            List<MenuPreorderVO> menus = preorderService.setPreorder(preorder);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.CREATED.value())
+                    .httpStatus(HttpStatus.CREATED)
+                    .message("[변경 완료] 현재 메뉴 개수 : " + menus.size())
+                    .data(menus)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 2. 일치하는 웨이팅 번호가 없을 때
+        catch (NullPointerException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("일치하는 웨이팅 번호가 없습니다")
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }

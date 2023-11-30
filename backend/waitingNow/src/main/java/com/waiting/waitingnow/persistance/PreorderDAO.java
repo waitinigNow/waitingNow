@@ -82,5 +82,16 @@ public class PreorderDAO {
         return (int)sqlSession.selectOne(OptionNamespace+".selectOptionLastNumber")+1;
     }
 
-    // TODO Mapper 등록 후 업데이트 하려면 다 지우고 다시 등록하는 것이 좋은가?
+    /***
+     * preorder 지우기
+     * @param preorderNumber
+     * @throws Exception
+     */
+    public void delete(int preorderNumber) throws Exception {
+        sqlSession.delete(namespace + ".delete", preorderNumber);
+    }
+
+    public void deleteOptions(int preorderNumber) throws Exception {
+        sqlSession.delete(OptionNamespace + ".delete", preorderNumber);
+    }
 }

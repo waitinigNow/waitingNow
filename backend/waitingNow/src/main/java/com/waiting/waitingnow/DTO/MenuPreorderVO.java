@@ -1,17 +1,27 @@
-package com.waiting.waitingnow.domain;
+package com.waiting.waitingnow.DTO;
+
+import com.waiting.waitingnow.domain.OptionMenuVO;
 
 import java.util.List;
 import java.util.Map;
 
-public class MenuVO {
-
+public class MenuPreorderVO {
     private int menuNumber;
     private String menuName;
     private int menuPrice;
+    private int menuCount;
     private String menuFile;
     private String menuCategory;
     private int memberNumber;
     private Map<String, List<OptionMenuVO>> menuOption;
+
+    public int getMenuCount() {
+        return menuCount;
+    }
+
+    public void setMenuCount(int menuCount) {
+        this.menuCount = menuCount;
+    }
 
     public int getMenuNumber() {
         return menuNumber;

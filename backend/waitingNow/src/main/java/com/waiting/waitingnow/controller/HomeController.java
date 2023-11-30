@@ -121,6 +121,7 @@ public class HomeController {
     @RequestMapping(value = { "/user/phone/auth" }, method = RequestMethod.POST)
     public ResponseEntity phoneAuth(@RequestBody NewPhoneNumberVO newPhoneNumber, HttpServletRequest request) throws Exception {
         // 기존에 멤버가 존재하는 경우
+        logger.info("호출");
         try{
             memberService.searchMember(newPhoneNumber.getMemberPhone());
             restResponse = RestResponse.builder()

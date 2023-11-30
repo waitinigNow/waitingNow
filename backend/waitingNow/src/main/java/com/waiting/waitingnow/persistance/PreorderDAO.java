@@ -52,13 +52,31 @@ public class PreorderDAO {
         return sqlSession.selectOne(namespace + ".selectByid", preorderNumber);
     }
 
+    /***
+     * 웨이팅 번호로 preorderVO 조회
+     * @param waitingNumber
+     * @return
+     * @throws Exception
+     */
     public List<PreorderVO> selectByWaiting(int waitingNumber) throws Exception {
-        return sqlSession.selectList(namespace + ".selectByWaiting", waitingNumber);
+        List<PreorderVO> preorders = sqlSession.selectList(namespace + ".selectByWaiting", waitingNumber);
+        return preorders;
+    }
+
+    /***
+     * 선주문 번호로 optionPreorderVO 조회
+     * @param preorderNumber
+     * @return
+     * @throws Exception
+     */
+    public List<OptionPreorderVO> selectOptionsByPreorderNumber(int preorderNumber) throws Exception{
+        return sqlSession.selectList(OptionNamespace + ".selectOptionsByPreorderNumber", preorderNumber);
     }
 
     public int selectLastNumber() throws Exception{
         return (int)sqlSession.selectOne(namespace+".selectLastNumber")+1;
     }
+
 
     public int selectOptionLastNumber() throws Exception{
         return (int)sqlSession.selectOne(OptionNamespace+".selectOptionLastNumber")+1;

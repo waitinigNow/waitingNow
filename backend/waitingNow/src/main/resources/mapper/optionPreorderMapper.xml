@@ -15,7 +15,9 @@
         select count(*) from optionpreorder
     </select>
 
-
+    <select id="selectOptionsByPreorderNumber" resultType="com.waiting.waitingnow.domain.OptionPreorderVO">
+        select * from optionpreorder where preorderNumber = #{preorderNumber}
+    </select>
 
 </mapper>
 

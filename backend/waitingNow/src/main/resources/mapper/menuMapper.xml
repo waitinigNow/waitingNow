@@ -7,11 +7,15 @@
 <mapper namespace="com.waiting.waitingnow.mapper.menuMapper">
 
     <insert id="insert">
-        insert into menu (menuNumber, menuName, menuPrice, menuFile, menuCategory, menuOption, memberNumber)
-        values (#{menuNumber}, #{menuName}, #{menuPrice}, #{menuFile}, #{menuCategory}, #{menuOption}, #{memberNumber})
+        insert into menu (menuNumber, menuName, menuPrice, menuFile, menuCategory, memberNumber)
+        values (#{menuNumber}, #{menuName}, #{menuPrice}, #{menuFile}, #{menuCategory}, #{memberNumber})
     </insert>
 
     <select id="selectByid" resultType="com.waiting.waitingnow.domain.MenuVO">
+        select * from menu where menuNumber = #{menuNumber}
+    </select>
+
+    <select id="selectPreorderVOByid" resultType="com.waiting.waitingnow.DTO.MenuPreorderVO">
         select * from menu where menuNumber = #{menuNumber}
     </select>
 

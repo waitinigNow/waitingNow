@@ -1,5 +1,6 @@
 package com.waiting.waitingnow.persistance;
 
+import com.waiting.waitingnow.DTO.MenuPreorderVO;
 import com.waiting.waitingnow.domain.MenuVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class MenuDAO {
 
     public MenuVO selectByid(int menuNumber) throws Exception {
         return sqlSession.selectOne(namespace + ".selectByid", menuNumber);
+    }
+
+    public MenuPreorderVO selectPreorderVOByid(int menuNumber) throws Exception {
+        return sqlSession.selectOne(namespace + ".selectPreorderVOByid", menuNumber);
     }
 
     public List<MenuVO> selectByMember(int memberNumber) throws Exception {

@@ -4,7 +4,7 @@ import timeIcon from "assets/time.png";
 import checkIcon from "assets/checkIcon.png";
 import notIcon from "assets/notIcon.png";
 import styled from "styled-components";
-import { tableList } from "api/api";
+import { getWaitingList } from "api/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "Storestate";
 
@@ -23,8 +23,6 @@ const Icon = styled.img`
 const Text = styled.div``;
 
 export default function WaitingList() {
-  const memberNumber = useRecoilValue(memberNumberState);
-
   const waitingData = [
     {
       waitingNumber: 7,

@@ -1,7 +1,10 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
 import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { memberNumberState } from "Storestate";
 
-const baseURL = process.env.baseURL;
+const baseURL: string = process.env.REACT_APP_BASEURL || "";
+
 const client: Axios = axios.create({
   baseURL: baseURL,
   withCredentials: true,
@@ -71,7 +74,6 @@ export async function login(formData: {
   memberPhone: string;
   memberPassword: string;
 }) {
-  console.log(formData);
   try {
     const response = await client.post("/login", formData);
     console.log(response);
@@ -81,8 +83,8 @@ export async function login(formData: {
   }
 }
 
-//웨이팅 테이블 조회
-export async function tableList(memberNumber: number) {
+//웨이팅 리스트 조회
+export async function getWaitingList(memberNumber: number) {
   try {
     const response = await client.get("/waiting/now", {
       params: { memberNumber: memberNumber },
@@ -91,4 +93,11 @@ export async function tableList(memberNumber: number) {
   } catch (error) {
     console.log(error);
   }
+}
+
+// 웨이팅 리스트 조회 함수
+export async function FuncWaitingList() {
+  const memberNumber = useRecoilValue(memberNumberState);
+  const response = await getWaitingList(memberNumber);
+  console.log(response);
 }

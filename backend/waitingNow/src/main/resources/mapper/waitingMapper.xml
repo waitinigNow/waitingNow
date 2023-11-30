@@ -45,7 +45,7 @@
     </select>
 
     <select id="selectPeopleByMemberNumber" resultType="int">
-        select count(*) from waiting where memberNumber = #{memberNumber} and (waitingAvailable == 1 or waitingAvailable = 2);
+        select count(*) from waiting where memberNumber = #{memberNumber} and (waitingAvailable = 1 or waitingAvailable = 2);
     </select>
 
     <select id="selectWaitingListByMemberNumber" resultType="com.waiting.waitingnow.domain.WaitingVO">

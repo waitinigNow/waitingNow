@@ -171,7 +171,7 @@ public class WaitingController {
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message("현재 대기 인원 : "+Integer.toString(people)+"(대기/입장가능 상태)")
+                    .message("현재 대기 인원 : "+people+" (대기/입장가능 상태)")
                     .data(people)
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());

@@ -1,8 +1,8 @@
 package com.waiting.waitingnow.controller;
 
+import com.waiting.waitingnow.DTO.MenuPreorderVO;
 import com.waiting.waitingnow.DTO.RestResponse;
 import com.waiting.waitingnow.DTO.SetPreorderVO;
-import com.waiting.waitingnow.domain.MenuVO;
 import com.waiting.waitingnow.service.MemberService;
 import com.waiting.waitingnow.service.PreorderService;
 import org.slf4j.Logger;
@@ -33,8 +33,8 @@ public class PreorderContrller {
 
     @RequestMapping(value = {"/preorder"}, method = RequestMethod.POST)
     public ResponseEntity preorder(@RequestBody SetPreorderVO preorder) throws Exception {
-        logger.info(String.valueOf(preorder.getWaitingNumber()));
-        List<MenuVO> menus =  preorderService.setPreorder(preorder);
+        logger.info(String.valueOf(preorder.getMenu().get(0).getMenuCount()));
+        List<MenuPreorderVO> menus =  preorderService.setPreorder(preorder);
         try{
             restResponse = RestResponse.builder()
                     .code(HttpStatus.CREATED.value())

@@ -1,8 +1,7 @@
 package com.waiting.waitingnow.service;
 
+import com.waiting.waitingnow.DTO.MenuPreorderVO;
 import com.waiting.waitingnow.DTO.SetPreorderVO;
-import com.waiting.waitingnow.controller.WaitingController;
-import com.waiting.waitingnow.domain.MenuVO;
 import com.waiting.waitingnow.domain.OptionMenuVO;
 import com.waiting.waitingnow.persistance.MenuDAO;
 import com.waiting.waitingnow.persistance.OptionMenuDAO;
@@ -31,14 +30,18 @@ public class PreorderService {
         this.optionMenuDAO = optionMenuDAO;
     }
 
-    public List<MenuVO> setPreorder(SetPreorderVO preorder) throws Exception{
-        List<MenuVO> originalMenus = preorder.getMenu();
-        List<MenuVO> setMenus = new ArrayList<MenuVO>();
+    public List<MenuPreorderVO> setPreorder(SetPreorderVO preorder) throws Exception{
+        // request 받은 선주문 내역과 모든 내용을 다 저장할 선주문 내역들
+        List<MenuPreorderVO> originalMenus = preorder.getMenu();
+        List<MenuPreorderVO> setMenus = new ArrayList<MenuPreorderVO>();
+        
         for(int i = 0 ; i < originalMenus.size() ; i++){
-            MenuVO setMenu = new MenuVO();
+            MenuPreorderVO setMenu = new MenuPreorderVO();
             // 옵션들도 등록
             Map<String, List<OptionMenuVO>> originalOptions = originalMenus.get(i).getMenuOption();
             Collection<List<OptionMenuVO>> values = originalOptions.values();
+            
+            // 한 메뉴에 옵션 여러가지
             for(List<OptionMenuVO> optionMenus : values){
                 List<OptionMenuVO> options = new ArrayList<OptionMenuVO>();
                 String optionCategory = "";
@@ -49,12 +52,16 @@ public class PreorderService {
                 }
                 addOptions.put(optionCategory, options);
 
-                setMenu = menuDAO.selectByid(originalMenus.get(i).getMenuNumber());
+                // 기존에 있던 애들 덮어쓰기함. 새로 할당 해주어야 함
+                setMenu = menuDAO.selectPreorderVOByid(originalMenus.get(i).getMenuNumber());
                 setMenu.setMenuOption(addOptions);
+                setMenu.setMenuCount(originalMenus.get(i).getMenuCount());
             }
             // 메뉴 모든 정보 불러오기
             setMenus.add(setMenu);
         }
+        preorder.setMenu(setMenus);
+        preorderDAO.insert(preorder);
         return setMenus;
     }
 }

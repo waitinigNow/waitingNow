@@ -20,6 +20,10 @@
         select * from preorder where waitingNumber = #{waitingNumber}
     </select>
 
+    <select id="selectLastNumber" resultType="int">
+        select count(*) from preorder
+    </select>
+
     <!-- TODO 업데이트 하려면 다 지우고 다시 등록하는 것이 좋은가?-->
 
 

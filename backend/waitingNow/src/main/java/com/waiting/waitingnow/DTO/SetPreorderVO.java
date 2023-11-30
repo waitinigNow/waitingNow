@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SetPreorderVO {
     private int waitingNumber;
-    private List<MenuVO> menu;
+    private List<MenuPreorderVO> menu;
 
     public int getWaitingNumber() {
         return waitingNumber;
@@ -16,11 +16,11 @@ public class SetPreorderVO {
         this.waitingNumber = waitingNumber;
     }
 
-    public List<MenuVO> getMenu() {
+    public List<MenuPreorderVO> getMenu() {
         return menu;
     }
 
-    public void setMenu(List<MenuVO> menu) {
+    public void setMenu(List<MenuPreorderVO> menu) {
         this.menu = menu;
     }
 }

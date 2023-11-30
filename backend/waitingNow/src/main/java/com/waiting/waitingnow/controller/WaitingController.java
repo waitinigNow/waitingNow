@@ -188,8 +188,8 @@ public class WaitingController {
     }
 
     /**
-     * 회원 번호로 상태에 따른 사람 리스트 출력하기 (대기중 / 완료)
-     * @param waitingStatus
+     * 회원 번호로 사람 리스트 출력하기 (대기중 / 완료)
+     * @param memberNumber
      * @apiNote 1. waiting List 조회 성공 시 / 2. 일치하는 웨이팅 번호가 없을 때
      * @throws Exception
      */

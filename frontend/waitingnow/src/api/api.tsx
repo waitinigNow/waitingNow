@@ -1,7 +1,7 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
 import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 
-const baseURL = "http://210.99.231.158:8080";
+const baseURL = process.env.baseURL;
 const client: Axios = axios.create({
   baseURL: baseURL,
   withCredentials: true,

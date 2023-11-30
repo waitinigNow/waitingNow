@@ -45,16 +45,13 @@
     </select>
 
     <select id="selectPeopleByMemberNumber" resultType="int">
-        select count(*) from waiting where memberNumber = #{memberNumber} and (waitingAvailable like "대기" or waitingAvailable like "입장 가능");
+        select count(*) from waiting where memberNumber = #{memberNumber} and (waitingAvailable == 1 or waitingAvailable = 2);
     </select>
 
     <select id="selectWaitingListByMemberNumber" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where memberNumber = #{memberNumber} and (waitingAvailable like "대기" or waitingAvailable like "입장 가능");
+        select * from waiting where memberNumber = #{memberNumber};
     </select>
 
-    <select id="selectEndListByMemberNumber" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where memberNumber = #{memberNumber} and (waitingAvailable like "취소" or waitingAvailable like "시간 초과" or waitingAvailable like "입장 완료");
-    </select>
 
 </mapper>
 

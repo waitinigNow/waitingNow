@@ -1,7 +1,6 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
-import com.waiting.waitingnow.DTO.WaitingStatusVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.service.SendMessageService;
 import com.waiting.waitingnow.service.WaitingService;
@@ -196,14 +195,14 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting/now"}, method = RequestMethod.GET)
-    public ResponseEntity waitingSearchList(WaitingStatusVO waitingStatus) throws Exception {
+    public ResponseEntity waitingSearchList(String memberNumber) throws Exception {
         logger.info("/waiting/now 호출");
         try{
-            List<WaitingVO> waitings = waitingService.waitingNowList(waitingStatus);
+            List<WaitingVO> waitings = waitingService.waitingNowList(memberNumber);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message(waitingStatus.getMemberNumber() + "번 사장님의 웨이팅 손님 리스트 조회")
+                    .message(memberNumber + "번 사장님의 웨이팅 손님 리스트 조회")
                     .data(waitings)
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());

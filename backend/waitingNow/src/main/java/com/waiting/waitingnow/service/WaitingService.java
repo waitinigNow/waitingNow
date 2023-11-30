@@ -1,6 +1,5 @@
 package com.waiting.waitingnow.service;
 
-import com.waiting.waitingnow.DTO.WaitingStatusVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.persistance.MemberDAO;
 import com.waiting.waitingnow.persistance.WaitingDAO;
@@ -40,14 +39,14 @@ public class WaitingService {
         waiting.setWaitingNumber(waitingDAO.selectLastWaitingNumber());
         waiting.setWaitingDate(dateFormat.format(now));
         waiting.setWaitingCustomerNumber(waitingDAO.selectCustomerNumber(waiting.getMemberNumber()));
-        waiting.setWaitingAvailable("대기");
+        waiting.setWaitingAvailable(1);
 
         waitingDAO.insert(waiting);
     }
 
     public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{
         WaitingVO newWaiting = waitingDAO.waitingSearchByCustomerNumber(waiting);
-        newWaiting.setWaitingAvailable("입장 가능");
+        newWaiting.setWaitingAvailable(2);
         return newWaiting;
     }
 
@@ -62,9 +61,9 @@ public class WaitingService {
         return waitingDAO.selectPeopleByMemberNumber(memberNumber);
     }
 
-    public List<WaitingVO> waitingNowList(WaitingStatusVO waitingStatus) throws Exception{
-        List<WaitingVO> waitings = waitingDAO.selectWaitingListByMemberNumber(waitingStatus);
-        if(waitings != null) {
+    public List<WaitingVO> waitingNowList(String memberNumber) throws Exception{
+        List<WaitingVO> waitings = waitingDAO.selectWaitingListByMemberNumber(memberNumber);
+        if(!waitings.isEmpty()) {
             return waitings;
         }
         else {

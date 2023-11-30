@@ -1,6 +1,5 @@
 package com.waiting.waitingnow.persistance;
 
-import com.waiting.waitingnow.DTO.WaitingStatusVO;
 import com.waiting.waitingnow.domain.WaitingVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,13 +71,12 @@ public class WaitingDAO {
         return (int)sqlSession.selectOne(namespace+".selectPeopleByMemberNumber", memberNumber);
     }
 
-    public List<WaitingVO> selectWaitingListByMemberNumber(WaitingStatusVO waitingStatus) throws Exception {
-        if (waitingStatus.getWaitingStatus().equals("waiting")) {
-            return sqlSession.selectList(namespace + ".selectWaitingListByMemberNumber", waitingStatus);
-        } else if (waitingStatus.getWaitingStatus().equals("end")) {
-            return sqlSession.selectList(namespace + ".selectEndListByMemberNumber", waitingStatus);
+    public List<WaitingVO> selectWaitingListByMemberNumber(String memberNumber) throws Exception {
+        List<WaitingVO> waitings = sqlSession.selectList(namespace + ".selectWaitingListByMemberNumber", memberNumber);
+        if (waitings != null) {
+            return waitings;
         } else {
-            throw new NullPointerException("상태가 정상적이지 않습니다! [waiting/end] 둘 중에 하나 골라주세요");
+            throw new NullPointerException("존재하지 않는 회원번호 입니다.");
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.waiting.waitingnow.DTO;
 
+/**
+ * @deprecated 삭제 예정
+ */
 public class WaitingStatusVO {
     private int memberNumber;
     private String waitingStatus;

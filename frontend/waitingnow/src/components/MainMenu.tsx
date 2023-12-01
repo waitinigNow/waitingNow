@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import WaitingTab from "./WaitingTab";
+import TableList from "./TableList";
+import { getWaitingList, FuncWaitingList } from "api/api";
+import { memberNumberState } from "Storestate";
 
 const TabWrapper = styled.div`
   display: flex;
@@ -33,7 +37,7 @@ const TabMenu = styled.ul`
 
   .focused {
     background-color: rgb(255, 255, 255);
-    color: #ff9400;
+    color: var(--maincolor);
   }
 
   & div.desc {
@@ -47,10 +51,11 @@ const Desc = styled.div`
 
 export default function MainMenu() {
   const [currentTab, clickTab] = useState(0);
+  FuncWaitingList(); // 메인에 넘어갔을 때, 웨이팅 리스트 조회
 
   const menuArr = [
     { name: "웨이팅", content: <WaitingTab /> },
-    { name: "테이블 & 주문", content: "테이블 UI" },
+    { name: "테이블 & 주문", content: <TableList /> },
     { name: "더보기", content: "Setting" },
   ];
 

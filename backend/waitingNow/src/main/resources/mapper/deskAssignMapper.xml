@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.waiting.waitingnow.mapper.deskAssignMapper">
+    <insert id="insert">
+        insert into deskassign (deskAssignKey, memberNumber, deskStoreNumber, waitingNumber, preorderExist)
+        values (#{deskAssignKey}, #{memberNumber}, #{deskStoreNumber}, #{waitingNumber}, #{preorderExist})
+    </insert>
+
+    <select id="selectDeskAssign" resultType="com.waiting.waitingnow.domain.DeskAssignVO">
+        select * from deskassign where deskAssignKey = #{deskAssignKey}
+    </select>
+
+    <select id="lastAssignDeskKey" resultType="int">
+        select count(*) from deskassign
+    </select>
+
+    <select id="selectDeskSitAvailable" resultType="int">
+        select count(*) from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
+    </select>
+
+
+</mapper>

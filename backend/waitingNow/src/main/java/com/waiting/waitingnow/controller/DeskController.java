@@ -2,6 +2,8 @@ package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
 import com.waiting.waitingnow.DTO.SendDeskVO;
+import com.waiting.waitingnow.DTO.SitDeskVO;
+import com.waiting.waitingnow.domain.DeskAssignVO;
 import com.waiting.waitingnow.domain.DeskVO;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.service.DeskService;
@@ -52,6 +54,41 @@ public class DeskController {
             restResponse = RestResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    // TODO
+    @ResponseBody
+    @RequestMapping(value = { "/desk/sit" }, method = RequestMethod.POST)
+    public ResponseEntity deskAssgin(@RequestBody DeskAssignVO deskAssignVO) throws Exception {
+        logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber());
+        try{
+            // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
+            DeskAssignVO desk = deskService.assignDesk(deskAssignVO);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message(desk.getWaitingNumber()+"의 desk 할당")
+                    .data(desk)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 일치하는 전화번호가 없을 때, NullpointerException 발생
+        catch (NullPointerException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        catch (IllegalStateException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .httpStatus(HttpStatus.BAD_REQUEST)
                     .message(e.getMessage())
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());

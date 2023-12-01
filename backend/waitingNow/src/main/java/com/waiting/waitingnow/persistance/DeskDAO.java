@@ -67,7 +67,11 @@ public class DeskDAO {
      * @param deskAssignVO (멤버와 테이블 번호로)
      * @return 0이면 앉을 수 있음 (현재 사용하고 있지 않음)
      */
-    public int deskSitAvailable(DeskAssignVO deskAssignVO){
+    public int deskSitAvailable(DeskAssignVO deskAssignVO) throws Exception{
         return sqlSession.selectOne(AssignNamespace + ".selectDeskSitAvailable", deskAssignVO);
+    }
+
+    public void assignOutDesk(DeskAssignVO deskAssignVO) throws Exception{
+        sqlSession.delete(AssignNamespace + ".delete", deskAssignVO);
     }
 }

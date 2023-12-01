@@ -60,11 +60,16 @@ public class DeskController {
         }
     }
 
-    // TODO
+    /***
+     * 식탁 배정하는 메소드 / 웨이팅 상태도 입장 완료(0) 으로 변경하는 메소드
+     * @param deskAssignVO
+     * @return
+     * @throws Exception
+     */
     @ResponseBody
     @RequestMapping(value = { "/desk/sit" }, method = RequestMethod.POST)
     public ResponseEntity deskAssgin(@RequestBody DeskAssignVO deskAssignVO) throws Exception {
-        logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber());
+        logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
         try{
             // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
             DeskAssignVO desk = deskService.assignDesk(deskAssignVO);
@@ -93,5 +98,31 @@ public class DeskController {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = { "/desk/out" }, method = RequestMethod.DELETE)
+    public ResponseEntity deskOut(@RequestBody DeskAssignVO deskAssignVO) throws Exception {
+        logger.info("[desk 배정 반환] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
+        try{
+            // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
+            deskService.assignOutDesk(deskAssignVO);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message(deskAssignVO.getMemberNumber() + "사장님의 " + deskAssignVO.getDeskStoreNumber() +"번 테이블 배정 해제되었습니다!")
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 일치하는 전화번호가 없을 때, NullpointerException 발생
+        catch (IllegalStateException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+
     }
 }

@@ -68,4 +68,11 @@ public class DeskService {
 
         return NewDeskAssign;
     }
+
+    public void assignOutDesk(DeskAssignVO deskAssignVO) throws Exception{
+        if(deskDAO.deskSitAvailable(deskAssignVO) != 1){
+            throw new IllegalStateException("배정되어 있지 않은 식탁을 퇴장 처리 하는군.");
+        }
+        deskDAO.assignOutDesk(deskAssignVO);
+    }
 }

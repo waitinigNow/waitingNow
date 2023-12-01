@@ -22,5 +22,9 @@
         select count(*) from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
     </select>
 
+    <delete id="delete">
+        delete from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
+    </delete>
+
 
 </mapper>

@@ -1,6 +1,6 @@
 package com.waiting.waitingnow.service;
 
-import com.waiting.waitingnow.domain.MemberVO;
+
 import com.waiting.waitingnow.domain.WaitingVO;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;

@@ -1,18 +1,17 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
-import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.domain.WaitingVO;
-import com.waiting.waitingnow.persistance.WaitingDAO;
 import com.waiting.waitingnow.service.SendMessageService;
 import com.waiting.waitingnow.service.WaitingService;
-import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class WaitingController {
@@ -108,6 +107,7 @@ public class WaitingController {
         try{
             WaitingVO newWaiting = waitingService.waitingSearchByCustomerNumber(waiting);
             String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);
+            // TODO 추후 선주문 내용도 담겨야함.
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
@@ -171,7 +171,7 @@ public class WaitingController {
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message("현재 대기 인원 : "+Integer.toString(people)+"(대기/입장가능 상태)")
+                    .message("현재 대기 인원 : "+people+" (대기/입장가능 상태)")
                     .data(people)
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
@@ -182,6 +182,37 @@ public class WaitingController {
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)
                     .message("사장님의 회원번호가 잘못되었습니다.")
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+    }
+
+    /**
+     * 회원 번호로 사람 리스트 출력하기 (대기중 / 완료)
+     * @param memberNumber
+     * @apiNote 1. waiting List 조회 성공 시 / 2. 일치하는 웨이팅 번호가 없을 때
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = {"/waiting/now"}, method = RequestMethod.GET)
+    public ResponseEntity waitingSearchList(String memberNumber) throws Exception {
+        logger.info("/waiting/now 호출");
+        try{
+            List<WaitingVO> waitings = waitingService.waitingNowList(memberNumber);
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message(memberNumber + "번 사장님의 웨이팅 손님 리스트 조회")
+                    .data(waitings)
+                    .build();
+            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
+        }
+        // 2. 일치하는 사장님 번호가 없을 때
+        catch (NullPointerException e){
+            restResponse = RestResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(e.toString())
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }

@@ -3,8 +3,9 @@ package com.waiting.waitingnow.domain;
 public class OptionMenuVO {
     private int optionMenuKey;
     private int menuNumber;
-    private String optionMenu_Name;
+    private String optionMenuName;
     private int optionMenuPrice;
+    private String optionMenuCategory;
 
     public int getOptionMenuKey() {
         return optionMenuKey;
@@ -22,19 +23,27 @@ public class OptionMenuVO {
         this.menuNumber = menuNumber;
     }
 
-    public String getOptionMenu_Name() {
-        return optionMenu_Name;
-    }
-
-    public void setOptionMenu_Name(String optionMenu_Name) {
-        this.optionMenu_Name = optionMenu_Name;
-    }
-
     public int getOptionMenuPrice() {
         return optionMenuPrice;
     }
 
     public void setOptionMenuPrice(int optionMenuPrice) {
         this.optionMenuPrice = optionMenuPrice;
+    }
+
+    public String getOptionMenuName() {
+        return optionMenuName;
+    }
+
+    public void setOptionMenuName(String optionMenuName) {
+        this.optionMenuName = optionMenuName;
+    }
+
+    public String getOptionMenuCategory() {
+        return optionMenuCategory;
+    }
+
+    public void setOptionMenuCategory(String optionMenuCategory) {
+        this.optionMenuCategory = optionMenuCategory;
     }
 }

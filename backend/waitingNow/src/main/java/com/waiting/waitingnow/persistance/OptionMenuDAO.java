@@ -28,7 +28,5 @@ public class OptionMenuDAO {
         return sqlSession.selectList(namespace + ".selectByMenu", menuNumber);
     }
 
-    public void delete(int optionMenuKey) throws Exception {
-        sqlSession.delete(namespace + ".delete", optionMenuKey);
-    }
+
 }

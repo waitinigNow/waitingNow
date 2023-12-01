@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -38,14 +39,14 @@ public class WaitingService {
         waiting.setWaitingNumber(waitingDAO.selectLastWaitingNumber());
         waiting.setWaitingDate(dateFormat.format(now));
         waiting.setWaitingCustomerNumber(waitingDAO.selectCustomerNumber(waiting.getMemberNumber()));
-        waiting.setWaitingAvailable("대기");
+        waiting.setWaitingAvailable(1);
 
         waitingDAO.insert(waiting);
     }
 
     public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{
         WaitingVO newWaiting = waitingDAO.waitingSearchByCustomerNumber(waiting);
-        newWaiting.setWaitingAvailable("입장 가능");
+        newWaiting.setWaitingAvailable(2);
         return newWaiting;
     }
 
@@ -58,5 +59,15 @@ public class WaitingService {
 
     public int waitingNowPeople(int memberNumber) throws Exception{
         return waitingDAO.selectPeopleByMemberNumber(memberNumber);
+    }
+
+    public List<WaitingVO> waitingNowList(String memberNumber) throws Exception{
+        List<WaitingVO> waitings = waitingDAO.selectWaitingListByMemberNumber(memberNumber);
+        if(!waitings.isEmpty()) {
+            return waitings;
+        }
+        else {
+            throw new NullPointerException("존재하지 않는 회원 번호입니다.");
+        }
     }
 }

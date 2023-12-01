@@ -30,3 +30,8 @@ export const memberNumberState = atom<number>({
   key: "memberNumberKey",
   default: 0,
 });
+
+export const waitingListState = atom({
+  key: "waitingListKey",
+  default: [],
+});

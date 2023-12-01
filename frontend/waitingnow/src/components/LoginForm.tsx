@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "Storestate";
-import { login } from "api/api";
+import { login } from "api/storeApi";
 import { toast } from "react-toastify";
 
 export default function LoginForm() {

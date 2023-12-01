@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, authState } from "Storestate";
-import { phoneAuth } from "api/api";
+import { phoneAuth } from "api/storeApi";
 import { toast } from "react-toastify";
 
 export interface UserTypes {

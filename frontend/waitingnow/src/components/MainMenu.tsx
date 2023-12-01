@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import WaitingTab from "./WaitingTab";
 import TableList from "./TableList";
-import { getWaitingList, FuncWaitingList } from "api/api";
-import { memberNumberState } from "Storestate";
+import { getWaitingList } from "api/storeApi";
+import { memberNumberState, waitingListState } from "Storestate";
+import { WaitingData, calWaitingTime, formatPhoneNumber } from "./WaitingList";
 
 const TabWrapper = styled.div`
   display: flex;
@@ -51,7 +52,27 @@ const Desc = styled.div`
 
 export default function MainMenu() {
   const [currentTab, clickTab] = useState(0);
-  FuncWaitingList(); // 메인에 넘어갔을 때, 웨이팅 리스트 조회
+  const memberNumber = useRecoilValue(memberNumberState);
+  const [waitingList, setWaitingList] = useRecoilState(waitingListState);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getWaitingList(memberNumber);
+
+        const updatedWaitingList = response.data.map((item: WaitingData) => {
+          const formattedItem = formatPhoneNumber(item.waitingPhone, item);
+          return calWaitingTime(formattedItem.waitingDate, formattedItem);
+        });
+        setWaitingList(updatedWaitingList);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(waitingList);
 
   const menuArr = [
     { name: "웨이팅", content: <WaitingTab /> },

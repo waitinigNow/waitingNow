@@ -94,10 +94,3 @@ export async function getWaitingList(memberNumber: number) {
     console.log(error);
   }
 }
-
-// 웨이팅 리스트 조회 함수
-export async function FuncWaitingList() {
-  const memberNumber = useRecoilValue(memberNumberState);
-  const response = await getWaitingList(memberNumber);
-  console.log(response);
-}

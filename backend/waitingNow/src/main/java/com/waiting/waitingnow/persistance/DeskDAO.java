@@ -1,5 +1,6 @@
 package com.waiting.waitingnow.persistance;
 
+import com.waiting.waitingnow.DTO.SendDeskVO;
 import com.waiting.waitingnow.domain.DeskVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,13 @@ public class DeskDAO {
         return sqlSession.selectOne(namespace + ".selectByid", memberNumber);
     }
 
-    public List<DeskVO> selectByMember(int memberNumber) throws Exception {
+    /**
+     * 
+     * @param memberNumber
+     * @return 가게 테이블 번호, 테이블 수용인원
+     * @throws Exception
+     */
+    public List<SendDeskVO> selectByMember(int memberNumber) throws Exception {
         return sqlSession.selectList(namespace + ".selectByMember", memberNumber);
     }
 

@@ -2,6 +2,7 @@ package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import com.waiting.waitingnow.DTO.RestResponse;
+import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.service.MemberService;
 import com.waiting.waitingnow.service.SendMessageService;
@@ -21,13 +22,15 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
     private final MemberService memberService;
     private final SendMessageService sendMessageService;
+    private final JwtTokenService jwtTokenService;
     RestResponse<Object> restResponse = new RestResponse<>();
 
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public HomeController(MemberService memberService, SendMessageService sendMessageService){
+    public HomeController(MemberService memberService, SendMessageService sendMessageService, JwtTokenService jwtTokenService){
         this.memberService = memberService;
         this.sendMessageService = sendMessageService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     public String randomAuthNumber(){
@@ -58,7 +61,7 @@ public class HomeController {
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message("로그인 되었습니다.")
+                    .message(jwtTokenService.generateToken(full_member.getMemberPhone()))
                     .data(full_member)
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());

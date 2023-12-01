@@ -1,4 +1,4 @@
-package com.waiting.waitingnow;
+package com.waiting.waitingnow.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

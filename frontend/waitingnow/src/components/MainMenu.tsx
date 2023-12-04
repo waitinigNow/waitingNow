@@ -54,22 +54,31 @@ export default function MainMenu() {
   const [currentTab, clickTab] = useState(0);
   const memberNumber = useRecoilValue(memberNumberState);
   const [waitingList, setWaitingList] = useRecoilState(waitingListState);
+  const [waitingMinutesList, setWaitingMinutesList] = useState<
+    Record<number, number>
+  >({});
+  const updatedWaitingList: Record<number, number> = {};
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getWaitingList(memberNumber);
 
-        const updatedWaitingList = response.data.map((item: WaitingData) => {
-          const formattedItem = formatPhoneNumber(item.waitingPhone, item);
-          return calWaitingTime(formattedItem.waitingDate, formattedItem);
+        const updatedWaitingMinutesList: Record<number, number> = {};
+
+        response.data.forEach((item: WaitingData) => {
+          const waitingMinutes = calWaitingTime(item.waitingDate);
+          updatedWaitingList[item.waitingNumber] = waitingMinutes;
         });
-        setWaitingList(updatedWaitingList);
+
+        setWaitingMinutesList(updatedWaitingMinutesList);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
+    console.log(waitingMinutesList);
   }, []);
 
   console.log(waitingList);

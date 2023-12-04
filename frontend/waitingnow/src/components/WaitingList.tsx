@@ -32,20 +32,31 @@ const Icon = styled.img`
 const Text = styled.div``;
 
 // 웨이팅 시간 - 분으로 계산
-export function calWaitingTime(
-  waitingDate: string,
-  originalData: WaitingData
-): WaitingData {
+// export function calWaitingTime(
+//   waitingDate: string,
+//   originalData: WaitingData
+// ): WaitingData {
+//   const serverDate = new Date(waitingDate);
+//   const currentDate = new Date();
+
+//   const timeDifference = currentDate.getTime() - serverDate.getTime();
+//   const waitingMinutes = Math.floor(timeDifference / (1000 * 60));
+
+//   return {
+//     ...originalData,
+//     waitingMinutes,
+//   };
+// }
+
+//  웨이팅 시간 - 분으로 계산
+export function calWaitingTime(waitingDate: string): number {
   const serverDate = new Date(waitingDate);
   const currentDate = new Date();
 
   const timeDifference = currentDate.getTime() - serverDate.getTime();
   const waitingMinutes = Math.floor(timeDifference / (1000 * 60));
 
-  return {
-    ...originalData,
-    waitingMinutes,
-  };
+  return waitingMinutes;
 }
 
 export function formatPhoneNumber(
@@ -82,6 +93,8 @@ export default function WaitingList() {
   //     return calWaitingTime(item.waitingDate, item);
   //   });
   // }, [currentDateTime]);
+
+  // 웨이팅 시간을 따로 저장하는 코드 ver.2
 
   console.log(waitingData);
   return (

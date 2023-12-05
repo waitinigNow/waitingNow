@@ -30,6 +30,10 @@ public class DeskService {
 
     public List<SendDeskVO> selectByMember(int memberNumber) throws Exception{
         List<SendDeskVO> desks = deskDAO.selectByMember(memberNumber);
+        List<DeskAssignVO> assignVO = deskDAO.deskSitAvailableList(memberNumber);
+        for(int i = 0; i < assignVO.size(); i++){
+            desks.get(assignVO.get(i).getDeskStoreNumber()-1).setDeskAvailable(false);
+        }
         if(desks.isEmpty()){
             throw new NullPointerException("회원 번호가 일치하지 않습니다.");
         }

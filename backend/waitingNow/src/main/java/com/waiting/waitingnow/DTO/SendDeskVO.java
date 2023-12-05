@@ -4,6 +4,11 @@ public class SendDeskVO {
     private int deskStoreNumber;
     private int deskPeople;
 
+    private boolean deskAvailable;
+
+    public SendDeskVO(){
+        deskAvailable = true;
+    }
     public int getDeskStoreNumber() {
         return deskStoreNumber;
     }
@@ -18,5 +23,13 @@ public class SendDeskVO {
 
     public void setDeskPeople(int deskPeople) {
         this.deskPeople = deskPeople;
+    }
+
+    public boolean isDeskAvailable() {
+        return deskAvailable;
+    }
+
+    public void setDeskAvailable(boolean deskAvailable) {
+        this.deskAvailable = deskAvailable;
     }
 }

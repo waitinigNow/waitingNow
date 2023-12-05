@@ -22,6 +22,10 @@
         select count(*) from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
     </select>
 
+    <select id="deskSitAvailableList" resultType="com.waiting.waitingnow.domain.DeskAssignVO">
+        select * from deskassign where memberNumber = #{memberNumber}
+    </select>
+
     <delete id="delete">
         delete from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
     </delete>

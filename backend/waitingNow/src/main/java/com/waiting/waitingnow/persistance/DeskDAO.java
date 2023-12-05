@@ -50,7 +50,6 @@ public class DeskDAO {
 
     public void assignDesk(DeskAssignVO deskAssignVO) throws Exception{
         deskAssignVO.setDeskAssignKey(lastAssignDeskKey());
-
         sqlSession.insert(AssignNamespace + ".insert", deskAssignVO);
     }
 
@@ -69,6 +68,15 @@ public class DeskDAO {
      */
     public int deskSitAvailable(DeskAssignVO deskAssignVO) throws Exception{
         return sqlSession.selectOne(AssignNamespace + ".selectDeskSitAvailable", deskAssignVO);
+    }
+
+    /**
+     * 멤버 번호로만 테이블이 앉을 수 있는 상황인지 파악하는 메소드
+     * @param memberNumber (멤버 번호로)
+     * @return 0이면 앉을 수 있음 (현재 사용하고 있지 않음)
+     */
+    public List<DeskAssignVO> deskSitAvailableList(int memberNumber) throws Exception{
+        return sqlSession.selectList(AssignNamespace + ".deskSitAvailableList", memberNumber);
     }
 
     public void assignOutDesk(DeskAssignVO deskAssignVO) throws Exception{

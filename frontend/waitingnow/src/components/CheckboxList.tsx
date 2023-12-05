@@ -3,15 +3,20 @@ import personIcon from "assets/person.png";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { useEffect } from "react";
+import { getTableList } from "api/storeApi";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { memberNumberState, tableListState } from "Storestate";
 
-interface TableData {
-  tableNumber: number;
-  tablePeople: number;
-  tableSit: boolean;
+export interface TableData {
+  deskStoreNumber: number;
+  deskPeople: number;
 }
 
 export default function CheckboxLabels() {
   const [checkedItems, setCheckedItems] = React.useState<boolean[]>([]);
+  const memberNumber = useRecoilValue(memberNumberState);
+  const tableList: TableData[] = useRecoilValue(tableListState);
 
   const testData = [
     {
@@ -34,9 +39,11 @@ export default function CheckboxLabels() {
     });
   };
 
+  console.log(tableList);
+
   return (
     <>
-      {testData.map((data, index) => (
+      {tableList.map((data, index) => (
         <div
           className="table-list-item"
           key={index}
@@ -51,12 +58,14 @@ export default function CheckboxLabels() {
               checked={checkedItems[index]}
               onChange={() => handleCheckboxChange(index)}
             />
-            <span className="table-number">{data.tableNumber}번 테이블</span>
+            <span className="table-number">
+              {data.deskStoreNumber}번 테이블
+            </span>
             <img src={personIcon} />
-            <span className="table-people">{data.tablePeople} </span>
+            <span className="table-people">{data.deskPeople} </span>
           </div>
           <div className="sit-check">
-            {data.tableSit ? (
+            {data ? (
               <p style={{ color: "#808080" }}>배정완료</p>
             ) : (
               <p style={{ color: "var(--maincolor)" }}>대기중</p>

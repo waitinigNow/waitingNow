@@ -3,8 +3,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import WaitingTab from "./WaitingTab";
 import TableList from "./TableList";
-import { getWaitingList } from "api/storeApi";
-import { memberNumberState, waitingListState } from "Storestate";
+import { getTableList, getWaitingList } from "api/storeApi";
+import {
+  memberNumberState,
+  tableListState,
+  waitingListState,
+} from "Storestate";
 import { WaitingData, calWaitingTime, formatPhoneNumber } from "./WaitingList";
 
 const TabWrapper = styled.div`
@@ -54,6 +58,7 @@ export default function MainMenu() {
   const [currentTab, clickTab] = useState(0);
   const memberNumber = useRecoilValue(memberNumberState);
   const [waitingList, setWaitingList] = useRecoilState(waitingListState);
+  const [tableList, setTableList] = useRecoilState(tableListState);
   const [waitingMinutesList, setWaitingMinutesList] = useState<
     Record<number, number>
   >({});
@@ -62,26 +67,17 @@ export default function MainMenu() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getWaitingList(memberNumber);
-
-        const updatedWaitingMinutesList: Record<number, number> = {};
-
-        response.data.forEach((item: WaitingData) => {
-          const waitingMinutes = calWaitingTime(item.waitingDate);
-          updatedWaitingList[item.waitingNumber] = waitingMinutes;
-        });
-
-        setWaitingMinutesList(updatedWaitingMinutesList);
+        const waitingResponse = await getWaitingList(memberNumber);
+        const tableResponse = await getTableList(memberNumber);
+        setWaitingList(waitingResponse.data);
+        setTableList(tableResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
     console.log(waitingMinutesList);
   }, []);
-
-  console.log(waitingList);
 
   const menuArr = [
     { name: "웨이팅", content: <WaitingTab /> },

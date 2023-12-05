@@ -94,3 +94,15 @@ export async function getWaitingList(memberNumber: number) {
     console.log(error);
   }
 }
+
+//테이블 리스트 조회
+export async function getTableList(memberNumber: number) {
+  try {
+    const response = await client.get("/desk", {
+      params: { memberNumber: memberNumber },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

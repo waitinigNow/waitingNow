@@ -78,6 +78,7 @@ export function formatPhoneNumber(
 
 export default function WaitingList() {
   const waitingData: WaitingData[] = useRecoilValue(waitingListState);
+  console.log("data", waitingData);
   // const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   // useEffect(() => {
@@ -96,7 +97,6 @@ export default function WaitingList() {
 
   // 웨이팅 시간을 따로 저장하는 코드 ver.2
 
-  console.log(waitingData);
   return (
     <>
       {waitingData.length > 0 ? (

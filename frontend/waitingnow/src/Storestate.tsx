@@ -35,3 +35,8 @@ export const waitingListState = atom({
   key: "waitingListKey",
   default: [],
 });
+
+export const tableListState = atom({
+  key: "waitingListKey",
+  default: [],
+});

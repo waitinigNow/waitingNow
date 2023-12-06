@@ -40,3 +40,8 @@ export const tableListState = atom({
   key: "tableListKey",
   default: [],
 });
+
+export const modalOpenState = atom<boolean>({
+  key: "modalOpenKey",
+  default: false,
+});

@@ -6,7 +6,12 @@ import notIcon from "assets/notIcon.png";
 import styled from "styled-components";
 import { getWaitingList } from "api/storeApi";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { memberNumberState, waitingListState } from "Storestate";
+import {
+  memberNumberState,
+  modalOpenState,
+  waitingListState,
+} from "Storestate";
+import Modal from "./Modal";
 
 export interface WaitingData {
   waitingNumber: number;
@@ -78,7 +83,9 @@ export function formatPhoneNumber(
 
 export default function WaitingList() {
   const waitingData: WaitingData[] = useRecoilValue(waitingListState);
-  console.log("data", waitingData);
+  useEffect(() => {
+    console.log("data", waitingData);
+  }, [waitingData]);
   // const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   // useEffect(() => {
@@ -95,41 +102,50 @@ export default function WaitingList() {
   //   });
   // }, [currentDateTime]);
 
-  // 웨이팅 시간을 따로 저장하는 코드 ver.2
+  const [isModalOpen, setIsModalOpen] = useRecoilState(modalOpenState);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    console.log("모달 open", isModalOpen);
+  };
+
   return (
     <>
-      {waitingData.length > 0 ? (
-        waitingData.map((data, index) => (
-          <div className="list-item" key={index}>
-            <div className="waiting-index">
-              <span>{index + 1}</span>
-            </div>
-            <div className="waiting-info">
-              <span className="waiting-phone">{data.waitingPhone}</span>
-              <div className="waiting-detail">
-                <div className="waiting-people">
-                  <img src={personIcon} alt={`People ${index}`} />
-                  <span>{data.waitingPeople}</span>
-                </div>
-                <div className="waiting-time">
-                  <img src={timeIcon} alt={`Time ${index}`} />
-                  <span>{data.waitingMinutes}분</span>
+      <div className="waitingList-wrapper">
+        {waitingData.length > 0 ? (
+          waitingData.map((data, index) => (
+            <div className="list-item" key={index}>
+              <div className="waiting-index">
+                <span>{index + 1}</span>
+              </div>
+              <div className="waiting-info">
+                <span className="waiting-phone">{data.waitingPhone}</span>
+                <div className="waiting-detail">
+                  <div className="waiting-people">
+                    <img src={personIcon} alt={`People ${index}`} />
+                    <span>{data.waitingPeople}</span>
+                  </div>
+                  <div className="waiting-time">
+                    <img src={timeIcon} alt={`Time ${index}`} />
+                    <span>{data.waitingMinutes}분</span>
+                  </div>
                 </div>
               </div>
+              <div className="button-block">
+                <button className="btn-call" onClick={openModal}>
+                  <span className="call-label">호출</span>
+                  {isModalOpen && <Modal />}
+                  {/* <span className="time-in">타이머</span> */}
+                </button>
+                <button className="btn-in">입장</button>
+                <button className="btn-not-in">미입장</button>
+              </div>
             </div>
-            <div className="button-block">
-              <button className="btn-call">
-                <span className="call-label">호출</span>
-                {/* <span className="time-in">타이머</span> */}
-              </button>
-              <button className="btn-in">입장</button>
-              <button className="btn-not-in">미입장</button>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>현재 웨이팅 목록이 없습니다.</p>
-      )}
+          ))
+        ) : (
+          <p>현재 웨이팅 목록이 없습니다.</p>
+        )}
+      </div>
     </>
   );
 }

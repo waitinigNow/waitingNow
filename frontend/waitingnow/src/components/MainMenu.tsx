@@ -15,6 +15,7 @@ const TabWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 1520px;
+  height: 864px;
   margin: auto;
 `;
 

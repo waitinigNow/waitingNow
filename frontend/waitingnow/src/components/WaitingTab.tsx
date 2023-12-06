@@ -3,15 +3,14 @@ import styled from "styled-components";
 import LoginForm from "components/LoginForm";
 import WaitingList from "components/WaitingList";
 
-const TabWrapper = styled.div`
+export const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 1270px;
-  margin: auto;
 `;
 
-const TabMenu = styled.ul`
+export const TabMenu = styled.ul`
   width: 1270px;
   height: 40px;
   background-color: #fff;
@@ -29,7 +28,6 @@ const TabMenu = styled.ul`
     padding: 10px;
     font-size: 22px;
     transition: 0.5s;
-    border-radius: 10px 10px 0px 0px;
   }
 
   .focused {
@@ -41,10 +39,6 @@ const TabMenu = styled.ul`
   & div.desc {
     text-align: center;
   }
-`;
-
-const Desc = styled.div`
-  text-align: center;
 `;
 
 export default function WaitingTab() {
@@ -72,9 +66,9 @@ export default function WaitingTab() {
             </li>
           ))}
         </TabMenu>
-        <Desc>
+        <div>
           <p>{menuArr[currentTab].content}</p>
-        </Desc>
+        </div>
       </TabWrapper>
     </>
   );

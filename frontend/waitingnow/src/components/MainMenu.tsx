@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import WaitingTab from "./WaitingTab";
-import TableList from "./TableList";
+import TableTab from "./TableTab";
 import { getTableList, getWaitingList } from "api/storeApi";
 import {
   memberNumberState,
   tableListState,
   waitingListState,
 } from "Storestate";
-import { WaitingData, calWaitingTime, formatPhoneNumber } from "./WaitingList";
 
 const TabWrapper = styled.div`
   display: flex;
@@ -50,10 +49,6 @@ const TabMenu = styled.ul`
   }
 `;
 
-const Desc = styled.div`
-  text-align: center;
-`;
-
 export default function MainMenu() {
   const [currentTab, clickTab] = useState(0);
   const memberNumber = useRecoilValue(memberNumberState);
@@ -81,7 +76,7 @@ export default function MainMenu() {
 
   const menuArr = [
     { name: "웨이팅", content: <WaitingTab /> },
-    { name: "테이블 & 주문", content: <TableList /> },
+    { name: "테이블 & 주문", content: <TableTab /> },
     { name: "더보기", content: "Setting" },
   ];
 
@@ -102,9 +97,9 @@ export default function MainMenu() {
             </li>
           ))}
         </TabMenu>
-        <Desc>
+        <div>
           <p>{menuArr[currentTab].content}</p>
-        </Desc>
+        </div>
       </TabWrapper>
     </>
   );

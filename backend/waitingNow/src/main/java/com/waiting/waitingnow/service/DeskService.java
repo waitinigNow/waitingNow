@@ -50,7 +50,8 @@ public class DeskService {
         // 0이면 앉을 수 있음 (현재 사용하고 있지 않음)
         if(deskDAO.deskSitAvailable(deskAssignVO) == 0){
             // 데스크 할당 (상태가 입장 가능일때만)
-            if (waitingDAO.selectByid(deskAssignVO.getWaitingNumber()).getWaitingAvailable() == enterAvailable){
+            int nowAvailable = waitingDAO.selectByid(deskAssignVO.getWaitingNumber()).getWaitingAvailable();
+            if (nowAvailable == enterAvailable || nowAvailable == 1){
                 deskDAO.assignDesk(deskAssignVO);
             }
             else {

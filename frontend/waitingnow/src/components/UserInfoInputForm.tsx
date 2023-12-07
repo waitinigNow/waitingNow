@@ -3,19 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, authState } from "Storestate";
 import { phoneAuth } from "api/storeApi";
 import { toast } from "react-toastify";
-
-export interface UserTypes {
-  memberName: string;
-  memberPhone: string;
-  memberPassword: string;
-}
-
-export interface StoreTypes {
-  memberStoreName: string;
-  memberStorePhone: string; //null 가능
-  memberStoreCategory: string;
-  memberPreorder: boolean;
-}
+import { UserTypes, StoreTypes } from "Storestate";
 
 export default function UserInfoInputForm() {
   const [memberName, setMemberName] = useRecoilState(userState);

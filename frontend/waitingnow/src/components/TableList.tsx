@@ -34,8 +34,6 @@ export default function TableList({
     });
   };
 
-  console.log(tableList);
-
   return (
     <>
       {filteredTableList.map((data, index) => (

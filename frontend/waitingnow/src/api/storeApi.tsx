@@ -1,7 +1,6 @@
 import axios, { Axios, AxiosRequestConfig } from "axios";
-import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { memberNumberState } from "Storestate";
+import { UserTypes, StoreTypes, memberNumberState } from "Storestate";
 
 const baseURL: string = process.env.REACT_APP_BASEURL || "";
 

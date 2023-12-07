@@ -5,22 +5,16 @@ import checkIcon from "assets/checkIcon.png";
 import notIcon from "assets/notIcon.png";
 import styled from "styled-components";
 import { getWaitingList } from "api/storeApi";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  WaitingData,
+  enterWaitingState,
   memberNumberState,
   modalOpenState,
+  testWaitingNumberState,
   waitingListState,
 } from "Storestate";
-import Modal from "./Modal";
-
-export interface WaitingData {
-  waitingNumber: number;
-  waitingCustomerNumber: number;
-  waitingPhone: string;
-  waitingPeople: number;
-  waitingDate: string;
-  waitingMinutes: number;
-}
+import TableModal from "./TableModal";
 
 const StyledButton = styled.button``;
 
@@ -86,6 +80,8 @@ export default function WaitingList() {
   useEffect(() => {
     console.log("data", waitingData);
   }, [waitingData]);
+  const setEnterWaiting = useSetRecoilState(enterWaitingState);
+
   // const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   // useEffect(() => {
@@ -102,11 +98,27 @@ export default function WaitingList() {
   //   });
   // }, [currentDateTime]);
 
-  const [isModalOpen, setIsModalOpen] = useRecoilState(modalOpenState);
-
-  const openModal = () => {
+  // const [isModalOpen, setIsModalOpen] = useRecoilState(modalOpenState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedWaitingNumber, setSelectedWaitingNumber] = useState<
+  //   number | null
+  // >(null);
+  const openModal = (waitingNumber: number) => {
     setIsModalOpen(true);
-    console.log("모달 open", isModalOpen);
+    // setSelectedWaitingNumber(waitingNumber);
+    setEnterWaiting((prevEnterWaiting) => ({
+      ...prevEnterWaiting,
+      waitingNumber: waitingNumber,
+    }));
+  };
+
+  const closeModal = () => {
+    // setSelectedWaitingNumber(null);
+    setIsModalOpen(false);
+    setEnterWaiting((prevEnterWaiting) => ({
+      ...prevEnterWaiting,
+      waitingNumber: 0,
+    }));
   };
 
   return (
@@ -132,12 +144,18 @@ export default function WaitingList() {
                 </div>
               </div>
               <div className="button-block">
-                <button className="btn-call" onClick={openModal}>
+                <button className="btn-call">
                   <span className="call-label">호출</span>
-                  {isModalOpen && <Modal />}
                   {/* <span className="time-in">타이머</span> */}
                 </button>
-                <button className="btn-in">입장</button>
+                {/* <button
+                  className="btn-in"
+                  onClick={() => openModal(data.waitingNumber)}
+                >
+                  입장
+                </button>
+                {isModalOpen && <Modal closeModal={closeModal} />} */}
+                <TableModal waitingNumber={data.waitingNumber} />
                 <button className="btn-not-in">미입장</button>
               </div>
             </div>

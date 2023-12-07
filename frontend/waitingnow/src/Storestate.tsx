@@ -1,5 +1,32 @@
 import { atom } from "recoil";
-import { UserTypes, StoreTypes } from "components/UserInfoInputForm";
+
+export interface UserTypes {
+  memberName: string;
+  memberPhone: string;
+  memberPassword: string;
+}
+
+export interface StoreTypes {
+  memberStoreName: string;
+  memberStorePhone: string; //null 가능
+  memberStoreCategory: string;
+  memberPreorder: boolean;
+}
+
+export interface WaitingData {
+  waitingNumber: number;
+  waitingCustomerNumber: number;
+  waitingPhone: string;
+  waitingPeople: number;
+  waitingDate: string;
+  waitingMinutes: number;
+}
+
+export interface TableArrange {
+  memberNumber: number;
+  deskStoreNumber: number;
+  waitingNumber: number;
+}
 
 //recoil state 생성
 export const userState = atom<UserTypes>({
@@ -44,4 +71,20 @@ export const tableListState = atom({
 export const modalOpenState = atom<boolean>({
   key: "modalOpenKey",
   default: false,
+});
+
+// 입장하는 웨이팅 손님
+export const enterWaitingState = atom<TableArrange>({
+  key: "enterWaitingKey",
+  default: {
+    memberNumber: 0,
+    deskStoreNumber: 0,
+    waitingNumber: 0,
+  },
+});
+
+// test: 선택된 웨이팅 넘버
+export const testWaitingNumberState = atom<number>({
+  key: "testWaitingNumberKey",
+  default: 0,
 });

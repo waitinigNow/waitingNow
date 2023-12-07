@@ -6,6 +6,7 @@ import com.waiting.waitingnow.DTO.SitDeskVO;
 import com.waiting.waitingnow.domain.DeskAssignVO;
 import com.waiting.waitingnow.domain.DeskVO;
 import com.waiting.waitingnow.domain.MemberVO;
+import com.waiting.waitingnow.domain.SentDeskAssignVO;
 import com.waiting.waitingnow.service.DeskService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -68,11 +69,11 @@ public class DeskController {
      */
     @ResponseBody
     @RequestMapping(value = { "/desk/sit" }, method = RequestMethod.POST)
-    public ResponseEntity deskAssgin(@RequestBody DeskAssignVO deskAssignVO) throws Exception {
+    public ResponseEntity deskAssgin(@RequestBody SentDeskAssignVO deskAssignVO) throws Exception {
         logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
         try{
             // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
-            DeskAssignVO desk = deskService.assignDesk(deskAssignVO);
+            SentDeskAssignVO desk = deskService.assignDesk(deskAssignVO);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
@@ -102,7 +103,7 @@ public class DeskController {
 
     @ResponseBody
     @RequestMapping(value = { "/desk/out" }, method = RequestMethod.DELETE)
-    public ResponseEntity deskOut(@RequestBody DeskAssignVO deskAssignVO) throws Exception {
+    public ResponseEntity deskOut(@RequestBody SentDeskAssignVO deskAssignVO) throws Exception {
         logger.info("[desk 배정 반환] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
         try{
             // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
@@ -110,7 +111,7 @@ public class DeskController {
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message(deskAssignVO.getMemberNumber() + "사장님의 " + deskAssignVO.getDeskStoreNumber() +"번 테이블 배정 해제되었습니다!")
+                    .message(deskAssignVO.getMemberNumber() + " 사장님의 " + deskAssignVO.getDeskStoreNumber() +"번 테이블 배정 해제되었습니다!")
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }

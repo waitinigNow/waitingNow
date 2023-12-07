@@ -4,10 +4,12 @@ import com.waiting.waitingnow.DTO.SendDeskVO;
 import com.waiting.waitingnow.DTO.SitDeskVO;
 import com.waiting.waitingnow.domain.DeskAssignVO;
 import com.waiting.waitingnow.domain.DeskVO;
+import com.waiting.waitingnow.domain.SentDeskAssignVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -53,8 +55,25 @@ public class DeskDAO {
         sqlSession.insert(AssignNamespace + ".insert", deskAssignVO);
     }
 
-    public DeskAssignVO searchAssignDesk(DeskAssignVO deskAssignVO) throws Exception{
-        return sqlSession.selectOne(AssignNamespace + ".selectDeskAssign", deskAssignVO);
+    /**
+     * deskAssignVo -> SentDeskAssignVO 변환하여 return
+     * @param deskAssignVO
+     * @return SentDeskAssignVO
+     * @throws Exception
+     */
+    public SentDeskAssignVO searchAssignDesk(DeskAssignVO deskAssignVO) throws Exception{
+        List<DeskAssignVO> deskAssignVOS = sqlSession.selectList(AssignNamespace + ".selectDeskAssign", deskAssignVO);
+        SentDeskAssignVO sentDeskAssignVO = new SentDeskAssignVO();
+        List<Integer> deskStoreNumbers = new ArrayList<>();
+        int i = 0;
+
+        for(i = 0; i < deskAssignVOS.size(); i++){
+            deskStoreNumbers.add(deskAssignVOS.get(i).getDeskStoreNumber());
+        }
+        // deskAssignVo -> sentDeskAssignVO
+        sentDeskAssignVO.setDeskAssignKey(deskAssignVOS.get(i-1).getDeskAssignKey()); sentDeskAssignVO.setDeskStoreNumber(deskStoreNumbers); sentDeskAssignVO.setMemberNumber(deskAssignVOS.get(0).getMemberNumber()); sentDeskAssignVO.setWaitingNumber(deskAssignVOS.get(0).getWaitingNumber()); sentDeskAssignVO.setPreorderExist(deskAssignVOS.get(0).getPreorderExist());
+
+        return sentDeskAssignVO;
     }
 
     public int lastAssignDeskKey() throws Exception{

@@ -11,7 +11,7 @@
     </insert>
 
     <select id="selectDeskAssign" resultType="com.waiting.waitingnow.domain.DeskAssignVO">
-        select * from deskassign where deskAssignKey = #{deskAssignKey}
+        select * from deskassign where memberNumber = #{memberNumber} and waitingNumber = #{waitingNumber}
     </select>
 
     <select id="lastAssignDeskKey" resultType="int">

@@ -6,8 +6,8 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { selectedWaitingState } from "Storestate";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { enterWaitingState, selectedWaitingState } from "Storestate";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import TableList from "./TableList";
 
 interface AlertDialogProps {
@@ -27,6 +27,9 @@ export default function TableModal({ waitingNumber }: AlertDialogProps) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  //배정하기 클릭
+  const handleSubmitTable = () => {};
 
   return (
     <>

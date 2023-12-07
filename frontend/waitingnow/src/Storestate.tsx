@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 export interface UserTypes {
   memberName: string;
@@ -24,7 +24,7 @@ export interface WaitingData {
 
 export interface TableArrange {
   memberNumber: number;
-  deskStoreNumber: number;
+  deskStoreNumber: [];
   waitingNumber: number;
 }
 
@@ -73,12 +73,26 @@ export const enterWaitingState = atom<TableArrange>({
   key: "enterWaitingKey",
   default: {
     memberNumber: 0,
-    deskStoreNumber: 0,
+    deskStoreNumber: [],
     waitingNumber: 0,
   },
 });
 
+//배정 선택받은 웨이팅 손님
 export const selectedWaitingState = atom<number>({
-  key: "testWaitingNumberKey",
+  key: "selectedWaitingKey",
   default: 0,
+});
+
+//선택된 테이블 리스트 -> 닫기 or 다른 컴포넌트로 넘어가는 경우 reset
+//selector써야할듯
+export const checkedItemsState = atom<number[]>({
+  key: "checkedItemsKey",
+  default: [],
+});
+
+//기존 deskStoreNumber에서 선택된것만 끌어오는 방식으로 구현 예정
+export const testSelector = selector({
+  key: "testSelectorKey",
+  get: ({ get }) => ({ ...get(checkedItemsState) }),
 });

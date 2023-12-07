@@ -6,7 +6,11 @@ import Checkbox from "@mui/material/Checkbox";
 import { useEffect, useState } from "react";
 import { getTableList } from "api/storeApi";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { memberNumberState, tableListState } from "Storestate";
+import {
+  checkedItemsState,
+  memberNumberState,
+  tableListState,
+} from "Storestate";
 
 export interface TableData {
   deskStoreNumber: number;
@@ -19,7 +23,7 @@ export default function TableList({
 }: {
   showCompleted: boolean;
 }) {
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const [checkedItems, setCheckedItems] = useRecoilState(checkedItemsState);
   const tableList: TableData[] = useRecoilValue(tableListState);
 
   const filteredTableList = showCompleted
@@ -28,6 +32,7 @@ export default function TableList({
 
   const handleCheckboxChange = (deskStoreNumber: number) => {
     setCheckedItems((prevCheckedItems) => {
+      // deskStoreNumber가 이미 배열에 있으면 제거, 없으면 추가
       if (prevCheckedItems.includes(deskStoreNumber)) {
         return prevCheckedItems.filter((item) => item !== deskStoreNumber);
       } else {
@@ -35,8 +40,6 @@ export default function TableList({
       }
     });
   };
-
-  console.log("체크된 아이템", checkedItems);
 
   return (
     <>

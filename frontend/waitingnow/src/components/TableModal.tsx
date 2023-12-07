@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { enterWaitingState, testWaitingNumberState } from "Storestate";
+import { selectedWaitingState } from "Storestate";
 import { useRecoilState, useRecoilValue } from "recoil";
 import TableList from "./TableList";
 
@@ -16,12 +16,12 @@ interface AlertDialogProps {
 
 export default function TableModal({ waitingNumber }: AlertDialogProps) {
   const [open, setOpen] = useState(false);
-  const selectedWaiting = useRecoilValue(enterWaitingState);
-  const [testNumber, setTestNumber] = useRecoilState(testWaitingNumberState);
+  const [selectedWaiting, setSelectedWaiting] =
+    useRecoilState(selectedWaitingState);
 
   const handleClickOpen = () => {
     setOpen(true);
-    setTestNumber(waitingNumber);
+    setSelectedWaiting(waitingNumber);
   };
 
   const handleClose = () => {
@@ -41,7 +41,7 @@ export default function TableModal({ waitingNumber }: AlertDialogProps) {
         PaperProps={{ sx: { width: "750px" } }}
       >
         <DialogTitle id="alert-dialog-title">
-          {"선택된 입장 번호:" + testNumber}
+          {"선택된 입장 번호:" + selectedWaiting}
         </DialogTitle>
         <DialogContent>
           <TableList showCompleted={false} />

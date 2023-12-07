@@ -68,11 +68,6 @@ export const tableListState = atom({
   default: [],
 });
 
-export const modalOpenState = atom<boolean>({
-  key: "modalOpenKey",
-  default: false,
-});
-
 // 입장하는 웨이팅 손님
 export const enterWaitingState = atom<TableArrange>({
   key: "enterWaitingKey",
@@ -84,7 +79,7 @@ export const enterWaitingState = atom<TableArrange>({
 });
 
 // test: 선택된 웨이팅 넘버
-export const testWaitingNumberState = atom<number>({
+export const selectedWaitingState = atom<number>({
   key: "testWaitingNumberKey",
   default: 0,
 });

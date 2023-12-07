@@ -10,8 +10,6 @@ import {
   WaitingData,
   enterWaitingState,
   memberNumberState,
-  modalOpenState,
-  testWaitingNumberState,
   waitingListState,
 } from "Storestate";
 import TableModal from "./TableModal";

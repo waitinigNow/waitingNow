@@ -2,20 +2,6 @@ import { useState, useEffect } from "react";
 import TableList from "./TableList";
 import { TabWrapper, TabMenu } from "components/WaitingTab";
 
-// return (
-//   <>
-//     <div className="table-list">
-//       <div className="table-text">
-//         <span>배정하실 테이블을 선택해주세요.</span>
-//       </div>
-//       <div>
-
-//         <TableList />
-//       </div>
-//     </div>
-//   </>
-// );
-
 export default function TableTab() {
   const [currentTab, clickTab] = useState(0);
 

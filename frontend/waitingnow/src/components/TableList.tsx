@@ -19,20 +19,24 @@ export default function TableList({
 }: {
   showCompleted: boolean;
 }) {
-  const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const tableList: TableData[] = useRecoilValue(tableListState);
 
   const filteredTableList = showCompleted
     ? tableList.filter((data) => !data.deskAvailable)
     : tableList.filter((data) => data.deskAvailable);
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (deskStoreNumber: number) => {
     setCheckedItems((prevCheckedItems) => {
-      const updatedCheckedItems = [...prevCheckedItems];
-      updatedCheckedItems[index] = !updatedCheckedItems[index];
-      return updatedCheckedItems;
+      if (prevCheckedItems.includes(deskStoreNumber)) {
+        return prevCheckedItems.filter((item) => item !== deskStoreNumber);
+      } else {
+        return [...prevCheckedItems, deskStoreNumber];
+      }
     });
   };
+
+  console.log("체크된 아이템", checkedItems);
 
   return (
     <>
@@ -48,8 +52,8 @@ export default function TableList({
         >
           <div className="table-info">
             <Checkbox
-              checked={checkedItems[index]}
-              onChange={() => handleCheckboxChange(index)}
+              checked={checkedItems.includes(data.deskStoreNumber)}
+              onChange={() => handleCheckboxChange(data.deskStoreNumber)}
             />
             <span className="table-number">
               {data.deskStoreNumber}번 테이블

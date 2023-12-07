@@ -78,7 +78,6 @@ export const enterWaitingState = atom<TableArrange>({
   },
 });
 
-// test: 선택된 웨이팅 넘버
 export const selectedWaitingState = atom<number>({
   key: "testWaitingNumberKey",
   default: 0,

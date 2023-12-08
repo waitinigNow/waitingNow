@@ -59,6 +59,7 @@ export default function WaitingTab() {
         <TabMenu>
           {menuArr.map((el, index) => (
             <li
+              key={index}
               className={index === currentTab ? "submenu focused" : "submenu"}
               onClick={() => selectMenuHandler(index)}
             >
@@ -67,7 +68,7 @@ export default function WaitingTab() {
           ))}
         </TabMenu>
         <div>
-          <p>{menuArr[currentTab].content}</p>
+          <span>{menuArr[currentTab].content}</span>
         </div>
       </TabWrapper>
     </>

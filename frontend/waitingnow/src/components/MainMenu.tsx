@@ -91,6 +91,7 @@ export default function MainMenu() {
         <TabMenu>
           {menuArr.map((el, index) => (
             <li
+              key={index}
               className={index === currentTab ? "submenu focused" : "submenu"}
               onClick={() => selectMenuHandler(index)}
             >

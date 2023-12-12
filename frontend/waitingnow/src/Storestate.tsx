@@ -96,3 +96,13 @@ export const testSelector = selector({
   key: "testSelectorKey",
   get: ({ get }) => ({ ...get(checkedItemsState) }),
 });
+
+export const timerState = atom({
+  key: "timerStateKey",
+  default: [],
+});
+
+export const timerSecondsState = atom({
+  key: "timerSecondsStateKey",
+  default: [],
+});

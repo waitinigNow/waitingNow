@@ -5,6 +5,7 @@ import checkIcon from "assets/checkIcon.png";
 import notIcon from "assets/notIcon.png";
 import styled from "styled-components";
 import { getWaitingList } from "api/storeApi";
+import { atom } from "recoil";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   WaitingData,
@@ -80,44 +81,59 @@ export default function WaitingList() {
   }, [waitingData]);
   const setEnterWaiting = useSetRecoilState(enterWaitingState);
 
-  // const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [timers, setTimers] = useState<Array<NodeJS.Timeout | null>>(
+    Array(waitingData.length).fill(null)
+  );
+  // 각 타이머의 남은 시간을 관리하는 배열
+  const [timerSeconds, setTimerSeconds] = useState<Array<number>>(
+    Array(waitingData.length).fill(0)
+  );
 
+  const startTimer = (index: number) => {
+    const timeLimit = 600;
+
+    setTimerSeconds((prev) => {
+      const newTimes = [...prev];
+      newTimes[index] = timeLimit;
+      return newTimes;
+    });
+
+    // 타이머 시작
+    const timer = setInterval(() => {
+      setTimerSeconds((prev) => {
+        const newTimes = [...prev];
+        newTimes[index] = newTimes[index] > 0 ? newTimes[index] - 1 : 0;
+        return newTimes;
+      });
+
+      if (timerSeconds[index] === 0) {
+        clearInterval(timer);
+        setTimers((prev) => {
+          const newTimers = [...prev];
+          newTimers[index] = null;
+          return newTimers;
+        });
+      }
+    }, 1000);
+
+    setTimers((prev) => {
+      const newTimers = [...prev];
+      newTimers[index] = timer;
+      return newTimers;
+    });
+  };
+
+  // 컴포넌트 언마운트 시 모든 타이머 정리
   // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setCurrentDateTime(new Date());
-  //   }, 1000);
+  //   return () =>
+  //     timers.forEach((timer) => {
+  //       if (timer) clearInterval(timer);
+  //     });
+  // }, [timers]);
 
-  //   return () => clearInterval(intervalId); // 컴포넌트 언마운트 시에 clearInterval 호출
-  // }, []);
-
-  // useEffect(() => {
-  //   const updatedWaitingData = waitingData.map((item: WaitingData) => {
-  //     return calWaitingTime(item.waitingDate, item);
-  //   });
-  // }, [currentDateTime]);
-
-  // const [isModalOpen, setIsModalOpen] = useRecoilState(modalOpenState);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   // const [selectedWaitingNumber, setSelectedWaitingNumber] = useState<
   //   number | null
   // >(null);
-  const openModal = (waitingNumber: number) => {
-    setIsModalOpen(true);
-    // setSelectedWaitingNumber(waitingNumber);
-    setEnterWaiting((prevEnterWaiting) => ({
-      ...prevEnterWaiting,
-      waitingNumber: waitingNumber,
-    }));
-  };
-
-  const closeModal = () => {
-    // setSelectedWaitingNumber(null);
-    setIsModalOpen(false);
-    setEnterWaiting((prevEnterWaiting) => ({
-      ...prevEnterWaiting,
-      waitingNumber: 0,
-    }));
-  };
 
   return (
     <>
@@ -142,17 +158,19 @@ export default function WaitingList() {
                 </div>
               </div>
               <div className="button-block">
-                <button className="btn-call">
-                  <span className="call-label">호출</span>
-                  {/* <span className="time-in">타이머</span> */}
+                <button className="btn-call" onClick={() => startTimer(index)}>
+                  {/* <span
+                    className="call-label"
+                    onClick={() => startTimer(index)}
+                  >
+                    호출
+                  </span> */}
+                  <span className="call-label">
+                    {timers[index]
+                      ? `남은 시간: ${timerSeconds[index]}초`
+                      : "호출"}
+                  </span>
                 </button>
-                {/* <button
-                  className="btn-in"
-                  onClick={() => openModal(data.waitingNumber)}
-                >
-                  입장
-                </button>
-                {isModalOpen && <Modal closeModal={closeModal} />} */}
                 <TableModal waitingNumber={data.waitingNumber} />
                 <button className="btn-not-in">미입장</button>
               </div>

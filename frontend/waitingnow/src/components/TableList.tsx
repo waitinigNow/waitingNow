@@ -40,6 +40,7 @@ export default function TableList({
       }
     });
   };
+  console.log(checkedItems);
 
   return (
     <>
@@ -48,7 +49,7 @@ export default function TableList({
           className="table-list-item"
           key={index}
           style={{
-            backgroundColor: checkedItems[index]
+            backgroundColor: checkedItems.includes(index + 1)
               ? "rgba(255, 148, 0, 0.15)"
               : "#fff",
           }}

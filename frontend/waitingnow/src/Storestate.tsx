@@ -117,13 +117,13 @@ export const timerControl = selector<number>({
   },
 });
 
-// 각 타이머의 상태를 관리
+// 각 타이머의 상태 관리
 export const timerStateFamily = atomFamily<number, number>({
   key: "timerStateFamily",
   default: 10 * 60,
 });
 
-// 각 타이머의 활성화 상태를 관리
+// 각 타이머의 활성화 상태 관리
 export const timerActiveStateFamily = atomFamily<boolean, number>({
   key: "timerActiveStateFamily",
   default: false,

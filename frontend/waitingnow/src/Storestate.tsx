@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom, atomFamily, selector, selectorFamily } from "recoil";
 
 export interface UserTypes {
   memberName: string;
@@ -97,12 +97,52 @@ export const testSelector = selector({
   get: ({ get }) => ({ ...get(checkedItemsState) }),
 });
 
-export const timerState = atom({
+export const timerState = atom<number>({
   key: "timerStateKey",
-  default: [],
+  default: 0,
 });
 
-export const timerSecondsState = atom({
-  key: "timerSecondsStateKey",
-  default: [],
+// export const timerSecondsState = atom({
+//   key: "timerSecondsStateKey",
+//   default: [],
+// });
+
+export const timerControl = selector<number>({
+  key: "timerControl",
+  get: ({ get }) => get(timerState),
+  set: ({ set }, newValue) => {
+    if (typeof newValue === "number") {
+      set(timerState, newValue);
+    }
+  },
+});
+
+// 각 타이머의 상태를 관리
+export const timerStateFamily = atomFamily<number, number>({
+  key: "timerStateFamily",
+  default: 10 * 60,
+});
+
+// 각 타이머의 활성화 상태를 관리
+export const timerActiveStateFamily = atomFamily<boolean, number>({
+  key: "timerActiveStateFamily",
+  default: false,
+});
+
+// 타이머 작동 업데이트
+export const timerUpdateSelectorFamily = selectorFamily<number, number>({
+  key: "timerUpdateSelectorFamily",
+  get:
+    (id) =>
+    ({ get }) =>
+      get(timerStateFamily(id)),
+  set:
+    (id) =>
+    ({ set }, newValue) => {
+      set(timerStateFamily(id), newValue);
+      if (newValue === 0) {
+        set(timerStateFamily(id), 10 * 60);
+        set(timerActiveStateFamily(id), false);
+      }
+    },
 });

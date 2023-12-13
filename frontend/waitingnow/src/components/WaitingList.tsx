@@ -11,9 +11,15 @@ import {
   WaitingData,
   enterWaitingState,
   memberNumberState,
+  timerActiveStateFamily,
+  timerControl,
+  timerState,
+  timerStateFamily,
+  timerUpdateSelectorFamily,
   waitingListState,
 } from "Storestate";
 import TableModal from "./TableModal";
+import { Timer } from "./Timer";
 
 const StyledButton = styled.button``;
 
@@ -81,60 +87,6 @@ export default function WaitingList() {
   }, [waitingData]);
   const setEnterWaiting = useSetRecoilState(enterWaitingState);
 
-  const [timers, setTimers] = useState<Array<NodeJS.Timeout | null>>(
-    Array(waitingData.length).fill(null)
-  );
-  // 각 타이머의 남은 시간을 관리하는 배열
-  const [timerSeconds, setTimerSeconds] = useState<Array<number>>(
-    Array(waitingData.length).fill(0)
-  );
-
-  const startTimer = (index: number) => {
-    const timeLimit = 600;
-
-    setTimerSeconds((prev) => {
-      const newTimes = [...prev];
-      newTimes[index] = timeLimit;
-      return newTimes;
-    });
-
-    // 타이머 시작
-    const timer = setInterval(() => {
-      setTimerSeconds((prev) => {
-        const newTimes = [...prev];
-        newTimes[index] = newTimes[index] > 0 ? newTimes[index] - 1 : 0;
-        return newTimes;
-      });
-
-      if (timerSeconds[index] === 0) {
-        clearInterval(timer);
-        setTimers((prev) => {
-          const newTimers = [...prev];
-          newTimers[index] = null;
-          return newTimers;
-        });
-      }
-    }, 1000);
-
-    setTimers((prev) => {
-      const newTimers = [...prev];
-      newTimers[index] = timer;
-      return newTimers;
-    });
-  };
-
-  // 컴포넌트 언마운트 시 모든 타이머 정리
-  // useEffect(() => {
-  //   return () =>
-  //     timers.forEach((timer) => {
-  //       if (timer) clearInterval(timer);
-  //     });
-  // }, [timers]);
-
-  // const [selectedWaitingNumber, setSelectedWaitingNumber] = useState<
-  //   number | null
-  // >(null);
-
   return (
     <>
       <div className="waitingList-wrapper">
@@ -158,19 +110,7 @@ export default function WaitingList() {
                 </div>
               </div>
               <div className="button-block">
-                <button className="btn-call" onClick={() => startTimer(index)}>
-                  {/* <span
-                    className="call-label"
-                    onClick={() => startTimer(index)}
-                  >
-                    호출
-                  </span> */}
-                  <span className="call-label">
-                    {timers[index]
-                      ? `남은 시간: ${timerSeconds[index]}초`
-                      : "호출"}
-                  </span>
-                </button>
+                <Timer key={index} id={index} />
                 <TableModal waitingNumber={data.waitingNumber} />
                 <button className="btn-not-in">미입장</button>
               </div>

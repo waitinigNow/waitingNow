@@ -40,7 +40,6 @@ export default function TableList({
       }
     });
   };
-  console.log(checkedItems);
 
   return (
     <>

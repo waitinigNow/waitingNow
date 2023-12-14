@@ -24,7 +24,8 @@ export default function LoginForm() {
     try {
       const loggedInUser = await login(formData);
       if (loggedInUser && loggedInUser.data.code === 200) {
-        // 로그인 성공
+        // 토큰을 로컬 스토리지에 저장
+        localStorage.setItem("token", loggedInUser.data.message);
         setMemberNumber(loggedInUser.data.data.memberNumber);
         toast.success("로그인에 성공하였습니다.");
         navigate("/");

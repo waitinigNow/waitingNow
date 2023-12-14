@@ -60,19 +60,43 @@ export default function MainMenu() {
   >({});
   const updatedWaitingList: Record<number, number> = {};
 
+  // 토큰 전
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const waitingResponse = await getWaitingList(memberNumber);
+  //       const tableResponse = await getTableList(memberNumber);
+  //       setWaitingList(waitingResponse.data);
+  //       setTableList(tableResponse.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   fetchData();
+  //   console.log(waitingMinutesList);
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const waitingResponse = await getWaitingList(memberNumber);
-        const tableResponse = await getTableList(memberNumber);
-        setWaitingList(waitingResponse.data);
-        setTableList(tableResponse.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const token = localStorage.getItem("token");
+      const storedMemberNumber = localStorage.getItem("memberNumber");
+      if (token && storedMemberNumber) {
+        const memberNumber = parseInt(storedMemberNumber, 10);
+        if (!isNaN(memberNumber)) {
+          console.log("로그인 유지", storedMemberNumber);
+          try {
+            const waitingResponse = await getWaitingList(memberNumber);
+            const tableResponse = await getTableList(memberNumber);
+            setWaitingList(waitingResponse.data);
+            setTableList(tableResponse.data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        }
       }
     };
+
     fetchData();
-    console.log(waitingMinutesList);
   }, []);
 
   const menuArr = [

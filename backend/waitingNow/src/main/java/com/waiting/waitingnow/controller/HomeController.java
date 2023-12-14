@@ -6,6 +6,7 @@ import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.service.MemberService;
 import com.waiting.waitingnow.service.SendMessageService;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,10 @@ public class HomeController {
     private final MemberService memberService;
     private final SendMessageService sendMessageService;
     private final JwtTokenService jwtTokenService;
+
+    @Autowired
+    private ServletContext servletContext;
+
     RestResponse<Object> restResponse = new RestResponse<>();
 
     // 생성자 방식으로 의존성 주입
@@ -58,10 +63,12 @@ public class HomeController {
         // 성공적으로 로그인 했을때.
         try{
             MemberVO full_member = memberService.loginMember(member, request);
+            String token = jwtTokenService.generateToken(Integer.toString(full_member.getMemberNumber()));
+            servletContext.setAttribute(token,full_member);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message(jwtTokenService.generateToken(full_member.getMemberPhone()))
+                    .message(token)
                     .data(full_member)
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());

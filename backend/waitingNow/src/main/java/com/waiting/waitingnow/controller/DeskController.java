@@ -2,13 +2,10 @@ package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
 import com.waiting.waitingnow.DTO.SendDeskVO;
-import com.waiting.waitingnow.DTO.SitDeskVO;
-import com.waiting.waitingnow.domain.DeskAssignVO;
-import com.waiting.waitingnow.domain.DeskVO;
-import com.waiting.waitingnow.domain.MemberVO;
+import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.SentDeskAssignVO;
 import com.waiting.waitingnow.service.DeskService;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +21,15 @@ public class DeskController {
     private static final Logger logger = LoggerFactory.getLogger(DeskController.class);
     private final DeskService deskService;
     RestResponse<Object> restResponse = new RestResponse<>();
+    private final JwtTokenService jwtTokenService;
 
     @Autowired
-    public DeskController(DeskService deskService){
+    private ServletContext servletContext;
+
+    @Autowired
+    public DeskController(DeskService deskService, JwtTokenService jwtTokenService){
         this.deskService = deskService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     /**
@@ -72,7 +74,7 @@ public class DeskController {
     public ResponseEntity deskAssgin(@RequestBody SentDeskAssignVO deskAssignVO) throws Exception {
         logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
         try{
-            // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
+            deskAssignVO.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(deskAssignVO.getToken())));// 요청은 (memberNumber, deskStoreNumber, waitingNumber)
             SentDeskAssignVO desk = deskService.assignDesk(deskAssignVO);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())

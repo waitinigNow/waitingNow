@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "Storestate";
-import { login } from "api/api";
+import { login } from "api/storeApi";
 import { toast } from "react-toastify";
+import "styles/StoreStyle.css";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -19,13 +20,14 @@ export default function LoginForm() {
     setFormData((prevFromData) => ({ ...formData, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const loggedInUser = await login(formData);
-      if (loggedInUser && loggedInUser.status === 200) {
-        // 로그인 성공
-        setMemberNumber(loggedInUser?.data.memberNumber);
+      if (loggedInUser && loggedInUser.data.code === 200) {
+        // 토큰을 로컬 스토리지에 저장
+        localStorage.setItem("token", loggedInUser.data.message);
+        setMemberNumber(loggedInUser.data.data.memberNumber);
         toast.success("로그인에 성공하였습니다.");
         navigate("/");
       } else {
@@ -38,7 +40,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <form className="form_login" onSubmit={handleSubmit}>
+      <form className="form_login" onSubmit={handleLogin}>
         <div className="form_block" style={{ marginTop: "30px" }}>
           <label htmlFor="name">전화번호</label>
           <input

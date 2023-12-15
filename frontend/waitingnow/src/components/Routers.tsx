@@ -4,6 +4,7 @@ import MainPage from "pages/main";
 import SignUpPage from "pages/signup";
 import LoginPage from "pages/login";
 import MainMenu from "components/MainMenu";
+import "styles/StoreStyle.css";
 
 interface RouterProps {
   isAuthenticated: boolean;

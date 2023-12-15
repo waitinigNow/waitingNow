@@ -1,17 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
-import LoginForm from "./LoginForm";
-import WaitingList from "./WaitingList";
+import LoginForm from "components/LoginForm";
+import WaitingList from "components/WaitingList";
+import "styles/StoreStyle.css";
 
-const TabWrapper = styled.div`
+export const TabWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 1270px;
-  margin: auto;
 `;
 
-const TabMenu = styled.ul`
+export const TabMenu = styled.ul`
   width: 1270px;
   height: 40px;
   background-color: #fff;
@@ -19,6 +19,7 @@ const TabMenu = styled.ul`
   font-weight: bold;
   display: flex;
   align-items: center;
+  text-align: center;
   list-style: none;
   margin-top: 10px;
 
@@ -29,7 +30,6 @@ const TabMenu = styled.ul`
     padding: 10px;
     font-size: 22px;
     transition: 0.5s;
-    border-radius: 10px 10px 0px 0px;
   }
 
   .focused {
@@ -43,16 +43,12 @@ const TabMenu = styled.ul`
   }
 `;
 
-const Desc = styled.div`
-  text-align: center;
-`;
-
 export default function WaitingTab() {
   const [currentTab, clickTab] = useState(0);
 
   const menuArr = [
-    { name: "대기팀", content: <WaitingList /> },
-    { name: "완료", content: "Tab menu TWO" },
+    { name: "대기팀", content: <WaitingList showCompleted={true} /> },
+    { name: "완료", content: <WaitingList showCompleted={false} /> },
   ];
 
   const selectMenuHandler = (index: number) => {
@@ -72,9 +68,9 @@ export default function WaitingTab() {
             </li>
           ))}
         </TabMenu>
-        <Desc>
-          <p>{menuArr[currentTab].content}</p>
-        </Desc>
+        <div>
+          <span>{menuArr[currentTab].content}</span>
+        </div>
       </TabWrapper>
     </>
   );

@@ -11,6 +11,7 @@ import {
   tableListState,
   waitingListState,
 } from "Storestate";
+import "styles/StoreStyle.css";
 
 const TabWrapper = styled.div`
   display: flex;

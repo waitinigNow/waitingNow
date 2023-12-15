@@ -14,6 +14,7 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import TableList from "./TableList";
 import { postSitDesk } from "api/storeApi";
+import "styles/StoreStyle.css";
 
 interface AlertDialogProps {
   waitingNumber: number;

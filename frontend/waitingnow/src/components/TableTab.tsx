@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import TableList from "./TableList";
 import { TabWrapper, TabMenu } from "components/WaitingTab";
+import "styles/StoreStyle.css";
 
 export default function TableTab() {
   const [currentTab, clickTab] = useState(0);

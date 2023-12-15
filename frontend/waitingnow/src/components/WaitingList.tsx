@@ -20,6 +20,7 @@ import {
 } from "Storestate";
 import TableModal from "./TableModal";
 import { Timer } from "./Timer";
+import "styles/StoreStyle.css";
 
 const StyledButton = styled.button``;
 

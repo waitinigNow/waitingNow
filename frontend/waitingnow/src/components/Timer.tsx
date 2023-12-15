@@ -1,6 +1,7 @@
 import { timerUpdateSelectorFamily, timerActiveStateFamily } from "Storestate";
 import { useRecoilValue } from "recoil";
 import { useStartTimer } from "../hook/useStartTimer";
+import "styles/StoreStyle.css";
 
 // 타이머 기능
 export const Timer: React.FC<{ id: number }> = ({ id }) => {

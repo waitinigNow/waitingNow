@@ -11,6 +11,7 @@ import {
   memberNumberState,
   tableListState,
 } from "Storestate";
+import "styles/StoreStyle.css";
 
 export interface TableData {
   deskStoreNumber: number;

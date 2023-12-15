@@ -4,6 +4,7 @@ import { userState, authState } from "Storestate";
 import { phoneAuth } from "api/storeApi";
 import { toast } from "react-toastify";
 import { UserTypes, StoreTypes } from "Storestate";
+import "styles/StoreStyle.css";
 
 export default function UserInfoInputForm() {
   const [memberName, setMemberName] = useRecoilState(userState);

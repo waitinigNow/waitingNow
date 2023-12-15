@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import LoginForm from "components/LoginForm";
 import WaitingList from "components/WaitingList";
+import "styles/StoreStyle.css";
 
 export const TabWrapper = styled.div`
   display: flex;

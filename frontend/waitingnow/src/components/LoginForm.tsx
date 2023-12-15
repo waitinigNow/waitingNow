@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "Storestate";
 import { login } from "api/storeApi";
 import { toast } from "react-toastify";
+import "styles/StoreStyle.css";
 
 export default function LoginForm() {
   const navigate = useNavigate();

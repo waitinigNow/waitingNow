@@ -6,9 +6,9 @@ import { useRecoilValue } from "recoil";
 import { userState, storeState, authState } from "Storestate";
 import { SignupParams, signup } from "api/storeApi";
 import { toast } from "react-toastify";
-
 import { Box, Stepper, Step, StepLabel } from "@mui/material";
 import { styled } from "@mui/system";
+import "styles/StoreStyle.css";
 
 const steps = ["사용자 정보 입력", "스토어 등록"];
 

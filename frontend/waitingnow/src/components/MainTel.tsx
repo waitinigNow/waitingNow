@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { telNumber } from './RecoilState';
+import { telNumber } from 'waitingState';
 import backspace from 'assets/backspace.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'styles/MainTel.css';
 
 export default function MainTel() {
@@ -12,6 +12,9 @@ export default function MainTel() {
     setTelInput((prevTelInput) => prevTelInput + number);
   };
 
+  // 사장님 로그인한거 유지 되는거 확인하기.
+  console.log();
+
   const handleBackspaceClick = () => {
     setTelInput((prevTelInput) => prevTelInput.slice(0, -1));
   };
@@ -19,15 +22,16 @@ export default function MainTel() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let formattedInput = e.target.value.replace(/[^\d]/g, '');
     if (formattedInput.length > 2 && formattedInput.length <= 5) {
-      formattedInput = formattedInput.replace(/(\d{2})(\d{0,4})/, '$1-$2');
+      formattedInput = formattedInput.replace(/(\d{2})(\d{0,4})/, "$1-$2");
     } else if (formattedInput.length > 5) {
-      formattedInput = formattedInput.replace(/(\d{2})(\d{0,4})(\d{0,4})/, '$1-$2-$3');
+      formattedInput = formattedInput.replace(/(\d{2})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
     }
     console.log('formattedInput:', formattedInput);
     setTelInput(formattedInput);
   };
-
+  const navigate = useNavigate();
   const handleSubmit = () => {
+    navigate("/MainNum")
     console.log('전화번호:', telInput);
   };
 
@@ -42,7 +46,7 @@ export default function MainTel() {
             <input
               type="tel"
               id="telInput"
-              value={telInput}
+              value={String(telInput)}
               onChange={handleInputChange}
             />
           </div>
@@ -68,7 +72,6 @@ export default function MainTel() {
             >
               0
             </button>
-            <Link to="/mainNum">
               <button
                 type="button"
                 className="input"
@@ -77,7 +80,6 @@ export default function MainTel() {
               >
                 입력
               </button>
-            </Link>
           </div>
         </div>
       </div>

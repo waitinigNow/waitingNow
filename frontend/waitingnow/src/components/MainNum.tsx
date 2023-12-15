@@ -1,15 +1,16 @@
-// MainNum.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'styles/MainNum.css';
 import minus from 'assets/minus.png';
 import plus from 'assets/plus.png';
 import { useRecoilState } from 'recoil';
-import { babyNumber, humanNumber } from './RecoilState';
+import { babyNumber, humanNumber, waitingPeople } from 'waitingState';
 import { Link } from 'react-router-dom';
 
 export default function MainNum() {
-  const [babyNum, setBabyNum] = useRecoilState<number>(babyNumber); // 변경된 부분: babyNum을 number로 타입 명시
-  const [humanNum, setHumanNum] = useRecoilState<number>(humanNumber); // 변경된 부분: humanNum을 number로 타입 명시
+  const [babyNum, setBabyNum] = useRecoilState<number>(babyNumber);
+  const [humanNum, setHumanNum] = useRecoilState<number>(humanNumber);
+
+  const [waitingPeopleValue, setWaitingPeopleValue] = useRecoilState(waitingPeople);
 
   const handleBabyUp = () => {
     setBabyNum(babyNum + 1);
@@ -30,6 +31,10 @@ export default function MainNum() {
       setHumanNum(humanNum - 1);
     }
   };
+
+  useEffect (() => {
+    setWaitingPeopleValue((prevwaitingPeopleValue) => babyNum + humanNum);
+  });
 
   return (
     <>

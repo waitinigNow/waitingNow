@@ -1,8 +1,30 @@
-import React from 'react';
+// Main.tsx
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'styles/Main.css';
+import { nowPeople, getMemberNum } from 'api/waitingApi';
+import { waitingInfoState, memberNumberState } from 'waitingState';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function Main() {
+  const [waitingInfo, setWaitingInfo] = useRecoilState<number | null>(waitingInfoState);
+  const memberNumberValue = useRecoilValue<number>(memberNumberState);
+
+  useEffect(() => {
+    console.log('Recoil state before setWaitingInfo:', memberNumberValue);
+    const fetchData = async () => {
+      try {
+        const waitingData = await nowPeople(memberNumberValue);
+        console.log('Fetched data:', waitingData);
+        setWaitingInfo(waitingData);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    fetchData();
+  }, [setWaitingInfo, memberNumberValue]);
+  
   return (
     <>
       <div id="back">
@@ -14,8 +36,7 @@ export default function Main() {
                   현재대기
                 </p>
                 <p color="#FFFFFF" id="font_big">
-                  5
-                  {/* 여기는 이제 앞에 대기 남은 팀 가져오기 */}
+                  {waitingInfo}
                 </p>
                 <p color="#FFFFFF" id="font_small">
                   팀

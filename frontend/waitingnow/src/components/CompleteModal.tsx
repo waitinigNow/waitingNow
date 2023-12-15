@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import 'styles/CompleteModal.css';
-import { telNumber, babyNumber, humanNumber } from './RecoilState';
+import { telNumber, babyNumber, humanNumber, waitingPeople, memberNumberState } from 'waitingState';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { waiting } from 'api/waitingApi';
 
 export default function CompleteModal() {
   const [seconds, setSeconds] = useState(10);
-  const telNumberNum = useRecoilValue(telNumber);
-  const babyNumberNum = useRecoilValue(babyNumber);
-  const humanNumberNum = useRecoilValue(humanNumber);
+  const telNumberValue = useRecoilValue(telNumber);
+  const waitingPeopleValue = useRecoilValue(waitingPeople);
+  const memberNum = useRecoilValue(memberNumberState);
+
+  const waitingParams = {
+    waitingPhone: telNumberValue,
+    waitingPeople: waitingPeopleValue,
+    memberNumber: memberNum
+  };
+
   const navigate = useNavigate();
 
+  // recoil 상태 초기화를 위함.
   const [telNumberState, setTelNumberState] = useRecoilState(telNumber);
   const [babyNumberState, setBabyNumberState] = useRecoilState(babyNumber);
   const [humanNumberState, setHumanNumberState] = useRecoilState(humanNumber);
+  console.log();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,9 +31,16 @@ export default function CompleteModal() {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }
     }, 1000);
-
+  
     return () => clearInterval(interval);
   }, [seconds]);
+  
+  useEffect(() => {
+    if (seconds === 10) {
+      waiting(waitingParams);
+    }
+  }, [seconds]);
+  
 
   const handleGoBack = () => {
     // Recoil 상태를 초기화
@@ -38,7 +55,6 @@ export default function CompleteModal() {
       <div className="background">
         <div className="modal">
           <p className="text32">접수가 완료되었습니다.<br />카카오톡으로 실시간 현황을 알려드려요.</p>
-          <p className="text32">{`${telNumberNum}, ${babyNumberNum}, ${humanNumberNum}`}</p>
           <p className="text48">대기번호</p>
           <p className="text220">10</p>
           <div className="modalFlex">

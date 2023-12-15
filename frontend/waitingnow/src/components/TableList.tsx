@@ -48,7 +48,7 @@ export default function TableList({
           className="table-list-item"
           key={index}
           style={{
-            backgroundColor: checkedItems.includes(index + 1)
+            backgroundColor: checkedItems.includes(data.deskStoreNumber)
               ? "rgba(255, 148, 0, 0.15)"
               : "#fff",
           }}

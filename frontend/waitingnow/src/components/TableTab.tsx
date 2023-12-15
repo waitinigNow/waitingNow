@@ -14,28 +14,38 @@ export default function TableTab() {
     clickTab(index);
   };
 
+  // 테이블 배정 상태 변경
+  const handleChangeAvailable = () => {};
+
   return (
     <>
-      <div className="table-text">
-        <span>
-          {currentTab === 0
-            ? "배정상태로 변경할 테이블을 선택해주세요."
-            : "대기상태로 변경할 테이블을 선택해주세요."}
-        </span>
-      </div>
-      <TabMenu>
-        {menuArr.map((el, index) => (
-          <li
-            className={index === currentTab ? "submenu focused" : "submenu"}
-            onClick={() => selectMenuHandler(index)}
-          >
-            {el.name}
-          </li>
-        ))}
-      </TabMenu>
-      <div>
-        <p>{menuArr[currentTab].content}</p>
-      </div>
+      <form className="" onSubmit={handleChangeAvailable}>
+        <div className="table-text">
+          <span>
+            {currentTab === 0
+              ? "배정상태로 변경할 테이블을 선택해주세요."
+              : "대기상태로 변경할 테이블을 선택해주세요."}
+          </span>
+        </div>
+        <TabMenu>
+          {menuArr.map((el, index) => (
+            <li
+              className={index === currentTab ? "submenu focused" : "submenu"}
+              onClick={() => selectMenuHandler(index)}
+            >
+              {el.name}
+            </li>
+          ))}
+        </TabMenu>
+        <div>
+          <p>{menuArr[currentTab].content}</p>
+        </div>
+        <div className="form_block">
+          <button className="btn-submit" type="button" value="">
+            테이블 상태 변경하기
+          </button>
+        </div>
+      </form>
     </>
   );
 }

@@ -20,6 +20,7 @@ export interface WaitingData {
   waitingPeople: number;
   waitingDate: string;
   waitingMinutes: number;
+  waitingAvailable: number;
 }
 
 export interface TableArrange {

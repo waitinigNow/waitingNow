@@ -23,8 +23,9 @@ client.interceptors.request.use(
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+      // 토큰 값 확인: 실제 배포 환경에서는 제거
+      console.log("Sending token in header:", config.headers.Authorization);
     }
-
     return config;
   },
   (error) => {
@@ -125,7 +126,7 @@ export async function login(formData: {
 //   }
 // }
 
-//웨이팅 리스트 조회
+//특정 업체의 웨이팅 리스트 조회 (전체)
 export async function getWaitingList(memberNumber: number) {
   try {
     const response = await client.get("/waiting/now", {

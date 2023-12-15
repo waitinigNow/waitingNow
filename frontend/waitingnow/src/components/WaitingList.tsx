@@ -80,18 +80,30 @@ export function formatPhoneNumber(
   };
 }
 
-export default function WaitingList() {
+export default function WaitingList({
+  showCompleted,
+}: {
+  showCompleted: boolean;
+}) {
   const waitingData: WaitingData[] = useRecoilValue(waitingListState);
-  useEffect(() => {
-    console.log("data", waitingData);
-  }, [waitingData]);
+
+  const filteredWaitingList = showCompleted
+    ? waitingData.filter(
+        (data) => data.waitingAvailable === 2 || data.waitingAvailable === 1
+      )
+    : waitingData.filter(
+        (data) =>
+          data.waitingAvailable === 0 ||
+          data.waitingAvailable === -1 ||
+          data.waitingAvailable === -2
+      );
   const setEnterWaiting = useSetRecoilState(enterWaitingState);
 
   return (
     <>
       <div className="waitingList-wrapper">
-        {waitingData.length > 0 ? (
-          waitingData.map((data, index) => (
+        {filteredWaitingList.length > 0 ? (
+          filteredWaitingList.map((data, index) => (
             <div className="list-item" key={index}>
               <div className="waiting-index">
                 <span>{index + 1}</span>

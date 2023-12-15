@@ -68,7 +68,6 @@ export default function MainMenu() {
         const parsedMemberNumber = parseInt(storedMemberNumber, 10);
         if (!isNaN(parsedMemberNumber)) {
           setMemberNumber(parsedMemberNumber);
-          console.log("로그인 유지", memberNumber);
           try {
             const waitingResponse = await getWaitingList(parsedMemberNumber);
             const tableResponse = await getTableList(parsedMemberNumber);
@@ -80,7 +79,6 @@ export default function MainMenu() {
         }
       }
     };
-
     fetchData();
   }, []);
 

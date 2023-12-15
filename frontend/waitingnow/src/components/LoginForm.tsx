@@ -19,7 +19,7 @@ export default function LoginForm() {
     setFormData((prevFromData) => ({ ...formData, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const loggedInUser = await login(formData);
@@ -39,7 +39,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <form className="form_login" onSubmit={handleSubmit}>
+      <form className="form_login" onSubmit={handleLogin}>
         <div className="form_block" style={{ marginTop: "30px" }}>
           <label htmlFor="name">전화번호</label>
           <input

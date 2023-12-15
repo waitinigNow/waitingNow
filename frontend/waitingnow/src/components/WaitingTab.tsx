@@ -18,6 +18,7 @@ export const TabMenu = styled.ul`
   font-weight: bold;
   display: flex;
   align-items: center;
+  text-align: center;
   list-style: none;
   margin-top: 10px;
 
@@ -45,8 +46,8 @@ export default function WaitingTab() {
   const [currentTab, clickTab] = useState(0);
 
   const menuArr = [
-    { name: "대기팀", content: <WaitingList /> },
-    { name: "완료", content: "Tab menu TWO" },
+    { name: "대기팀", content: <WaitingList showCompleted={true} /> },
+    { name: "완료", content: <WaitingList showCompleted={false} /> },
   ];
 
   const selectMenuHandler = (index: number) => {
@@ -59,7 +60,6 @@ export default function WaitingTab() {
         <TabMenu>
           {menuArr.map((el, index) => (
             <li
-              key={index}
               className={index === currentTab ? "submenu focused" : "submenu"}
               onClick={() => selectMenuHandler(index)}
             >

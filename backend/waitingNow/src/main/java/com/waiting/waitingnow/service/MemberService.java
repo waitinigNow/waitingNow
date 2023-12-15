@@ -81,7 +81,7 @@ public class MemberService {
      * @return
      * @throws NullPointerException : 일치하는 전화번호가 없을 때, 발생 시킴
      */
-    public MemberVO searchMember(String memberPhone) throws Exception{
+    public MemberVO searchMemberByPhone(String memberPhone) throws Exception{
         MemberVO member = memberDAO.selectByMemberPhoneToMember(memberPhone);
         if(member == null){
             throw new NullPointerException("일치하는 전화번호 없음");
@@ -89,6 +89,19 @@ public class MemberService {
         return member;
     }
 
+    /**
+     * 회원번호로 회원 찾는 메소드
+     * @param memberNumber
+     * @return
+     * @throws NullPointerException : 일치하는 전화번호가 없을 때, 발생 시킴
+     */
+    public MemberVO searchMember(int memberNumber) throws Exception{
+        MemberVO member = memberDAO.selectByid(memberNumber);
+        if(member == null){
+            throw new NullPointerException("일치하는 전화번호 없음");
+        }
+        return member;
+    }
     public void updateMember(MemberVO member) throws Exception{
         memberDAO.updateMember(member);
     }
@@ -104,12 +117,12 @@ public class MemberService {
 
     public boolean updatePreorder(MemberVO member) throws Exception{
         memberDAO.updatePreorder(member);
-        return memberDAO.selectByMemberPhoneToMember(member.getMemberPhone()).isMemberPreorder();
+        return memberDAO.selectByid(member.getMemberNumber()).isMemberPreorder();
     }
 
     public DateVO statisticsMember(StatisticVO statistic) throws Exception{
         WaitingVO waiting = new WaitingVO();
-        waiting.setMemberNumber(memberDAO.selectMyMemberNumber(statistic.getMemberPhone()));
+        waiting.setMemberNumber(statistic.getMemberNumber());
         waiting.setWaitingDate(statistic.getWaitingDate()+ " %");
         List<WaitingVO> waitings = waitingDAO.selectByDate(waiting);
         DateVO date = new DateVO();

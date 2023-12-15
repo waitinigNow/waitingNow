@@ -112,7 +112,7 @@ public class HomeController {
         // 회원가입 실패 시, (중복된 번호가 존재할 때)
         // 중복된 번호가 존재하면, 휴대폰 인증 시 걸러짐
         else{
-            MemberVO newMember = memberService.searchMember(member.getMemberPhone());
+            MemberVO newMember = memberService.searchMemberByPhone(member.getMemberPhone());
             restResponse = RestResponse.builder()
                     .code(HttpStatus.FORBIDDEN.value())
                     .httpStatus(HttpStatus.FORBIDDEN)
@@ -133,7 +133,7 @@ public class HomeController {
         // 기존에 멤버가 존재하는 경우
         logger.info("호출");
         try{
-            memberService.searchMember(newPhoneNumber.getMemberPhone());
+            memberService.searchMemberByPhone(newPhoneNumber.getMemberPhone());
             restResponse = RestResponse.builder()
                     .code(HttpStatus.FORBIDDEN.value())
                     .httpStatus(HttpStatus.FORBIDDEN)

@@ -2,6 +2,7 @@ package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import com.waiting.waitingnow.DTO.RestResponse;
+import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.DTO.DateVO;
 import com.waiting.waitingnow.DTO.StatisticVO;
@@ -20,27 +21,30 @@ public class UserController {
 
     private final MemberService memberService;
     RestResponse<Object> restResponse = new RestResponse<>();
+    private final JwtTokenService jwtTokenService;
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public UserController(MemberService memberService){
+    public UserController(MemberService memberService, JwtTokenService jwtTokenService){
         this.memberService = memberService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     /**
-     * 전화번호로 user 조회하는 API
+     * 토근으로 user 조회하는 API
      * @apiNote 1. 회원 조회 성공 / 2. 일치하는 전화번호가 없을 때
      * */
     @ResponseBody
     @RequestMapping(value = { "/user" }, method = RequestMethod.POST)
-    public ResponseEntity<Object> user(@RequestBody MemberVO member) throws Exception {
+    public ResponseEntity<Object> user(@RequestHeader("token") String token) throws Exception {
        // 회원 조회 성공 시
+        int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
         try{
-           MemberVO NewMember = memberService.searchMember(member.getMemberPhone());
+           MemberVO member = memberService.searchMember(memberNumber);
            restResponse = RestResponse.builder()
                    .code(HttpStatus.OK.value())
                    .httpStatus(HttpStatus.OK)
                    .message("회원 조회 성공")
-                   .data(NewMember)
+                   .data(member)
                    .build();
            return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
        }
@@ -63,11 +67,12 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = { "/user/setting" }, method = RequestMethod.POST)
-    public ResponseEntity settingMember(@RequestBody MemberVO member) throws Exception {
+    public ResponseEntity settingMember(@RequestBody MemberVO member, @RequestHeader("token") String token) throws Exception {
         try{
             // 회원정보 업데이트 시킨 후 DB에서 찾아옴
+            member.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
             memberService.updateMember(member);
-            MemberVO newMember = memberService.searchMember(member.getMemberPhone());
+            MemberVO newMember = memberService.searchMember(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
@@ -132,8 +137,9 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = { "/user/setting/preorder" }, method = RequestMethod.POST)
-    public ResponseEntity userUpdatePreorder(@RequestBody MemberVO member) throws Exception {
+    public ResponseEntity userUpdatePreorder(@RequestBody MemberVO member, @RequestHeader("token") String token) throws Exception {
         try{
+            member.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
             boolean PreorderAvail = memberService.updatePreorder(member);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.CREATED.value())

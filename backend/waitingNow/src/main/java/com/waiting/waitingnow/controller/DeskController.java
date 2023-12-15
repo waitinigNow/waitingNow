@@ -34,13 +34,14 @@ public class DeskController {
 
     /**
      * Desk 조회하는 API
-     * @param memberNumber
+     * @param token
      * @return
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping(value = { "/desk" }, method = RequestMethod.GET)
-    public ResponseEntity deskSearch(@RequestParam int memberNumber) throws Exception {
+    public ResponseEntity deskSearch(@RequestHeader("token") String token) throws Exception {
+        int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
         logger.info("[desk 조회] memberNumber : " + memberNumber);
         try{
             List<SendDeskVO> desks = deskService.selectByMember(memberNumber);
@@ -71,10 +72,10 @@ public class DeskController {
      */
     @ResponseBody
     @RequestMapping(value = { "/desk/sit" }, method = RequestMethod.POST)
-    public ResponseEntity deskAssgin(@RequestBody SentDeskAssignVO deskAssignVO) throws Exception {
+    public ResponseEntity deskAssgin(@RequestBody SentDeskAssignVO deskAssignVO, @RequestHeader("token") String token) throws Exception {
         logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
         try{
-            deskAssignVO.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(deskAssignVO.getToken())));// 요청은 (memberNumber, deskStoreNumber, waitingNumber)
+            deskAssignVO.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));// 요청은 (memberNumber, deskStoreNumber, waitingNumber)
             SentDeskAssignVO desk = deskService.assignDesk(deskAssignVO);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
@@ -101,11 +102,14 @@ public class DeskController {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
+
     }
+
 
     @ResponseBody
     @RequestMapping(value = { "/desk/out" }, method = RequestMethod.DELETE)
-    public ResponseEntity deskOut(@RequestBody SentDeskAssignVO deskAssignVO) throws Exception {
+    public ResponseEntity deskOut(@RequestBody SentDeskAssignVO deskAssignVO, @RequestHeader("token") String token) throws Exception {
+        deskAssignVO.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
         logger.info("[desk 배정 반환] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : "+deskAssignVO.getDeskStoreNumber());
         try{
             // 요청은 (memberNumber, deskStoreNumber, waitingNumber)
@@ -126,6 +130,7 @@ public class DeskController {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
-
     }
+
+
 }

@@ -71,7 +71,7 @@ public class WaitingDAO {
         return (int)sqlSession.selectOne(namespace+".selectPeopleByMemberNumber", memberNumber);
     }
 
-    public List<WaitingVO> selectWaitingListByMemberNumber(String memberNumber) throws Exception {
+    public List<WaitingVO> selectWaitingListByMemberNumber(int memberNumber) throws Exception {
         List<WaitingVO> waitings = sqlSession.selectList(namespace + ".selectWaitingListByMemberNumber", memberNumber);
         if (waitings != null) {
             return waitings;

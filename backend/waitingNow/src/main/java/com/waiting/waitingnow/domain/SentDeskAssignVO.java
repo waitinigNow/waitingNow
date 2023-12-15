@@ -9,8 +9,6 @@ public class SentDeskAssignVO {
     private int waitingNumber;
     private Boolean preorderExist;
 
-    private String token;
-
     public int getDeskAssignKey() {
         return deskAssignKey;
     }
@@ -49,13 +47,5 @@ public class SentDeskAssignVO {
 
     public void setPreorderExist(Boolean preorderExist) {
         this.preorderExist = preorderExist;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

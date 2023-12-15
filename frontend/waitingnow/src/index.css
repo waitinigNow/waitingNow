@@ -20,6 +20,12 @@ code {
     monospace;
 }
 
+/* header */
+.btn-logout {
+  background-color: transparent;
+  cursor: pointer;
+}
+
 /* form */
 .form {
   width: 826px;

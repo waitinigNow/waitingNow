@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import WaitingTab from "./WaitingTab";
 import TableTab from "./TableTab";
+import LogoutIcon from "assets/icon_logout.png";
 import { getTableList, getWaitingList } from "api/storeApi";
 import {
   memberNumberState,
@@ -22,13 +24,14 @@ const TabWrapper = styled.div`
 const TabMenu = styled.ul`
   width: 1520px;
   height: 75px;
-  background-color: #fff;
   color: rgb(175, 175, 175);
   font-weight: bold;
   display: flex;
   align-items: center;
   list-style: none;
   margin-top: 10px;
+  stroke: transparent;
+  box-shadow: 0 4px 10px -4px #878787;
 
   .submenu {
     display: flex;
@@ -41,7 +44,6 @@ const TabMenu = styled.ul`
   }
 
   .focused {
-    background-color: rgb(255, 255, 255);
     color: var(--maincolor);
   }
 
@@ -55,10 +57,7 @@ export default function MainMenu() {
   const [memberNumber, setMemberNumber] = useRecoilState(memberNumberState);
   const [waitingList, setWaitingList] = useRecoilState(waitingListState);
   const [tableList, setTableList] = useRecoilState(tableListState);
-  const [waitingMinutesList, setWaitingMinutesList] = useState<
-    Record<number, number>
-  >({});
-  const updatedWaitingList: Record<number, number> = {};
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,6 +84,16 @@ export default function MainMenu() {
     fetchData();
   }, []);
 
+  const handleLogout = () => {
+    if (window.confirm("로그아웃을 하시겠습니까?")) {
+      alert("로그아웃 되었습니다.");
+      localStorage.removeItem("token");
+      localStorage.removeItem("memberNumber");
+      navigate("/login");
+    } else {
+    }
+  };
+
   const menuArr = [
     { name: "웨이팅", content: <WaitingTab /> },
     { name: "테이블 & 주문", content: <TableTab /> },
@@ -108,6 +117,9 @@ export default function MainMenu() {
               {el.name}
             </li>
           ))}
+          <button type="button" className="btn-logout">
+            <img src={LogoutIcon} onClick={handleLogout} />
+          </button>
         </TabMenu>
         <div>
           <p>{menuArr[currentTab].content}</p>

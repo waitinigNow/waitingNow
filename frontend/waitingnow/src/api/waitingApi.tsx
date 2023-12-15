@@ -7,6 +7,22 @@ const client: Axios = axios.create({
   withCredentials: true,
 });
 
+// axios interceptor (헤더 수정, 인증 토큰 추가, 오류 처리, 요청 및 응답 기록)
+  // 헤더에 토큰을 싣을때 사용
+client.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const token = localStorage.getItem("token");
+
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 
 // 사장님 회원번호 받아오기
 export async function getMemberNum(memberPhoneValue: string) {
@@ -14,6 +30,7 @@ export async function getMemberNum(memberPhoneValue: string) {
     const response = await client.post("/user", {
       memberPhone: memberPhoneValue
     });
+    localStorage.getItem(response.data.data.memberNumber);
     return response.data.data.memberNumber;
   } catch (error) {
     console.error(error);
@@ -24,10 +41,13 @@ export async function getMemberNum(memberPhoneValue: string) {
 // 현재 대기 손님 수 띄우기 (Main에서)
 export async function nowPeople(memberNum: number) {
   try {
+    const token = localStorage.getItem('token');
+    console.log("token" + token);
     const response = await client.get("/waiting/now/people", {
-      params: { memberNumber: memberNum },
+      headers: {
+        'Authorization': `${token}`,
+      },
     });
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     console.error(error);
@@ -42,6 +62,11 @@ export async function login(formData: {
 }) {
   try {
     const response = await client.post('/login', formData);
+    if (response.data.code === 200) {
+      localStorage.setItem("token", response.data.message); // 토큰 저장
+      localStorage.setItem("memberNumber", response.data.data.memberNumber);
+      localStorage.setItem("token", response.data.message);
+    }
     return response;
   } catch (error) {
     console.log(error);

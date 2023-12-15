@@ -27,9 +27,7 @@ export default function WaitingLogin() {
     try {
       const loggedInUser = await login(formData);
       if (loggedInUser && loggedInUser.status === 200) {
-        const memberNumber = loggedInUser.data.data.memberNumber;
-        console.log(memberNumber);
-        setMemberNumber(memberNumber);
+        setMemberNumber(loggedInUser.data.data.memberNumber);
         toast.success("로그인에 성공하였습니다.");
         navigate("/Main");
       } else {

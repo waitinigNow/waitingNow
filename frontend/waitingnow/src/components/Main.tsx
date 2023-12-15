@@ -11,10 +11,10 @@ export default function Main() {
   const memberNumberValue = useRecoilValue<number>(memberNumberState);
 
   useEffect(() => {
-    console.log('Recoil state before setWaitingInfo:', memberNumberValue);
     const fetchData = async () => {
       try {
-        const waitingData = await nowPeople(memberNumberValue);
+        const memberNum = localStorage.getItem('memberNumber');
+        const waitingData = await nowPeople(Number(memberNum));
         console.log('Fetched data:', waitingData);
         setWaitingInfo(waitingData);
       } catch (error) {

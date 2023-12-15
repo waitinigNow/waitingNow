@@ -102,11 +102,6 @@ export const timerState = atom<number>({
   default: 0,
 });
 
-// export const timerSecondsState = atom({
-//   key: "timerSecondsStateKey",
-//   default: [],
-// });
-
 export const timerControl = selector<number>({
   key: "timerControl",
   get: ({ get }) => get(timerState),

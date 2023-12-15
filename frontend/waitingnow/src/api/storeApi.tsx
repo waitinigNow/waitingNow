@@ -148,3 +148,45 @@ export async function getTableList(memberNumber: number) {
     console.log(error);
   }
 }
+
+// 테이블 배정
+// interface PostSitDeskParams {
+//   deskStoreNumber: number[];
+//   waitingNumber: number;
+// }
+// export async function postSitDesk(params: PostSitDeskParams) {
+//   try {
+//     const response = await axios.post("/desk/sit", {
+//       deskStoreNumber: params.deskStoreNumber,
+//       waitingNumber: params.waitingNumber,
+//     });
+//     console.log("테이블 배정 api 접근", response);
+//     if (response.data.code === 200) {
+//       console.log("Response from server:", response.data);
+//     }
+//   } catch (error) {
+//     console.error("Error during API call:", error);
+//   }
+// }
+
+// 토큰 O 테스트
+interface PostSitDeskParams {
+  token: string | null;
+  deskStoreNumber: number[];
+  waitingNumber: number;
+}
+export async function postSitDesk(params: PostSitDeskParams) {
+  try {
+    const response = await axios.post("/desk/sit", {
+      token: params.token,
+      deskStoreNumber: params.deskStoreNumber,
+      waitingNumber: params.waitingNumber,
+    });
+    console.log("테이블 배정 api 접근", response);
+    if (response.data.code === 200) {
+      console.log("Response from server:", response.data);
+    }
+  } catch (error) {
+    console.error("Error during API call:", error);
+  }
+}

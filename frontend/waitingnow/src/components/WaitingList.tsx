@@ -110,7 +110,9 @@ export default function WaitingList() {
                 </div>
               </div>
               <div className="button-block">
+                {/* 호출  */}
                 <Timer key={index} id={index} />
+                {/* 입장 */}
                 <TableModal waitingNumber={data.waitingNumber} />
                 <button className="btn-not-in">미입장</button>
               </div>

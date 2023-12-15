@@ -6,9 +6,14 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { enterWaitingState, selectedWaitingState } from "Storestate";
+import {
+  checkedItemsState,
+  enterWaitingState,
+  selectedWaitingState,
+} from "Storestate";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import TableList from "./TableList";
+import { postSitDesk } from "api/storeApi";
 
 interface AlertDialogProps {
   waitingNumber: number;
@@ -18,6 +23,7 @@ export default function TableModal({ waitingNumber }: AlertDialogProps) {
   const [open, setOpen] = useState(false);
   const [selectedWaiting, setSelectedWaiting] =
     useRecoilState(selectedWaitingState);
+  const [checkedItems, setCheckedItems] = useRecoilState(checkedItemsState);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,10 +32,20 @@ export default function TableModal({ waitingNumber }: AlertDialogProps) {
 
   const handleClose = () => {
     setOpen(false);
+    setCheckedItems([]);
   };
 
   //배정하기 클릭
-  const handleSubmitTable = () => {};
+  const handleSitTable = () => {
+    setOpen(false);
+    postSitDesk({
+      token: localStorage.getItem("token"),
+      deskStoreNumber: checkedItems,
+      waitingNumber: waitingNumber,
+    });
+    console.log(localStorage.getItem("token"), checkedItems, waitingNumber);
+    setCheckedItems([]);
+  };
 
   return (
     <>
@@ -51,7 +67,7 @@ export default function TableModal({ waitingNumber }: AlertDialogProps) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>닫기</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button className="btn-desk-sit" onClick={handleSitTable} autoFocus>
             배정하기
           </Button>
         </DialogActions>

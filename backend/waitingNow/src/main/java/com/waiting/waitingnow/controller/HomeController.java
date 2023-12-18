@@ -71,6 +71,7 @@ public class HomeController {
                     .message(token)
                     .data(full_member)
                     .build();
+            System.out.println(restResponse.toString());
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
         // 일치하는 전화번호가 없을 때, NullpointerException 발생

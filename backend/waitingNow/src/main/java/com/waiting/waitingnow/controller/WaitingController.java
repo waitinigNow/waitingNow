@@ -39,7 +39,7 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting"}, method = RequestMethod.POST)
-    public ResponseEntity waitingRegist(@RequestBody WaitingVO waiting, @RequestHeader("token") String token) throws Exception {
+    public ResponseEntity waitingRegist(@RequestBody WaitingVO waiting, @RequestHeader("Authorization") String token) throws Exception {
         // 1. waiting 등록 성공 시
         try{
             waiting.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
@@ -101,6 +101,8 @@ public class WaitingController {
      * @apiNote 1. waiting 호출 성공 시 / 2. 파라미터 둘 중에 하나라도 잘못됨
      * @throws Exception
      */
+
+    //@TODO
     @ResponseBody
     @RequestMapping(value = {"/waiting/call"}, method = RequestMethod.GET)
     public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestParam(value = "memberNumber") int memberNumber) throws Exception {
@@ -168,7 +170,7 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting/now/people"}, method = RequestMethod.GET)
-    public ResponseEntity waitingNowPeople(@RequestHeader("token") String token) throws Exception {
+    public ResponseEntity waitingNowPeople(@RequestHeader("Authorization") String token) throws Exception {
         // 1. 현재 인원을 출력함
         try{
             int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
@@ -200,7 +202,7 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting/now"}, method = RequestMethod.GET)
-    public ResponseEntity waitingSearchList(@RequestHeader("token") String token) throws Exception {
+    public ResponseEntity waitingSearchList(@RequestHeader("Authorization") String token) throws Exception {
         logger.info("/waiting/now 호출");
         try{
             int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));

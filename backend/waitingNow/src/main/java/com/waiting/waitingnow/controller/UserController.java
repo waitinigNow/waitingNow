@@ -35,7 +35,7 @@ public class UserController {
      * */
     @ResponseBody
     @RequestMapping(value = { "/user" }, method = RequestMethod.POST)
-    public ResponseEntity<Object> user(@RequestHeader("token") String token) throws Exception {
+    public ResponseEntity<Object> user(@RequestHeader("Authorization") String token) throws Exception {
        // 회원 조회 성공 시
         int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
         try{
@@ -67,7 +67,7 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = { "/user/setting" }, method = RequestMethod.POST)
-    public ResponseEntity settingMember(@RequestBody MemberVO member, @RequestHeader("token") String token) throws Exception {
+    public ResponseEntity settingMember(@RequestBody MemberVO member, @RequestHeader("Authorization") String token) throws Exception {
         try{
             // 회원정보 업데이트 시킨 후 DB에서 찾아옴
             member.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
@@ -137,7 +137,7 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = { "/user/setting/preorder" }, method = RequestMethod.POST)
-    public ResponseEntity userUpdatePreorder(@RequestBody MemberVO member, @RequestHeader("token") String token) throws Exception {
+    public ResponseEntity userUpdatePreorder(@RequestBody MemberVO member, @RequestHeader("Authorization") String token) throws Exception {
         try{
             member.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
             boolean PreorderAvail = memberService.updatePreorder(member);
@@ -166,8 +166,9 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = { "/user/setting/statistics"}, method = RequestMethod.POST)
-    public ResponseEntity<Object> statisticsMember(@RequestBody StatisticVO statistic) throws Exception {
+    public ResponseEntity<Object> statisticsMember(@RequestBody StatisticVO statistic, @RequestHeader("Authorization") String token) throws Exception {
         try{
+            statistic.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
             DateVO date = memberService.statisticsMember(statistic);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())

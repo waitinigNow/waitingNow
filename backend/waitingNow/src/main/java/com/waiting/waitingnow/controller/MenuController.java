@@ -28,7 +28,7 @@ public class MenuController {
     }
 
     @RequestMapping(value = {"/menu"}, method = RequestMethod.GET)
-    public ResponseEntity menuView(@RequestHeader("token") String token) throws Exception {
+    public ResponseEntity menuView(@RequestHeader("Authorization") String token) throws Exception {
         // 1. menu 조회 기능
         try{
             int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));

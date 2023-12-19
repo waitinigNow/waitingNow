@@ -1,0 +1,75 @@
+// 공통 
+#background_color {
+  background-color: #FDF6B2;
+}
+
+.background {
+  height: 864px;
+  width: 1536px;
+  background-color: #FFFFFF;
+
+  margin: auto;
+  position: relative;
+  border: solid 1px #000000;
+}
+
+.marginLeft15 {
+  margin-left: 15px;
+}
+
+.marginTop20 {
+  margin-top: 20px;
+}
+
+.font48 {
+  font-size: 48px;
+}
+
+.alignRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+// WaitingLogin.tsx
+#title {
+  font-weight: bold;
+  color: #FF9B26;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+#inputLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#inputNumber, #inputPassword {
+  width:700px;
+  height:80px;
+  font-size: 40px;
+}
+
+.label {
+  width:700px;
+}
+
+.labelFont {
+  font-size: 25px;
+}
+
+#loginBtn {
+  width: 150px;
+  height: 50px;
+  background-color: #FF9B26;
+  border-color: #FF9B26;
+  border-radius: 10px;
+  color: #FFFFFF;
+
+  font-size: 20px;
+
+  border: 0;
+  outline: 0;
+}

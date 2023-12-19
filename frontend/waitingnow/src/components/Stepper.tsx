@@ -75,12 +75,12 @@ export default function HorizontalLinearStepper() {
     <Box
       width={1536}
       height={864}
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-      }}
+      // style={{
+      //   position: "absolute",
+      //   top: "50%",
+      //   left: "50%",
+      //   transform: "translate(-50%, -50%)",
+      // }}
     >
       <CustomStepper activeStep={activeStep}>
         {steps.map((label, index) => {
@@ -105,44 +105,46 @@ export default function HorizontalLinearStepper() {
             </div>
           </div>
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              pt: 2,
-            }}
+            // sx={{
+            //   display: "flex",
+            //   flexDirection: "row",
+            //   pt: 2,
+            // }}
           >
-            <Box sx={{ flex: "1 1 auto" }} />
+            <Box 
+            // sx={{ flex: "1 1 auto" }}
+            />
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
           <div>{getStepContent(activeStep)}</div>
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              pt: 2,
-              position: "absolute",
-              bottom: "0px",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
+            // sx={{
+            //   display: "flex",
+            //   flexDirection: "row",
+            //   pt: 2,
+            //   position: "absolute",
+            //   bottom: "0px",
+            //   left: "50%",
+            //   transform: "translateX(-50%)",
+            // }}
           >
             <button
-              className="btn-submit"
-              type="button"
-              value="next"
-              disabled={activeStep === 0}
-              onClick={handleBack}
+              // className="btn-submit"
+              // type="button"
+              // value="next"
+              // disabled={activeStep === 0}
+              // onClick={handleBack}
             >
               이전
             </button>
             <Box sx={{ flex: "1 1 auto" }} />
             <button
-              className="btn-submit"
-              type="button"
-              value="next"
-              onClick={handleNext}
+              // className="btn-submit"
+              // type="button"
+              // value="next"
+              // onClick={handleNext}
             >
               다음
             </button>

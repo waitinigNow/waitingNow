@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import 'styles/MainNum.css';
+import 'styles/WaitingStyle.css';
 import minus from 'assets/minus.png';
 import plus from 'assets/plus.png';
 import { useRecoilState } from 'recoil';

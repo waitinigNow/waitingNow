@@ -45,3 +45,8 @@ export const waitingInfoState = atom<number | null>({
   key: 'waitingInfoState',
   default: 0,
 });
+
+export const waitingNumberState = atom<number> ({
+  key: 'waitingNumberStateKey',
+  default: 0,
+});

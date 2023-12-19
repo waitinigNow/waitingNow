@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { telNumber } from 'waitingState';
 import backspace from 'assets/backspace.png';
 import { Link, useNavigate } from 'react-router-dom';
-import 'styles/MainTel.css';
+import 'styles/WaitingStyle.css';
 
 export default function MainTel() {
   const [telInput, setTelInput] = useRecoilState(telNumber);
@@ -22,9 +22,9 @@ export default function MainTel() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let formattedInput = e.target.value.replace(/[^\d]/g, '');
     if (formattedInput.length > 2 && formattedInput.length <= 5) {
-      formattedInput = formattedInput.replace(/(\d{2})(\d{0,4})/, "$1-$2");
+      formattedInput = formattedInput.replace(/(\d{3})(\d{0,4})/, "$1-$2");
     } else if (formattedInput.length > 5) {
-      formattedInput = formattedInput.replace(/(\d{2})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
+      formattedInput = formattedInput.replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
     }
     console.log('formattedInput:', formattedInput);
     setTelInput(formattedInput);

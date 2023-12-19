@@ -14,7 +14,8 @@ client.interceptors.request.use(
     const token = localStorage.getItem("token");
 
     if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `${token}`
+      
     }
     return config;
   },
@@ -47,7 +48,7 @@ export async function nowPeople(memberNum: number) {
       headers: {
         'Authorization': `${token}`,
       },
-    });
+    },);
     return response.data.data;
   } catch (error) {
     console.error(error);
@@ -65,7 +66,6 @@ export async function login(formData: {
     if (response.data.code === 200) {
       localStorage.setItem("token", response.data.message); // 토큰 저장
       localStorage.setItem("memberNumber", response.data.data.memberNumber);
-      localStorage.setItem("token", response.data.message);
     }
     return response;
   } catch (error) {
@@ -76,12 +76,12 @@ export async function login(formData: {
 // 인원수, 웨이팅 고객 전화번호, 사장님 번호 -> 웨이팅 등록
 export async function waiting(params: {
   waitingPhone: string, 
-  waitingPeople: number,
-  memberNumber: number
+  waitingPeople: number
 }) {
   try {
-    const response = await client.post('/waiting', params)
-    console.log(response)
+    const response = await client.post('/waiting', params);
+    console.log(response);
+    return response.data.data.waitingNumber;
   } catch(error) {
     console.log(error);
   }

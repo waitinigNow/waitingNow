@@ -1,7 +1,7 @@
 import React from 'react';
-import 'styles/WaitingLogin.css';
+import 'styles/WaitingStyles.css';
 import { login } from 'api/waitingApi';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { memberNumberState, loginInformation } from 'waitingState';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -40,17 +40,32 @@ export default function WaitingLogin() {
 
   return (
     <>
-      <div id="back">
-        <div id="background">
-          <form onSubmit={loginSubmit} className="loginForm">
-            <p>PhoneNumber</p>
-            <input className='inputForm' type="text" onChange={handleChange} name='memberPhone' value={formData.memberPhone}>
-            </input>
-            <p>Password</p>
-            <input className='inputForm' type='password' onChange={handleChange} name='memberPassword' value={formData.memberPassword}>
-            </input>
-            <button type='submit'>Login</button>
-          </form>
+      <div id="background_color">
+        <div className="background">
+          <div className='box marginLeft15'>
+            <p className="font48" id='title'>LOGIN</p>
+            <form onSubmit={loginSubmit}>
+              <div id='inputLogin'>
+                <div className='label'>
+                  <label className='labelFont'>phoneNumber</label>
+                </div>
+                <input type="text" onChange={handleChange} name='memberPhone' value={formData.memberPhone} id='inputNumber'>
+                </input>
+                <span className="spin"></span>
+              </div>
+              <div id='inputLogin'>
+                <div className='label'>
+                  <label className='labelFont'>password</label>
+                </div>
+                <input type='password' onChange={handleChange} name='memberPassword' value={formData.memberPassword} id='inputPassword'>
+                </input>
+                <span className="spin"></span>
+                <div className='label alignRight'>
+                  <button type='submit' className='loginBtn marginTop20' id='loginBtn'>Login</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </>

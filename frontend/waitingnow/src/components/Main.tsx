@@ -1,7 +1,7 @@
 // Main.tsx
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import 'styles/Main.css';
+import 'styles/WaitingStyle.css';
 import { nowPeople, getMemberNum } from 'api/waitingApi';
 import { waitingInfoState, memberNumberState } from 'waitingState';
 import { useRecoilState, useRecoilValue } from 'recoil';

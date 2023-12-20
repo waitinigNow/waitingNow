@@ -35,8 +35,9 @@ public class WaitingService {
     public void insert(WaitingVO waiting) throws Exception{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
+        int waitingNumber = waitingDAO.selectLastWaitingNumber()+1;
 
-        waiting.setWaitingNumber(waitingDAO.selectLastWaitingNumber());
+        waiting.setWaitingNumber(waitingNumber);
         waiting.setWaitingDate(dateFormat.format(now));
         waiting.setWaitingCustomerNumber(waitingDAO.selectCustomerNumber(waiting.getMemberNumber()));
         waiting.setWaitingAvailable(1);

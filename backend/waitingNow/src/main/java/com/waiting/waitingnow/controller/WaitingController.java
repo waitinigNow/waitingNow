@@ -105,11 +105,11 @@ public class WaitingController {
     //@TODO
     @ResponseBody
     @RequestMapping(value = {"/waiting/call"}, method = RequestMethod.GET)
-    public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestParam(value = "memberNumber") int memberNumber) throws Exception {
+    public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestHeader("Authorization") String token) throws Exception {
         // 1. waiting 호출 성공 시
         WaitingVO waiting = new WaitingVO();
         waiting.setWaitingCustomerNumber(waitingCustomerNumber);
-        waiting.setMemberNumber(memberNumber);
+        waiting.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
         try{
             WaitingVO newWaiting = waitingService.waitingSearchByCustomerNumber(waiting);
             String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);

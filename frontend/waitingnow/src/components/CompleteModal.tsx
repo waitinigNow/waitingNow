@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import 'styles/WaitingStyle.css';
-import { telNumber, waitingPeople, waitingNumberState } from 'waitingState';
+import 'styles/WaitingStyles.css';
+import { telNumber, waitingPeople, waitingNumberState, babyNumber, humanNumber } from 'waitingState';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { waiting } from 'api/waitingApi';
+
+interface MemoizedText220Props {
+  waitingNumber: number;
+}
+
+const MemoizedText220: React.FC<MemoizedText220Props> = React.memo(({ waitingNumber }) => (
+  <p className="text220">{waitingNumber}</p>
+));
 
 export default function CompleteModal() {
   const [seconds, setSeconds] = useState(10);
   const telNumberValue = useRecoilValue(telNumber);
   const waitingPeopleValue = useRecoilValue(waitingPeople);
-  const [waitingNumber, setWaitingNumber] = useRecoilState(waitingNumberState);
+  const [telNumberState, setTelNumberState] = useRecoilState(telNumber);
+
+  const [babyNum, setBabyNum] = useRecoilState(babyNumber);
+  const [humanNum, setHumanNum] = useRecoilState(humanNumber);
 
   const waitingParams = {
     waitingPhone: telNumberValue,
@@ -17,8 +28,6 @@ export default function CompleteModal() {
   };
 
   const navigate = useNavigate();
-
-  const [telNumberState, setTelNumberState] = useRecoilState(telNumber);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,32 +39,43 @@ export default function CompleteModal() {
     return () => clearInterval(interval);
   }, [seconds]);
 
+  const [waitingNumber, setWaitingNumber] = useRecoilState(waitingNumberState);
+
   useEffect(() => {
+    const fetchData = async () => {
     if (seconds === 10) {
-      waiting(waitingParams).then((waitingNumber) => {
-        setWaitingNumber(waitingNumber);
-      });
+      const waitingNumberValue = await waiting(waitingParams);
+      setWaitingNumber(waitingNumberValue);
+      }
     }
-  }, [seconds]);
+    fetchData();
+  }, [seconds, setWaitingNumber]);
+  
 
   useEffect(() => {
     if (seconds === 0) {
-      navigate('/'); // seconds가 0이 되면 다음 화면으로 이동
+      navigate('/Main');
+      setTelNumberState('');
+      setBabyNum(0);
+      setHumanNum(0);
     }
-  }, [seconds, navigate]);
+  }, [seconds, navigate]); 
 
   const handleGoBack = () => {
     setTelNumberState('');
-    navigate('/');
+    setBabyNum(0);
+    setHumanNum(0);
+    navigate('/Main');
   };
 
   return (
-    <div className="back">
-      <div className="background">
+    <div id="back">
+      <div id="modalBackground">
         <div className="modal">
           <p className="text32">접수가 완료되었습니다.<br />카카오톡으로 실시간 현황을 알려드려요.</p>
           <p className="text48">대기번호</p>
-          <p className="text220">{waitingNumber}</p>
+          {/* MemoizedText220를 사용하여 waitingNumber 상태가 변경되어도 리렌더링을 방지 */}
+          <MemoizedText220 waitingNumber={waitingNumber} />
           <div className="modalFlex">
             <a className="orderBtn" href='/'>
               <p className="text40">메뉴 선주문하기</p>

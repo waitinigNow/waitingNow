@@ -10,7 +10,6 @@
 
   margin: auto;
   position: relative;
-  border: solid 1px #000000;
 }
 
 .marginLeft15 {
@@ -25,14 +24,40 @@
   font-size: 48px;
 }
 
+.text32 {
+  font-size: 32px;
+  color: #A9A9A9;
+}
+
+.text40 {
+  font-size: 40px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.text220 {
+  font-size: 220px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.text48 {
+  font-size: 48px;
+  margin-top: 2%;
+  margin-bottom: 0;
+}
+
 .alignRight {
   display: flex;
   justify-content: flex-end;
 }
 
+.flex {
+  display: flex;
+  padding: 1%;
+}
 
-
-// WaitingLogin.tsx
+/* WaitingLogin.tsx */
 #title {
   font-weight: bold;
   color: #FF9B26;
@@ -72,4 +97,291 @@
 
   border: 0;
   outline: 0;
+}
+
+/*  Main.tsx */
+#waitingInformation {
+  width: 95%;
+  height: 239px;
+  margin-bottom: 1%;
+  background-color: #000000;
+  
+  position: absolute;
+  bottom: 0;
+  left: 2.5%;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+}
+
+#waitingTime {
+  background: #747474;
+  height: 239px;
+  width: 100%;
+}
+
+#textBox {
+  margin-left: 3%;
+  display: flex;
+}
+
+#font_small {
+  line-height: 550%;
+  font-size: 50px;
+  color: #FFFFFF;
+}
+
+#font_big {
+  line-height: 5%;
+  font-size: 150px;
+  color: #FFFFFF;
+  font-weight: bold;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+#goWaiting {
+  background-color: #FF9B26;
+  border: none;
+  text-decoration: none;
+  text-align: center;
+  line-height: 800%;
+  font-weight: bold;
+  height: 239px;
+  color: #FFFFFF;
+}
+
+/* MainTel.tsx */
+#inputTel {
+  height: 25%;
+  width: 60%;
+  margin-left: auto;
+
+  text-align: center;
+  padding-top: 0;
+  color: #A9A9A9;
+  display: flex;
+  flex-direction: column;
+  border-left: solid 2px #A9A9A9;
+}
+
+#telInput {
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5%;
+  height: 80px;
+  font-size: 60px;
+  outline: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom-width: 3px;
+  padding-left: 3%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#inputTelNum {
+  width: 60%;
+  height: 75%;
+  display: grid;
+  
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+
+  margin-left: auto;
+}
+
+.num {
+  font-size: 70px;
+  text-align: center;
+  line-height: 150px;
+  border: solid 1px #A9A9A9;
+}
+
+
+#backspace {
+  width: 100px;
+  height: 90px;
+}
+
+.backgroundWhite {
+  background: #FFFFFF;
+  border: solid 1px #A9A9A9;
+}
+
+.input {
+  background: #FF9B26;
+  color: #FFFFFF;
+  font-size: 65px;
+  text-align: center;
+  line-height: 150px;
+  text-decoration: none;
+  border: solid 1px #A9A9A9;
+  height: 100%;
+  width: 100%;
+}
+
+/* MainNum.tsx */
+#MainNumBackground {
+  height: 864px;
+  width: 1536px;
+  background-color: #FFFFFF;
+
+  margin: auto;
+  position: relative;
+}
+
+#inputNum {
+  width: 60%;
+  height: 100%;
+  margin-left: auto;
+  border-left: solid 2px #A9A9A9;
+}
+
+#title {
+  font-size: 48px;
+  margin-top: 2%;
+  margin-left: 1%;
+  margin-bottom: 0;
+  font-weight: bold;
+  color: #A9A9A9;
+}
+
+#alert {
+  font-size: 20px;
+  margin-left: 1.5%;
+  margin-top: 1%;
+  margin-bottom: 5%;
+  color: #A9A9A9;
+}
+
+.number {
+  font-size: 60px;
+  margin: 0;
+  margin-right: 1%;
+  margin-left: 1%;
+}
+
+.btnSet {
+  border: solid 1px #FF9B26;
+  border-radius: 50%;
+  background: #FF9B26;
+  padding: 15%;
+}
+
+.btn {
+  border: 0;
+  background-color: transparent;
+  width: 90px;
+  height: 90px;
+}
+
+.flexBetween {
+  display: flex;
+  margin-top: 2%;
+  justify-content: space-between;
+  margin-right: 2%;
+}
+
+.btns {
+  width: 100%;
+  margin-top: auto;
+  height: 56%;
+
+  display: flex;
+  align-items: flex-end;
+}
+
+.beforeBtn {
+  background-color: #CBCBCB;
+  width: 50%;
+  height: 100px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border: none;
+}
+
+.completeBtn {
+  background-color: #FF9B26;
+  width: 50%;
+  height: 100px;
+}
+
+#completeBtn {
+  font-size: 40px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border: none;
+  background-color: #FF9B26;
+  width: 100%;
+  height: 100%;
+}
+
+/* completeModal.tsx */
+.modal {
+  height: 712px;
+  width: 843px;
+
+  text-align: center;
+  position: relative;
+}
+
+.orderBtn {
+  border: 0;
+  background-color: transparent;
+  width: 421px;
+  height: 95px;
+  border: solid 1px #FF9B26;
+  background: #FF9B26;
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
+  text-decoration: none;
+  line-height: 90px;
+}
+
+.backBtn {
+  border: 0;
+  background-color: transparent;
+  width: 421px;
+  height: 95px;
+  border: solid 1px #CBCBCB;
+  background: #CBCBCB;
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
+  text-decoration: none;
+  line-height: 90px;
+}
+
+.modalFlex {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+}
+
+#modalBackground {
+  height: 864px;
+  width: 1536px;
+  background-color: #FFFFFF;
+
+  margin: auto;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+}
+
+// MenuMain.css
+#menu {
+  background-color: white;
 }

@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { telNumber } from 'waitingState';
 import backspace from 'assets/backspace.png';
 import { Link, useNavigate } from 'react-router-dom';
-import 'styles/WaitingStyle.css';
+import 'styles/WaitingStyles.css';
 
 export default function MainTel() {
   const [telInput, setTelInput] = useRecoilState(telNumber);
@@ -38,7 +38,7 @@ export default function MainTel() {
   return (
     <>
       <div id="back">
-        <div id="background">
+        <div className="background">
           <div id="inputTel">
             <p id="informa">
               휴대폰 번호를 입력하시면 카카오톡으로 웨이팅 정보가 전송됩니다.

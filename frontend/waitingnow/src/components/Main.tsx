@@ -1,7 +1,7 @@
 // Main.tsx
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import 'styles/WaitingStyle.css';
+import 'styles/WaitingStyles.css';
 import { nowPeople, getMemberNum } from 'api/waitingApi';
 import { waitingInfoState, memberNumberState } from 'waitingState';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -28,7 +28,7 @@ export default function Main() {
   return (
     <>
       <div id="back">
-        <div id="background">
+        <div className="background">
           <div id="waitingInformation">
             <div id="waitingTime">
               <div className="bottom" id="textBox">
@@ -44,7 +44,7 @@ export default function Main() {
               </div>
             </div>
             <Link to="/mainTel" id="goWaiting">
-              <p id="font48">웨이팅 접수</p>
+              <p className="font48">웨이팅 접수</p>
             </Link>
           </div>
         </div>

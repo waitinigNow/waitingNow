@@ -45,6 +45,29 @@ public class WaitingService {
         waitingDAO.insert(waiting);
     }
 
+    /***
+     * 웨이팅 없이 바로 입장하는 손님을 만드는 메소드
+     * @return
+     * @throws Exception
+     */
+    public int noWaiting(int memberNumber, int waitingPeople) throws Exception{
+        WaitingVO waiting = new WaitingVO();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        int waitingNumber = waitingDAO.selectLastWaitingNumber()+1;
+
+        waiting.setMemberNumber(memberNumber);
+        waiting.setWaitingNumber(waitingNumber);
+        waiting.setWaitingDate(dateFormat.format(now));
+        waiting.setWaitingAvailable(0);
+        waiting.setWaitingPeople(waitingPeople);
+
+        waitingDAO.insert(waiting);
+
+        return waitingNumber;
+    }
+
     public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{
         WaitingVO newWaiting = waitingDAO.waitingSearchByCustomerNumber(waiting);
         newWaiting.setWaitingAvailable(2);

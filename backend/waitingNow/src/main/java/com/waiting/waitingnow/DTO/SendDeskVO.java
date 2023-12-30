@@ -3,7 +3,6 @@ package com.waiting.waitingnow.DTO;
 public class SendDeskVO {
     private int deskStoreNumber;
     private int deskPeople;
-
     private boolean deskAvailable;
 
     public SendDeskVO(){

@@ -87,7 +87,41 @@ public class DeskService {
         SentDeskAssignVO NewDeskAssignVO = deskDAO.searchAssignDesk(deskAssignVO);
         if(NewDeskAssignVO == null) throw new NullPointerException("뭘봐");
 
-        return sentdeskAssignVO;
+        return NewDeskAssignVO;
+    }
+
+    /**
+     * SentDeskAssignVO : 테이블 번호가 list
+     * deskAssignVO : 테이블 번호가 int
+     * @param sentdeskAssignVO
+     * @return
+     * @throws Exception
+     */
+    public SentDeskAssignVO noWaitingAssignDesk(SentDeskAssignVO sentdeskAssignVO) throws Exception{
+        // preorderExist 값 채우기
+        sentdeskAssignVO.setPreorderExist(false);
+
+        // 배열로 되어 있는 desk Number 변경
+        DeskAssignVO deskAssignVO = new DeskAssignVO();
+        deskAssignVO.setMemberNumber(sentdeskAssignVO.getMemberNumber()); deskAssignVO.setDeskAssignKey(sentdeskAssignVO.getDeskAssignKey()); deskAssignVO.setPreorderExist(sentdeskAssignVO.getPreorderExist()); deskAssignVO.setWaitingNumber(sentdeskAssignVO.getWaitingNumber());
+
+        // deskNumber 당 할당함
+        for(int deskNumber : sentdeskAssignVO.getDeskStoreNumber()){
+            deskAssignVO.setDeskStoreNumber(deskNumber);
+            // 0이면 앉을 수 있음 (현재 사용하고 있지 않음)
+            if(deskDAO.deskSitAvailable(deskAssignVO) == 0){
+                deskDAO.assignDesk(deskAssignVO);
+            }
+            else {
+                throw new IllegalStateException("현재 " + deskNumber + "번 테이블을 이용중 입니다!");
+            }
+        }
+
+        // 할당한 데스크의 정보 불러오기
+        SentDeskAssignVO NewDeskAssignVO = deskDAO.searchAssignDesk(deskAssignVO);
+        if(NewDeskAssignVO == null) throw new NullPointerException("오류 발생! 데스크가 할당 되지 않았습니다.");
+
+        return NewDeskAssignVO;
     }
 
     /**

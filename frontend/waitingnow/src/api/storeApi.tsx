@@ -182,3 +182,25 @@ export async function updateWaitingStatus() {
     console.error("Error during API call:", error);
   }
 }
+
+interface notWaitingPeople {
+  deskStoreNumber: number[];
+  enterPeople: number;
+}
+
+// 실시간 입장 테이블 배정
+export async function notWaitingTable(params: notWaitingPeople) {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post("/desk/sit/nowaiting", {
+      headers: {
+        Authorization: `${token}`,
+      },
+      deskStoreNumber: params.deskStoreNumber,
+      enterPeople: params.enterPeople,
+    });
+    console.log("실시간 입장", response);
+  } catch (error) {
+    console.log(error);
+  }
+}

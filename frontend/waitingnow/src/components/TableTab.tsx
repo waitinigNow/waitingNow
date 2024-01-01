@@ -16,7 +16,12 @@ export default function TableTab() {
   };
 
   // 테이블 배정 상태 변경
-  const handleChangeAvailable = () => {};
+  const handleChangeAvailable = async () => {
+    if (currentTab === 0) {
+      try {
+      } catch {}
+    }
+  };
 
   return (
     <>

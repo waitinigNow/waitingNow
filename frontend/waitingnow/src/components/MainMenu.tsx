@@ -70,8 +70,8 @@ export default function MainMenu() {
         if (!isNaN(parsedMemberNumber)) {
           setMemberNumber(parsedMemberNumber);
           try {
-            const waitingResponse = await getWaitingList(parsedMemberNumber);
-            const tableResponse = await getTableList(parsedMemberNumber);
+            const waitingResponse = await getWaitingList();
+            const tableResponse = await getTableList();
             setWaitingList(waitingResponse.data);
             setTableList(tableResponse.data);
           } catch (error) {

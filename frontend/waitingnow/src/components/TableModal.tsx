@@ -13,7 +13,7 @@ import {
 } from "Storestate";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import TableList from "./TableList";
-import { postSitDesk } from "api/storeApi";
+import { postSitDesk, updateWaitingStatus } from "api/storeApi";
 import "styles/StoreStyle.css";
 
 interface AlertDialogProps {
@@ -45,7 +45,9 @@ export default function TableModal({ waitingNumber }: AlertDialogProps) {
       waitingNumber: waitingNumber,
     });
     console.log(localStorage.getItem("token"), checkedItems, waitingNumber);
-    setCheckedItems([]);
+    // updateWaitingStatus(waitingNumber);
+    setCheckedItems([]); //선택된 테이블 리셋
+    //선택된 웨이팅은 입장완료로 status 변경
   };
 
   return (

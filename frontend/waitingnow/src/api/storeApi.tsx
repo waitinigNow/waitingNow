@@ -4,11 +4,6 @@ import { UserTypes, StoreTypes, memberNumberState } from "Storestate";
 
 const baseURL: string = process.env.REACT_APP_BASEURL || "";
 
-const client: Axios = axios.create({
-  baseURL: baseURL,
-  withCredentials: true,
-});
-
 interface APIResponse<T> {
   statusCode: number; // 상태코드 (보인 서버상태코드)
   errorCode: number; // 에러코드 (본인 서버에러코드)
@@ -16,15 +11,20 @@ interface APIResponse<T> {
   result: T; // 데이터 내용
 }
 
-// 요청을 보내기 전에 실행되는 인터셉터 추가
+const client: Axios = axios.create({
+  baseURL: baseURL,
+  withCredentials: true,
+});
+
+// 요청을 보내기 전에 실행되는 인터셉터 수정
 client.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    const token = localStorage.getItem("token");
-
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-      // 토큰 값 확인: 실제 배포 환경에서는 제거
-      console.log("Sending token in header:", config.headers.Authorization);
+    // 로그인 요청인지 확인
+    if (config.url !== "/login") {
+      const token = localStorage.getItem("token");
+      if (token && config.headers) {
+        config.headers.token = token;
+      }
     }
     return config;
   },
@@ -92,8 +92,8 @@ export async function login(formData: {
 }) {
   try {
     const response = await client.post("/login", formData);
-    console.log(response);
     if (response.data.code === 200) {
+      console.log("토큰", response.data.message);
       localStorage.setItem("token", response.data.message); // 토큰 저장
       localStorage.setItem("memberNumber", response.data.data.memberNumber);
     }
@@ -104,33 +104,15 @@ export async function login(formData: {
 }
 
 // 토큰 이용
-// // 웨이팅 리스트 조회
-// export async function getWaitingList() {
-//   try {
-//     // 서버에 요청 시 토큰이 헤더에 포함되어야 함
-//     const response = await client.get("/waiting/now");
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// // 테이블 리스트 조회
-// export async function getTableList() {
-//   try {
-//     // 서버에 요청 시 토큰이 헤더에 포함되어야 함
-//     const response = await client.get("/table/now");
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-//특정 업체의 웨이팅 리스트 조회 (전체)
-export async function getWaitingList(memberNumber: number) {
+// 웨이팅 리스트 조회
+export async function getWaitingList() {
   try {
+    const token = localStorage.getItem("token");
+    // 서버에 요청 시 토큰이 헤더에 포함되어야 함
     const response = await client.get("/waiting/now", {
-      params: { memberNumber: memberNumber },
+      headers: {
+        Authorization: `${token}`,
+      },
     });
     return response.data;
   } catch (error) {
@@ -138,44 +120,35 @@ export async function getWaitingList(memberNumber: number) {
   }
 }
 
-//테이블 리스트 조회
-export async function getTableList(memberNumber: number) {
+// 테이블 리스트 조회
+export async function getTableList() {
   try {
+    const token = localStorage.getItem("token");
     const response = await client.get("/desk", {
-      params: { memberNumber: memberNumber },
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
   }
+}
+
+// 테이블 상태 변경
+export async function updateTableStatus() {
+  try {
+  } catch {}
 }
 
 // 테이블 배정
-// interface PostSitDeskParams {
-//   deskStoreNumber: number[];
-//   waitingNumber: number;
-// }
-// export async function postSitDesk(params: PostSitDeskParams) {
-//   try {
-//     const response = await axios.post("/desk/sit", {
-//       deskStoreNumber: params.deskStoreNumber,
-//       waitingNumber: params.waitingNumber,
-//     });
-//     console.log("테이블 배정 api 접근", response);
-//     if (response.data.code === 200) {
-//       console.log("Response from server:", response.data);
-//     }
-//   } catch (error) {
-//     console.error("Error during API call:", error);
-//   }
-// }
-
-// 토큰 O 테스트
 interface PostSitDeskParams {
   token: string | null;
   deskStoreNumber: number[];
   waitingNumber: number;
 }
+
 export async function postSitDesk(params: PostSitDeskParams) {
   try {
     const response = await axios.post("/desk/sit", {
@@ -184,6 +157,24 @@ export async function postSitDesk(params: PostSitDeskParams) {
       waitingNumber: params.waitingNumber,
     });
     console.log("테이블 배정 api 접근", response);
+    if (response.data.code === 200) {
+      console.log("Response from server:", response.data);
+    }
+  } catch (error) {
+    console.error("Error during API call:", error);
+  }
+}
+
+// 웨이팅 입장완료
+// interface UpdateWaitingParams {
+//   waitingNumber: number;
+// }
+
+export async function updateWaitingStatus() {
+  try {
+    const response = await axios.patch("/waiting/status", {
+      waitingNumber: Number,
+    });
     if (response.data.code === 200) {
       console.log("Response from server:", response.data);
     }

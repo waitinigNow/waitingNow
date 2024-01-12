@@ -65,6 +65,15 @@ export default function TableList({
             <img src={personIcon} />
             <span className="table-people">{data.deskPeople} </span>
           </div>
+          <div className="preorder-check">
+            <button className="btn-preorder-check">
+              {data.deskAvailable ? (
+                ""
+              ) : (
+                <p style={{ color: "#808080" }}>메뉴확인</p>
+              )}
+            </button>
+          </div>
           <div className="sit-check">
             {data.deskAvailable ? (
               <p style={{ color: "var(--maincolor)" }}>대기중</p>

@@ -16,16 +16,23 @@ export default function TableTab() {
   };
 
   // 테이블 배정 상태 변경
-  const handleChangeAvailable = async () => {
-    if (currentTab === 0) {
-      try {
-      } catch {}
+  const handleChangeAvailable = () => {
+    if (menuArr[0].name == "대기중인 테이블") {
+      if (window.confirm("테이블을 배정완료 상태로 변경하시겠습니까?")) {
+        alert("해당 테이블의 상태가 변경되었습니다.");
+      } else {
+      }
+    } else {
+      if (window.confirm("테이블을 대기 상태로 변경하시겠습니까?")) {
+        alert("해당 테이블의 상태가 변경되었습니다.");
+      } else {
+      }
     }
   };
 
   return (
     <>
-      <form className="" onSubmit={handleChangeAvailable}>
+      <form className="">
         <div className="table-text">
           <span>
             {currentTab === 0
@@ -47,7 +54,12 @@ export default function TableTab() {
           <p>{menuArr[currentTab].content}</p>
         </div>
         <div className="form_block">
-          <button className="btn-submit" type="button" value="">
+          <button
+            className="btn-submit"
+            type="button"
+            value=""
+            onClick={handleChangeAvailable}
+          >
             테이블 상태 변경하기
           </button>
         </div>

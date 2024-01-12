@@ -151,7 +151,7 @@ interface PostSitDeskParams {
 
 export async function postSitDesk(params: PostSitDeskParams) {
   try {
-    const response = await axios.post("/desk/sit", {
+    const response = await client.post("/desk/sit", {
       token: params.token,
       deskStoreNumber: params.deskStoreNumber,
       waitingNumber: params.waitingNumber,
@@ -172,7 +172,7 @@ export async function postSitDesk(params: PostSitDeskParams) {
 
 export async function updateWaitingStatus() {
   try {
-    const response = await axios.patch("/waiting/status", {
+    const response = await client.patch("/waiting/status", {
       waitingNumber: Number,
     });
     if (response.data.code === 200) {
@@ -192,7 +192,7 @@ interface notWaitingPeople {
 export async function notWaitingTable(params: notWaitingPeople) {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post("/desk/sit/nowaiting", {
+    const response = await client.post("/desk/sit/nowaiting", {
       headers: {
         Authorization: `${token}`,
       },
@@ -200,6 +200,21 @@ export async function notWaitingTable(params: notWaitingPeople) {
       enterPeople: params.enterPeople,
     });
     console.log("실시간 입장", response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 선주문 메뉴 확인
+export async function checkPreorder() {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await client.get("/preorder", {
+      // waitingNumber: Number,
+    });
+    if (response.data.code === 200) {
+      console.log("Response from server:", response.data);
+    }
   } catch (error) {
     console.log(error);
   }

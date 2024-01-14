@@ -1,12 +1,16 @@
-// 공통 
-#background_color {
-  background-color: #FDF6B2;
+/* 공통 */
+button {
+  border: 0;
+  background-color: transparent;
+}
+
+.backgroundColor {
+  background-color: #000000;
 }
 
 .background {
   height: 864px;
   width: 1536px;
-  background-color: #FFFFFF;
 
   margin: auto;
   position: relative;
@@ -20,6 +24,22 @@
   margin-top: 20px;
 }
 
+.marginTop10 {
+  margin-top: 10px;
+}
+
+.marginBottom40 {
+  margin-bottom: 40px;
+}
+
+.marginRight15 {
+  margin-right: 15px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .font48 {
   font-size: 48px;
 }
@@ -27,6 +47,11 @@
 .text32 {
   font-size: 32px;
   color: #A9A9A9;
+}
+
+.text30 {
+  font-size: 30px;
+  margin-top: 10px;
 }
 
 .text40 {
@@ -47,6 +72,20 @@
   margin-bottom: 0;
 }
 
+.text25 {
+  font-size: 25px;
+  margin-top: 5px;
+  margin-bottom: 4px;
+  height: 30px;
+  overflow: hidden;
+}
+
+.text20 {
+  font-size: 20px;
+  margin: 2px;
+  margin-left: 3px;
+}
+
 .alignRight {
   display: flex;
   justify-content: flex-end;
@@ -55,6 +94,43 @@
 .flex {
   display: flex;
   padding: 1%;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexBaseline {
+  display: flex;
+  align-items: baseline;
+}
+
+.alignCenter {
+  display: flex;
+  align-items: center;
+}
+
+.justifyContentSpace {
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.justifyContentCenter {
+  justify-content: center;
+}
+
+.justifyContentStart {
+  justify-content: flex-start;
+}
+
+.overflowAuto {
+  overflow: auto;
 }
 
 /* WaitingLogin.tsx */
@@ -381,7 +457,112 @@ input[type=number] {
   justify-content: center;
 }
 
-// MenuMain.css
-#menu {
-  background-color: white;
+/* MenuMain */
+
+#foodMenu {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+}
+
+#menuInformation {
+  height: 420px;
+  border: solid 0.5px #E5E5E5;
+}
+
+#cart {
+  width: 30%;
+  height: 100%;
+}
+
+#cartMenu {
+  height: 70%;
+}
+
+#cartSave {
+  height: 30%;
+}
+
+#saveBtn {
+  height: 120px;
+  width: 90%;
+  background-color: #FF9B26;
+  color: #FFFFFF;
+  border-radius: 20px 0px 20px 20px;
+  justify-content: center;
+}
+
+#binBtn {
+  width: 90%;
+  height: 75px;
+  color: #000000;
+  border: solid 1px #000000;
+  border-radius: 20px 0px 20px 20px;
+  justify-content: center;
+}
+
+#menuTitle {
+  border: solid 3px #000000;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+#oneMenu {
+  overflow: auto;
+  font-size: 30px;
+  height: 515px;
+  padding: 10px 0px 10px 20px;
+}
+
+.minusbtn {
+  height: 60px;
+  width: 60px;
+  margin-right: 5px;
+}
+
+.cancelbtn {
+  height: 50px;
+  width: 100px;
+  font-size: 20px;
+  color: #FF9B26;
+  border: solid 3px #FF9B26;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+}
+
+#num {
+  font-size: 35px;
+  margin: 0px;
+}
+
+#menuContainer {
+  height: 35px;
+  white-space: nowrap;
+  overflow: auto;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+/* MenuModal.tsx */
+
+#MenuModal {
+  border-radius: 10px;
+  width: 50%;
+  height: 40%;
+  text-align: center;
+  background-color: #FFFFFF;
+  padding: 5px;
+
+  display: grid;
+  grid-template-columns: 10fr 1fr;
+}
+
+#modalCancelBtn {
+  width: 40px;
+  height: 40px;
 }

@@ -46,13 +46,13 @@ export default function MainNum() {
             <div className="flexBetween">
               <p className="number">아동 (8세 이하)</p>
               <div className="flex">
-                <button className="btn" id="babyDownbtn" onClick={handleBabyDown}>
+                <button className="btn" onClick={handleBabyDown}>
                   <img src={minus} alt="minus" width="35px" height="35px" className="btnSet" />
                 </button>
                 <p id="babyNum" className="number">
                   {babyNum}
                 </p>
-                <button className="btn" id="babyUpbtn" onClick={handleBabyUp}>
+                <button className="btn" onClick={handleBabyUp}>
                   <img src={plus} alt="plus" width="35px" height="35px" className="btnSet" />
                 </button>
               </div>

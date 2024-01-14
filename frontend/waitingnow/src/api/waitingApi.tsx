@@ -86,3 +86,20 @@ export async function waiting(params: {
     console.log(error);
   }
 }
+
+// 사장님 가게에 등록되어있는 메뉴 가져오기
+export async function viewMenu(memberNum: number) {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await client.get("/menu", {
+      headers: {
+        'Authorization': `${token}`,
+      },
+    },);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

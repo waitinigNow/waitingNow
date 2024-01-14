@@ -7,6 +7,7 @@ import MainNum from "components/MainNum";
 import MainTel from "components/MainTel";
 import CompleteModal from "components/CompleteModal";
 import MainMenu from "components/MenuMain";
+import MenuModal from "components/MenuModal";
 
 interface RouterProps {
   isAuthenticated: boolean;
@@ -24,6 +25,7 @@ export default function Routers() {
           <Route path="/CompleteModal" element={<CompleteModal />} />
           <Route path="/main" element={<Main />}></Route>
           <Route path="/MenuMain" element={<MainMenu />}></Route>
+          <Route path="/MenuModal" element={<MenuModal />}></Route>
         </Routes>
       </Router>
     </>

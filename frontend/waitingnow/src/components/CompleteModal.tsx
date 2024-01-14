@@ -74,7 +74,6 @@ export default function CompleteModal() {
         <div className="modal">
           <p className="text32">접수가 완료되었습니다.<br />카카오톡으로 실시간 현황을 알려드려요.</p>
           <p className="text48">대기번호</p>
-          {/* MemoizedText220를 사용하여 waitingNumber 상태가 변경되어도 리렌더링을 방지 */}
           <MemoizedText220 waitingNumber={waitingNumber} />
           <div className="modalFlex">
             <a className="orderBtn" href='/'>

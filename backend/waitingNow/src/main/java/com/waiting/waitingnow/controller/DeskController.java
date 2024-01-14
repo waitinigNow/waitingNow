@@ -5,10 +5,8 @@ import com.waiting.waitingnow.DTO.SendDeskVO;
 import com.waiting.waitingnow.DTO.noWaitingSentDeskAssignVO;
 import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.SentDeskAssignVO;
-import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.service.DeskService;
 import com.waiting.waitingnow.service.WaitingService;
-import jakarta.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,6 @@ public class DeskController {
     private final WaitingService waitingService;
     RestResponse<Object> restResponse = new RestResponse<>();
     private final JwtTokenService jwtTokenService;
-
-    @Autowired
-    private ServletContext servletContext;
 
     @Autowired
     public DeskController(DeskService deskService, JwtTokenService jwtTokenService, WaitingService waitingService) {

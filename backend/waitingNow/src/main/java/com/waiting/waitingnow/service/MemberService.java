@@ -102,9 +102,11 @@ public class MemberService {
         }
         return member;
     }
+
     public void updateMember(MemberVO member) throws Exception{
         memberDAO.updateMember(member);
     }
+
     public MemberVO updateMemberPhone(NewPhoneNumberVO newPhoneNumber) throws Exception{
         if(memberDAO.selectByMemberPhoneToMember(newPhoneNumber.getMemberPhone()) == null) {
             throw new NullPointerException("일치 하는 전화번호 없음");

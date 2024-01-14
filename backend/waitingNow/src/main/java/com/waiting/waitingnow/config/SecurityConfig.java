@@ -5,23 +5,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig  extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     @Autowired
     private JwtTokenService jwtTokenService;
 
@@ -29,7 +27,7 @@ public class SecurityConfig  extends SecurityConfigurerAdapter<DefaultSecurityFi
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000");
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("OPTIONS");
@@ -51,19 +49,16 @@ public class SecurityConfig  extends SecurityConfigurerAdapter<DefaultSecurityFi
 //                .authorizeHttpRequests((authorizeRequests) -> {
 //                    // authorizeRequests.requestMatchers("/").authenticated();
 //
-///*                    authorizeRequests.requestMatchers("/manager/**")
+//                    authorizeRequests.requestMatchers("/manager/**")
 //                            // ROLE_은 붙이면 안 된다. hasAnyRole()을 사용할 때 자동으로 ROLE_이 붙기 때문이다.
 //                            .hasAnyRole("ADMIN", "MANAGER");
-//*/
+//
 //                    authorizeRequests.anyRequest().permitAll();
 //                })
-
-
                 /*.formLogin((formLogin) -> {
                     *//* 권한이 필요한 요청은 해당 url로 리다이렉트 *//*
                     formLogin.loginPage("/login");
                 })*/
-
                 .build();
     }
 

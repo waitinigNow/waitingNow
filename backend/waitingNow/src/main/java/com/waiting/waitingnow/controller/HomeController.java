@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,6 +28,9 @@ public class HomeController {
 
     @Autowired
     private ServletContext servletContext;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     RestResponse<Object> restResponse = new RestResponse<>();
 
@@ -102,7 +106,8 @@ public class HomeController {
     @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
     public ResponseEntity signup(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
         // 회원 가입 완료
-        if(memberService.signUpMember(member)){
+        try{
+            memberService.signUpMember(member);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.CREATED.value())
                     .httpStatus(HttpStatus.CREATED)
@@ -112,12 +117,12 @@ public class HomeController {
         }
         // 회원가입 실패 시, (중복된 번호가 존재할 때)
         // 중복된 번호가 존재하면, 휴대폰 인증 시 걸러짐
-        else{
+        catch (IllegalStateException e){
             MemberVO newMember = memberService.searchMemberByPhone(member.getMemberPhone());
             restResponse = RestResponse.builder()
                     .code(HttpStatus.FORBIDDEN.value())
                     .httpStatus(HttpStatus.FORBIDDEN)
-                    .message("duplicated Phone Number")
+                    .message(e.getMessage())
                     .data(newMember)
                     .build();
         }

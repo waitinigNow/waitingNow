@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class MemberService {
     private final MemberDAO memberDAO;
     private final WaitingDAO waitingDAO;
     private final SessionService sessionService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 
@@ -33,46 +37,44 @@ public class MemberService {
     // 세션 확인하는 메소드도 필요함
 
     /***
-     * 회원 가입하는 메소드
+     * 회원 가입하는 메소드 [비밀번호 인코딩]
      * @param member
      * @return 회원가입여부
      */
-    public boolean signUpMember(MemberVO member) throws Exception {
+    public void signUpMember(MemberVO member) throws Exception {
         member.setMemberNumber(memberDAO.selectLastMemberNumber());
-        // TODO T/F로 구분하지 말고 Exception 발생이면 더 좋을듯?
-        // 전화번호 중복
-        if(memberDAO.selectByMemberPhoneToMember(member.getMemberPhone())==null){
-            memberDAO.insert(member);
-            return true;
+        String inputPW = member.getMemberPassword();
+        member.setMemberPassword(passwordEncoder.encode(inputPW));
+        
+        // 전화번호 중복이면 오류 발생, 아니면 회원가입 진행
+        if(memberDAO.selectByMemberPhoneToMember(member.getMemberPhone()) != null){
+            throw new IllegalStateException("이미 가입된 아이디가 있습니다.");
         }
-        return false;
+        else{
+            memberDAO.insert(member);
+        }
+        
+
     }
 
     /***
-     * 로그인 하는 메소드
+     * 로그인 하는 메소드 
+     * 암호화 된 비밀번호로 수정함
      * @param member (Phone, PW)
      * @param request
      * @return 로그인 되었으면, 완성된 객체 전달함. 아니면 null
      */
     public MemberVO loginMember(MemberVO member, HttpServletRequest request) throws Exception {
         String memberPassword = memberDAO.selectByMemberPhoneToPW(member.getMemberPhone());
-        if (memberPassword.matches(member.getMemberPassword())) {
+        if (passwordEncoder.matches(member.getMemberPassword(), memberPassword)) {
             MemberVO full_member = memberDAO.selectByMemberPhoneToMember(member.getMemberPhone());
             logger.info(full_member.getMemberName());
-            SessionService.registerSession(full_member, request); //TODO 세션 등록 시 확인 여부
+            // SessionService.registerSession(full_member, request); //세션 등록 필요 X
             return full_member;
         } else {
             throw new IllegalArgumentException("Not matched Password");
         }
-         /*
-         @TODO PassWordEncoder 추가했을 때, 코드 변경
-        if(passwordEncoder.matches(member.getMemberPassword(), memberPassword)){
-            MemberVO full_member = memberDAO.selectByMemberEmailToMember(member.getMemberEmail());
-            SessionService.registerSession(full_member, request);
-            return "true";
-        }
-        else { return "false";}
-        */
+
     }
 
     /**

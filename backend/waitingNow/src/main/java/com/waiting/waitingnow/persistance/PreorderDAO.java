@@ -2,6 +2,7 @@ package com.waiting.waitingnow.persistance;
 
 import com.waiting.waitingnow.DTO.MenuPreorderVO;
 import com.waiting.waitingnow.DTO.SetPreorderVO;
+import com.waiting.waitingnow.domain.DeskAssignVO;
 import com.waiting.waitingnow.domain.OptionMenuVO;
 import com.waiting.waitingnow.domain.OptionPreorderVO;
 import com.waiting.waitingnow.domain.PreorderVO;

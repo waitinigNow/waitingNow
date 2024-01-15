@@ -3,6 +3,8 @@ package com.waiting.waitingnow.controller;
 import com.waiting.waitingnow.DTO.MenuPreorderVO;
 import com.waiting.waitingnow.DTO.RestResponse;
 import com.waiting.waitingnow.DTO.SetPreorderVO;
+import com.waiting.waitingnow.config.JwtTokenService;
+import com.waiting.waitingnow.domain.DeskAssignVO;
 import com.waiting.waitingnow.service.MemberService;
 import com.waiting.waitingnow.service.PreorderService;
 import org.slf4j.Logger;
@@ -19,13 +21,15 @@ public class PreorderContrller {
     private static final Logger logger = LoggerFactory.getLogger(PreorderContrller.class);
     private final MemberService memberService;
     private final PreorderService preorderService;
+    private final JwtTokenService jwtTokenService;
     RestResponse<Object> restResponse = new RestResponse<>();
 
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public PreorderContrller(MemberService memberService, PreorderService preorderService){
+    public PreorderContrller(MemberService memberService, PreorderService preorderService, JwtTokenService jwtTokenService){
         this.memberService = memberService;
         this.preorderService = preorderService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     /***
@@ -59,13 +63,17 @@ public class PreorderContrller {
     
     /***
      * 선주문 조회하는 API
-     * @param waitingNumber
+     * @param deskStoreNumber
      */
     @RequestMapping(value = {"/preorder"}, method = RequestMethod.GET)
-    public ResponseEntity preorderSearch(@RequestParam int waitingNumber) throws Exception {
-        logger.info(waitingNumber + "번의 선주문 내역 조회");
+    public ResponseEntity preorderSearch(@RequestHeader("Authorization") String token, @RequestParam int deskStoreNumber) throws Exception {
+        logger.info(deskStoreNumber + "테이블의 선주문 내역 조회");
         try{
-            List<MenuPreorderVO> menuPreorders = preorderService.searchPreorder(waitingNumber);
+            DeskAssignVO deskAssignVO = new DeskAssignVO();
+            deskAssignVO.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
+            deskAssignVO.setDeskStoreNumber(deskStoreNumber);
+
+            List<MenuPreorderVO> menuPreorders = preorderService.searchPreorder(deskAssignVO);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
@@ -74,7 +82,7 @@ public class PreorderContrller {
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
-        // 2. 일치하는 웨이팅 번호가 없을 때
+        // 2. 일치하는 테이블 및 선주문이 없을 때
         catch (NullPointerException e){
             restResponse = RestResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())

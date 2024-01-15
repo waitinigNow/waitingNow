@@ -101,4 +101,15 @@ public class DeskDAO {
     public void assignOutDesk(DeskAssignVO deskAssignVO) throws Exception{
         sqlSession.delete(AssignNamespace + ".delete", deskAssignVO);
     }
+
+    /**
+     * desk에서 할당 된 waitingNumber를 찾음
+     * @param deskAssignVO
+     * @return
+     * @throws Exception
+     */
+    public int assignedWaitingNumber(DeskAssignVO deskAssignVO) throws Exception{
+        int waitingNumber = sqlSession.selectOne(AssignNamespace + ".assignedWaitingNumber", deskAssignVO);
+        return waitingNumber;
+    }
 }

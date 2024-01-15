@@ -30,5 +30,9 @@
         delete from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
     </delete>
 
+    <select id="assignedWaitingNumber" resultType="int">
+        select waitingNumber from deskassign where deskStoreNumber = #{deskStoreNumber} and memberNumber = #{memberNumber}
+    </select>
+
 
 </mapper>

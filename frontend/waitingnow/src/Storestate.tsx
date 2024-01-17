@@ -142,3 +142,9 @@ export const timerUpdateSelectorFamily = selectorFamily<number, number>({
       }
     },
 });
+
+// 모달 창
+export const openModalState = atom<boolean>({
+  key: "openModalKey",
+  default: false,
+});

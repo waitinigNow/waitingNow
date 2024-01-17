@@ -6,14 +6,10 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import {
-  checkedItemsState,
-  enterWaitingState,
-  selectedWaitingState,
-} from "Storestate";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { checkedItemsState, selectedWaitingState } from "Storestate";
+import { useRecoilState } from "recoil";
 import TableList from "./TableList";
-import { postSitDesk, updateWaitingStatus } from "api/storeApi";
+import { postSitDesk } from "api/storeApi";
 import "styles/StoreStyle.css";
 
 interface AlertDialogProps {

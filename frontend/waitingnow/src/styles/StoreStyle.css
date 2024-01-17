@@ -278,6 +278,14 @@
   text-align: center;
 }
 
+.btn-preorder-check {
+  background-color: transparent;
+  border-style: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: "#808080";
+}
+
 .sit-check {
   font-size: 28px;
 }

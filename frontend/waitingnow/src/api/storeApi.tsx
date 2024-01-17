@@ -206,11 +206,20 @@ export async function notWaitingTable(params: notWaitingPeople) {
 }
 
 // 선주문 메뉴 확인
-export async function checkPreorder() {
+interface CheckPreorderParams {
+  deskStoreNumber: number;
+}
+
+export async function checkPreorder(params: CheckPreorderParams) {
   try {
     const token = localStorage.getItem("token");
     const response = await client.get("/preorder", {
-      // waitingNumber: Number,
+      headers: {
+        Authorization: `${token}`,
+      },
+      params: {
+        deskStoreNumber: params.deskStoreNumber,
+      },
     });
     if (response.data.code === 200) {
       console.log("Response from server:", response.data);

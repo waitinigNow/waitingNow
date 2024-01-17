@@ -4,12 +4,13 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useEffect, useState } from "react";
-import { getTableList } from "api/storeApi";
+import { checkPreorder, getTableList } from "api/storeApi";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   checkedItemsState,
   memberNumberState,
   tableListState,
+  openModalState,
 } from "Storestate";
 import "styles/StoreStyle.css";
 
@@ -27,6 +28,8 @@ export default function TableList({
   const [checkedItems, setCheckedItems] = useRecoilState(checkedItemsState);
   const tableList: TableData[] = useRecoilValue(tableListState);
 
+  const [open, setOpen] = useRecoilState(openModalState);
+
   const filteredTableList = showCompleted
     ? tableList.filter((data) => !data.deskAvailable)
     : tableList.filter((data) => data.deskAvailable);
@@ -40,6 +43,12 @@ export default function TableList({
         return [...prevCheckedItems, deskStoreNumber];
       }
     });
+  };
+
+  // 선주문 메뉴 확인
+  const handleCheckMenu = (deskStoreNumber: number) => {
+    checkPreorder({ deskStoreNumber: deskStoreNumber });
+    setOpen(true);
   };
 
   return (
@@ -66,14 +75,16 @@ export default function TableList({
             <span className="table-people">{data.deskPeople} </span>
           </div>
           <div className="preorder-check">
-            <button className="btn-preorder-check">
-              {data.deskAvailable ? (
-                ""
-              ) : (
-                <p style={{ color: "#808080" }}>메뉴확인</p>
-              )}
+            <button
+              className="btn-preorder-check"
+              type="button"
+              onClick={() => handleCheckMenu(data.deskStoreNumber)}
+            >
+              <p>주문 내역</p>
             </button>
           </div>
+          {open && <Modal data={data} />}
+
           <div className="sit-check">
             {data.deskAvailable ? (
               <p style={{ color: "var(--maincolor)" }}>대기중</p>
@@ -84,5 +95,23 @@ export default function TableList({
         </div>
       ))}
     </>
+  );
+}
+
+function Modal({ data }) {
+  const [open, setOpen] = useRecoilState(openModalState);
+
+  return (
+    <div className="modal">
+      <h4>{data.title}</h4>
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        닫기
+      </button>
+    </div>
   );
 }

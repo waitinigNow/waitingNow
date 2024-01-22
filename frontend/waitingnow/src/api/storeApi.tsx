@@ -223,6 +223,7 @@ export async function checkPreorder(params: CheckPreorderParams) {
     });
     if (response.data.code === 200) {
       console.log("Response from server:", response.data);
+      return response.data;
     }
   } catch (error) {
     console.log(error);

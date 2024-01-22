@@ -148,3 +148,9 @@ export const openModalState = atom<boolean>({
   key: "openModalKey",
   default: false,
 });
+
+// 선택된 테이블의 주문내역 옵션 (테이블 번호)
+export const selectedOrderState = atom<number>({
+  key: "selectedOrderKey",
+  default: 0,
+});

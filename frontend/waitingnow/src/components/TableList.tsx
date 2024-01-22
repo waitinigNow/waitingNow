@@ -11,6 +11,7 @@ import {
   memberNumberState,
   tableListState,
   openModalState,
+  selectedOrderState,
 } from "Storestate";
 import "styles/StoreStyle.css";
 
@@ -29,6 +30,7 @@ export default function TableList({
   const tableList: TableData[] = useRecoilValue(tableListState);
 
   const [open, setOpen] = useRecoilState(openModalState);
+  const [selectedOrder, setSelectedOrder] = useRecoilState(selectedOrderState);
 
   const filteredTableList = showCompleted
     ? tableList.filter((data) => !data.deskAvailable)
@@ -47,8 +49,10 @@ export default function TableList({
 
   // 선주문 메뉴 확인
   const handleCheckMenu = (deskStoreNumber: number) => {
-    checkPreorder({ deskStoreNumber: deskStoreNumber });
+    const response = checkPreorder({ deskStoreNumber: deskStoreNumber });
     setOpen(true);
+    setSelectedOrder(deskStoreNumber);
+    console.log("주문내역", response);
   };
 
   return (
@@ -80,10 +84,9 @@ export default function TableList({
               type="button"
               onClick={() => handleCheckMenu(data.deskStoreNumber)}
             >
-              <p>주문 내역</p>
+              <p>{data.deskStoreNumber}의 주문 내역</p>
             </button>
           </div>
-          {open && <Modal data={data} />}
 
           <div className="sit-check">
             {data.deskAvailable ? (
@@ -94,16 +97,19 @@ export default function TableList({
           </div>
         </div>
       ))}
+      {open && <Modal />}
     </>
   );
 }
 
-function Modal({ data }) {
+function Modal() {
   const [open, setOpen] = useRecoilState(openModalState);
+  const tableNumber = useRecoilValue(selectedOrderState);
 
   return (
     <div className="modal">
-      <h4>{data.title}</h4>
+      <h3>선주문 내역</h3>
+      {tableNumber}번 테이블
       <button
         type="button"
         onClick={() => {

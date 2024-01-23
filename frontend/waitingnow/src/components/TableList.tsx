@@ -12,6 +12,7 @@ import {
   tableListState,
   openModalState,
   selectedOrderState,
+  menuArrayState,
 } from "Storestate";
 import "styles/StoreStyle.css";
 
@@ -31,6 +32,7 @@ export default function TableList({
 
   const [open, setOpen] = useRecoilState(openModalState);
   const [selectedOrder, setSelectedOrder] = useRecoilState(selectedOrderState);
+  const [menuArray, setMenuArray] = useRecoilState(menuArrayState);
 
   const filteredTableList = showCompleted
     ? tableList.filter((data) => !data.deskAvailable)
@@ -47,12 +49,25 @@ export default function TableList({
     });
   };
 
-  // 선주문 메뉴 확인
+  // // 선주문 메뉴 확인
+  // const handleCheckMenu = (deskStoreNumber: number) => {
+  //   const response = checkPreorder({ deskStoreNumber: deskStoreNumber });
+  //   setOpen(true);
+  //   setSelectedOrder(deskStoreNumber);
+  //   console.log("주문내역", response);
+  // };
   const handleCheckMenu = (deskStoreNumber: number) => {
-    const response = checkPreorder({ deskStoreNumber: deskStoreNumber });
-    setOpen(true);
-    setSelectedOrder(deskStoreNumber);
-    console.log("주문내역", response);
+    checkPreorder({ deskStoreNumber: deskStoreNumber })
+      .then((response) => {
+        setOpen(true);
+        setSelectedOrder(deskStoreNumber);
+        console.log("주문내역", response.data);
+        setMenuArray(response.data);
+      })
+      .catch((error) => {
+        console.error("메뉴 확인 중 오류 발생:", error);
+        setMenuArray([]);
+      });
   };
 
   return (
@@ -102,14 +117,40 @@ export default function TableList({
   );
 }
 
+interface MenuItem {
+  memberNumber: number;
+  menuCategory: string;
+  menuCount: number;
+  menuFile: string;
+  menuName: string;
+  menuNumber: number;
+  // menuOption: string;
+  menuPrice: number;
+}
+
 function Modal() {
   const [open, setOpen] = useRecoilState(openModalState);
   const tableNumber = useRecoilValue(selectedOrderState);
+  const orderMenus: Array<MenuItem> = useRecoilValue(menuArrayState);
+
+  const formatMenuText = (menu: MenuItem) => {
+    return (
+      <>
+        <span style={{ fontSize: "25px" }}>
+          {menu.menuName} X {menu.menuNumber}
+        </span>
+        <br />
+      </>
+    );
+  };
 
   return (
     <div className="modal">
       <h3>선주문 내역</h3>
-      {tableNumber}번 테이블
+      {tableNumber}번 테이블 &nbsp;
+      {orderMenus.map((menu) => (
+        <div key={menu.menuNumber}>{formatMenuText(menu)}</div>
+      ))}
       <button
         type="button"
         onClick={() => {

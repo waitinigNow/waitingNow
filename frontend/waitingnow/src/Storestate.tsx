@@ -154,3 +154,8 @@ export const selectedOrderState = atom<number>({
   key: "selectedOrderKey",
   default: 0,
 });
+
+export const menuArrayState = atom<[]>({
+  key: "menuArrayKey",
+  default: [],
+});

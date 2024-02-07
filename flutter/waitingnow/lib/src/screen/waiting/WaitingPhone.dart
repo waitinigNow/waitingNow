@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:waitingnow/src/screen/WaitingPeople.dart';
+import 'package:waitingnow/src/screen/waiting/WaitingPeople.dart';
 
 // TODO 각종 오류 출력 안내
 

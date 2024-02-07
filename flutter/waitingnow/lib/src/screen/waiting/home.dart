@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:waitingnow/src/screen/WaitingPhone.dart';
+import 'package:waitingnow/src/screen/waiting/WaitingPhone.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

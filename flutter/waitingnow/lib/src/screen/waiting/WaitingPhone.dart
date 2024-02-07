@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -78,7 +79,7 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                         onPressed: () {
                           /// Navigator.pop에서 result값을 넣어주면
                           /// showDialog의 return 값이 됩니다.
-                          Navigator.pop(context, "return value");
+                          Get.back();
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                         child: const Text("확인",style: TextStyle(color: Colors.white),)),
@@ -128,13 +129,10 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                             SizedBox(
                               height: 20,
                             ),
-                            GetBuilder<WaitingGet>(
-                                builder: (_) => Text(
-                                  waitingGet.phone,
-                                  style: TextStyle(fontSize: 35),
-                                )
-                            ),
-
+                            Obx(() => Text(
+                              '${waitingGet.phone.value}',
+                              style: TextStyle(fontSize: 35),
+                            ))
                           ],
                         ),
                       )),
@@ -575,12 +573,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        if(waitingGet.phone.length == 17){
+                                        if(waitingGet.phone.value.length == 17){
                                           print("[전화번호 입력 완료] 입장 인원 추가로 이동");
-                                          Navigator.push(
-                                            context, MaterialPageRoute(builder: (context) => WaitingPeople(waitingGet.phone))
-                                          );
-
+                                          Get.to(WaitingPeople());
                                         }else{
                                           show("오류", "전화번호 11자리를 모두 입력해주세요");
                                           print("[전화번호 입력 미완] 전화번호를 추가로 입력해주세요!");

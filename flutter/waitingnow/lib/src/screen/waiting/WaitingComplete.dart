@@ -1,53 +1,27 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:waitingnow/src/get/WaitingGet.dart';
 
 import '../preorder/Preorder.dart';
 import 'home.dart';
 
 class WaitingComplete extends StatefulWidget {
-  final String _phone;
-  final int baby;
-  final int adult;
-
-  const WaitingComplete(this._phone, this.baby, this.adult, {super.key});
+  const WaitingComplete({super.key});
 
   @override
-  State<WaitingComplete> createState() =>
-      _WaitingCompleteState(this._phone, this.baby, this.adult);
+  State<WaitingComplete> createState() => _WaitingCompleteState();
 }
 
 class _WaitingCompleteState extends State<WaitingComplete> {
-  final String _phone;
-  final int baby;
-  final int adult;
-
-  _WaitingCompleteState(this._phone, this.baby, this.adult);
-
-  int time = 10;
-  late Timer _timer;
-
-  void Time() {
-    print("호출");
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        print(time--);
-        if (time == 0) {
-          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-        }
-      });
-    });
-  }
+  final waitingGet = Get.put(WaitingGet());
 
   @override
   void initState() {
     super.initState();
-    Time();
+    waitingGet.Time();
   }
 
   @override
@@ -108,13 +82,8 @@ class _WaitingCompleteState extends State<WaitingComplete> {
                         child: TextButton(
                             onPressed: () {
                               print("[웨이팅 완료 페이지] 웨이팅 완료 페이지로 이동합니다.");
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, '/', (_) => false);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Preorder()),
-                              );
+                              waitingGet.TimeStop();
+                              Get.offAll(Preorder());
                             },
                             child: Text(
                               "메뉴 선주문 하기",
@@ -131,25 +100,24 @@ class _WaitingCompleteState extends State<WaitingComplete> {
                     Expanded(
                         child: TextButton(
                             onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, '/', (_) => false);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Home()),
-                              );
+                              waitingGet.TimeStop();
+                              Get.offAll(Home());
                             },
-                            child: Text(
-                              "처음으로 ($time 초)",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            child: Obx(() => Text(
+                                  "처음으로 (${waitingGet.time.value} 초)",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )),
                             style: TextButton.styleFrom(
                                 backgroundColor: Color(0xFFC0C0C0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0.0),
-                                )))),
+                                )
+                            )
+                        )
+                    ),
                   ],
                 )
               ],

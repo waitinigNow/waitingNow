@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:waitingnow/src/get/WaitingGet.dart';
 
 import 'WaitingComplete.dart';
 
 class WaitingPeople extends StatefulWidget {
-  final String _phone;
-
-  const WaitingPeople(this._phone, {super.key});
+  const WaitingPeople({super.key});
 
   @override
-  State<WaitingPeople> createState() => _WaitingPeopleState(this._phone);
+  State<WaitingPeople> createState() => _WaitingPeopleState();
 }
 
 class _WaitingPeopleState extends State<WaitingPeople> {
-  final String _phone;
-  int baby = 0;
-  int adult = 0;
-
-  _WaitingPeopleState(this._phone);
-
   @override
   Widget build(BuildContext context) {
+    final waitingGet = Get.put(WaitingGet());
 
     void show(String title, String body) {
       showDialog<String>(
@@ -62,8 +57,6 @@ class _WaitingPeopleState extends State<WaitingPeople> {
             ),
 
             /// Material 3 에서만 사용됨
-            // surfaceTintColor: Colors.green,
-
 
             child: SizedBox(
                 width: 100,
@@ -77,7 +70,8 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      body, style: TextStyle(fontSize: 15),
+                      body,
+                      style: TextStyle(fontSize: 15),
                     ),
                     const SizedBox(height: 20),
                     SizedBox(
@@ -89,8 +83,12 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                             /// showDialog의 return 값이 됩니다.
                             Navigator.pop(context, "return value");
                           },
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                          child: const Text("확인",style: TextStyle(color: Colors.white),)),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange),
+                          child: const Text(
+                            "확인",
+                            style: TextStyle(color: Colors.white),
+                          )),
                     ),
                   ],
                 )),
@@ -101,70 +99,6 @@ class _WaitingPeopleState extends State<WaitingPeople> {
       }).whenComplete(() {
         /// 다이얼로그가 종료됐을 때 호출됩니다.
       });
-    }
-
-    void minusBaby() {
-      int tempBaby = baby - 1;
-
-      if (tempBaby < 0) {
-        show("오류", "인원은 0보다 작을 수 없습니다!");
-        print("[인원 입력] 인원은 0보다 작을 수 없습니다!");
-        setState(() {
-          baby = 0;
-        });
-      } else {
-        setState(() {
-          baby = tempBaby;
-        });
-      }
-    }
-
-    void plusBaby() {
-      int tempBaby = baby + 1;
-
-      if (tempBaby > 9) {
-        show("오류", "인원은 최대 9명 까지 가능합니다!");
-        print("[인원 입력] 인원은 최대 9명 까지 가능합니다!");
-        setState(() {
-          baby = 9;
-        });
-      } else {
-        setState(() {
-          baby = tempBaby;
-        });
-      }
-    }
-
-    void minusAdult() {
-      int tempAdult = adult - 1;
-
-      if (tempAdult < 0) {
-        show("오류", "인원은 0보다 작을 수 없습니다!");
-        print("[인원 입력] 인원은 0보다 작을 수 없습니다!");
-        setState(() {
-          adult = 0;
-        });
-      } else {
-        setState(() {
-          adult = tempAdult;
-        });
-      }
-    }
-
-    void plusAdult() {
-      int tempAdult = adult + 1;
-
-      if (tempAdult > 9) {
-        show("오류", "인원은 최대 9명 까지 가능합니다!");
-        print("[인원 입력] 인원은 최대 9명 까지 가능합니다!");
-        setState(() {
-          adult = 9;
-        });
-      } else {
-        setState(() {
-          adult = tempAdult;
-        });
-      }
     }
 
     return Scaffold(
@@ -196,7 +130,9 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 20,),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Text(
                                 "입장 인원",
                                 style: GoogleFonts.inter(
@@ -232,7 +168,10 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                                       children: [
                                         IconButton(
                                             onPressed: () {
-                                              minusBaby();
+                                              if (!waitingGet.minusBaby()) {
+                                                show(
+                                                    "오류", "인원은 0보다 작을 수 없습니다!");
+                                              }
                                             },
                                             icon: Icon(
                                               Icons.remove_circle,
@@ -242,16 +181,21 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                                         SizedBox(
                                           width: 3,
                                         ),
-                                        Text(
-                                          baby.toString(),
-                                          style: TextStyle(fontSize: 25),
+                                        Obx(
+                                          () => Text(
+                                            waitingGet.baby.value.toString(),
+                                            style: TextStyle(fontSize: 25),
+                                          ),
                                         ),
                                         SizedBox(
                                           width: 3,
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              plusBaby();
+                                              if (!waitingGet.plusBaby()) {
+                                                show("오류",
+                                                    "인원은 최대 9명 까지 가능합니다!");
+                                              }
                                             },
                                             icon: Icon(Icons.add_circle,
                                                 color: Colors.orange,
@@ -279,7 +223,10 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                                       children: [
                                         IconButton(
                                             onPressed: () {
-                                              minusAdult();
+                                              if (!waitingGet.minusAdult()) {
+                                                show(
+                                                    "오류", "인원은 0보다 작을 수 없습니다!");
+                                              }
                                             },
                                             icon: Icon(
                                               Icons.remove_circle,
@@ -289,16 +236,20 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                                         SizedBox(
                                           width: 3,
                                         ),
-                                        Text(
-                                          adult.toString(),
-                                          style: TextStyle(fontSize: 25),
+                                        Obx(
+                                          () => Text(
+                                            waitingGet.adult.value.toString(),
+                                            style: TextStyle(fontSize: 25),
+                                          ),
                                         ),
                                         SizedBox(
                                           width: 3,
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              plusAdult();
+                                              if(!waitingGet.plusAdult()){
+                                                show("오류", "인원은 최대 9명 까지 가능합니다!");
+                                              }
                                             },
                                             icon: Icon(Icons.add_circle,
                                                 color: Colors.orange,
@@ -317,7 +268,13 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text("이전",style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),),
+                                      child: Text(
+                                        "이전",
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                       style: TextButton.styleFrom(
                                           backgroundColor: Color(0xFFC0C0C0),
                                           shape: RoundedRectangleBorder(
@@ -327,24 +284,27 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                               Expanded(
                                   child: TextButton(
                                       onPressed: () {
-                                        print("[웨이팅 완료 페이지] 웨이팅 완료 페이지로 이동합니다.");
-                                        Navigator.push(
-                                            context, MaterialPageRoute(builder: (context) => WaitingComplete(_phone, baby, adult))
-                                        );
+                                        print(
+                                            "[웨이팅 완료 페이지] 웨이팅 완료 페이지로 이동합니다.");
+                                        Get.to(WaitingComplete());
                                       },
-                                      child: Text("완료" ,style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),),
+                                      child: Text(
+                                        "완료",
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                       style: TextButton.styleFrom(
                                           backgroundColor: Colors.orange,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0),)
-                                      )
-                                  )
-                              )
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(0.0),
+                                          ))))
                             ],
                           )
                         ]),
                   )))
             ])));
   }
-
-
 }

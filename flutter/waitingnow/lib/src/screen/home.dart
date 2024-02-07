@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:waitingnow/src/screen/WaitingPhone.dart';
 
@@ -13,6 +14,7 @@ class _HomeState extends State<Home> {
   int count = 0;
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     Color myColor = Color(0xFF747474);
     return Scaffold(
       body: Align(

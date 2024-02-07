@@ -21,6 +21,154 @@ class _WaitingPeopleState extends State<WaitingPeople> {
 
   @override
   Widget build(BuildContext context) {
+
+    void show(String title, String body) {
+      showDialog<String>(
+        context: context,
+
+        /// 다이얼로그 배경 컬러
+        // barrierColor: Colors.cyan.withOpacity(0.4),
+
+        /// 다이얼로그 배경을 터치했을 때 다이얼로그를 닫을지 말지 결정
+        /// true = 닫을 수 있음, false = 닫을 수 없음
+        barrierDismissible: true,
+
+        builder: (context) {
+          return Dialog(
+            /// 배경 컬러
+            backgroundColor: Colors.white,
+
+            /// 그림자 컬러
+            shadowColor: Colors.blue,
+
+            /// 다이얼로그의 모양 설정
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+
+            /// z축 높이, elevation의 값이 높을 수록 그림자가 아래 위치하게 됩니다.
+            elevation: 10,
+
+            /// 다이얼로그의 위치 설정, 기본값은 center
+            alignment: Alignment.center,
+
+            /// Dialog의 padding 값입니다..
+            /// sizedBox의 가로세로 값읠 infinity로 설정해놓고
+            /// 가로패딩 50, 세로 패딩 200을 줬습니다.
+            /// 이렇게 하면 좌우 50, 위아래 200만큼의 패딩이 생기고 배경이 나오게 됩니다.
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 50,
+              vertical: 100,
+            ),
+
+            /// Material 3 에서만 사용됨
+            // surfaceTintColor: Colors.green,
+
+
+            child: SizedBox(
+                width: 100,
+                height: 200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      body, style: TextStyle(fontSize: 15),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 200,
+                      height: 40,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            /// Navigator.pop에서 result값을 넣어주면
+                            /// showDialog의 return 값이 됩니다.
+                            Navigator.pop(context, "return value");
+                          },
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                          child: const Text("확인",style: TextStyle(color: Colors.white),)),
+                    ),
+                  ],
+                )),
+          );
+        },
+      ).then((value) {
+        /// Navigator.pop 의 return 값이 들어옵니다.
+      }).whenComplete(() {
+        /// 다이얼로그가 종료됐을 때 호출됩니다.
+      });
+    }
+
+    // TODO 오류 창 모달 띄우기
+    void minusBaby() {
+      int tempBaby = baby - 1;
+
+      if (tempBaby < 0) {
+        show("오류", "인원은 0보다 작을 수 없습니다!");
+        print("[인원 입력] 인원은 0보다 작을 수 없습니다!");
+        setState(() {
+          baby = 0;
+        });
+      } else {
+        setState(() {
+          baby = tempBaby;
+        });
+      }
+    }
+
+    void plusBaby() {
+      int tempBaby = baby + 1;
+
+      if (tempBaby > 9) {
+        show("오류", "인원은 최대 9명 까지 가능합니다!");
+        print("[인원 입력] 인원은 최대 9명 까지 가능합니다!");
+        setState(() {
+          baby = 9;
+        });
+      } else {
+        setState(() {
+          baby = tempBaby;
+        });
+      }
+    }
+
+    void minusAdult() {
+      int tempAdult = adult - 1;
+
+      if (tempAdult < 0) {
+        show("오류", "인원은 0보다 작을 수 없습니다!");
+        print("[인원 입력] 인원은 0보다 작을 수 없습니다!");
+        setState(() {
+          adult = 0;
+        });
+      } else {
+        setState(() {
+          adult = tempAdult;
+        });
+      }
+    }
+
+    void plusAdult() {
+      int tempAdult = adult + 1;
+
+      if (tempAdult > 9) {
+        show("오류", "인원은 최대 9명 까지 가능합니다!");
+        print("[인원 입력] 인원은 최대 9명 까지 가능합니다!");
+        setState(() {
+          adult = 9;
+        });
+      } else {
+        setState(() {
+          adult = tempAdult;
+        });
+      }
+    }
+
     return Scaffold(
         body: Padding(
             padding: const EdgeInsets.all(25.0),
@@ -181,6 +329,7 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                               Expanded(
                                   child: TextButton(
                                       onPressed: () {
+                                        print("[웨이팅 완료 페이지] 웨이팅 완료 페이지로 이동합니다.");
                                         Navigator.push(
                                             context, MaterialPageRoute(builder: (context) => WaitingComplete(_phone, baby, adult))
                                         );
@@ -199,64 +348,5 @@ class _WaitingPeopleState extends State<WaitingPeople> {
             ])));
   }
 
-  // TODO 오류 창 모달 띄우기
-  void minusBaby() {
-    int tempBaby = baby - 1;
 
-    if (tempBaby < 0) {
-      print("[인원 입력] 인원은 0보다 작을 수 없습니다!");
-      setState(() {
-        baby = 0;
-      });
-    } else {
-      setState(() {
-        baby = tempBaby;
-      });
-    }
-  }
-
-  void plusBaby() {
-    int tempBaby = baby + 1;
-
-    if (tempBaby > 9) {
-      print("[인원 입력] 인원은 최대 9명 까지 가능합니다!");
-      setState(() {
-        baby = 9;
-      });
-    } else {
-      setState(() {
-        baby = tempBaby;
-      });
-    }
-  }
-
-  void minusAdult() {
-    int tempAdult = adult - 1;
-
-    if (tempAdult < 0) {
-      print("[인원 입력] 인원은 0보다 작을 수 없습니다!");
-      setState(() {
-        adult = 0;
-      });
-    } else {
-      setState(() {
-        adult = tempAdult;
-      });
-    }
-  }
-
-  void plusAdult() {
-    int tempAdult = adult + 1;
-
-    if (tempAdult > 9) {
-      print("[인원 입력] 인원은 최대 9명 까지 가능합니다!");
-      setState(() {
-        adult = 9;
-      });
-    } else {
-      setState(() {
-        adult = tempAdult;
-      });
-    }
-  }
 }

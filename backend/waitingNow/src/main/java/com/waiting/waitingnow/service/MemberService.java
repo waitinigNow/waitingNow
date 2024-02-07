@@ -53,8 +53,6 @@ public class MemberService {
         else{
             memberDAO.insert(member);
         }
-        
-
     }
 
     /***

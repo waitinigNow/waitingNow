@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 
-import '../screen/waiting/home.dart';
+import '../screen/waiting/Home.dart';
 
 class WaitingGet extends GetxController {
   // _변수 : private

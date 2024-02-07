@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:waitingnow/src/get/WaitingGet.dart';
 
 import '../preorder/Preorder.dart';
-import 'home.dart';
+import 'Home.dart';
 
 class WaitingComplete extends StatefulWidget {
   const WaitingComplete({super.key});
@@ -83,7 +83,7 @@ class _WaitingCompleteState extends State<WaitingComplete> {
                             onPressed: () {
                               print("[웨이팅 완료 페이지] 웨이팅 완료 페이지로 이동합니다.");
                               waitingGet.TimeStop();
-                              Get.offAll(Preorder());
+                              Get.offAll(() => Preorder());
                             },
                             child: Text(
                               "메뉴 선주문 하기",

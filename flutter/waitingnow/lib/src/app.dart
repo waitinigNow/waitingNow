@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waitingnow/src/screen/waiting/home.dart';
+import 'package:waitingnow/src/screen/waiting/Home.dart';
 
 // stle 자동완성
 class MyApp extends StatelessWidget {

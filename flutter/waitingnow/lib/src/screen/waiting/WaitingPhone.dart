@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:waitingnow/src/get/WaitingGet.dart';
 import 'package:waitingnow/src/screen/waiting/WaitingPeople.dart';
 
 class WaitingPhone extends StatefulWidget {
@@ -10,7 +12,6 @@ class WaitingPhone extends StatefulWidget {
 }
 
 class _WaitingPhoneState extends State<WaitingPhone> {
-  var _phone = '010 - ';
 
   void show(String title, String body) {
     showDialog<String>(
@@ -92,9 +93,10 @@ class _WaitingPhoneState extends State<WaitingPhone> {
       /// 다이얼로그가 종료됐을 때 호출됩니다.
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
+    final waitingGet = Get.put(WaitingGet());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(25.0),
@@ -126,10 +128,13 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                             SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              _phone,
-                              style: TextStyle(fontSize: 35),
-                            )
+                            GetBuilder<WaitingGet>(
+                                builder: (_) => Text(
+                                  waitingGet.phone,
+                                  style: TextStyle(fontSize: 35),
+                                )
+                            ),
+
                           ],
                         ),
                       )),
@@ -146,7 +151,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("1");
+                                        if(!waitingGet.addPhoneNumber("1")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '1',
@@ -181,7 +188,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("2");
+                                        if(!waitingGet.addPhoneNumber("2")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '2',
@@ -216,7 +225,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("3");
+                                        if(!waitingGet.addPhoneNumber("3")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '3',
@@ -259,7 +270,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("4");
+                                        if(!waitingGet.addPhoneNumber("4")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '4',
@@ -290,7 +303,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("5");
+                                        if(!waitingGet.addPhoneNumber("5")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '5',
@@ -321,7 +336,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("6");
+                                        if(!waitingGet.addPhoneNumber("6")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '6',
@@ -360,7 +377,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("7");
+                                        if(!waitingGet.addPhoneNumber("7")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '7',
@@ -393,7 +412,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("8");
+                                        if(!waitingGet.addPhoneNumber("8")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '8',
@@ -426,7 +447,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("9");
+                                        if(!waitingGet.addPhoneNumber("9")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '9',
@@ -467,7 +490,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        removePhoneNumber();
+                                        if(!waitingGet.removePhoneNumber()){
+                                          show("오류","전화번호를 더 이상 지울 수 없습니다.");
+                                        }
                                       },
                                       child: Icon(
                                         Icons.backspace,
@@ -500,7 +525,9 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        addPhoneNumber("0");
+                                        if(!waitingGet.addPhoneNumber("0")){
+                                          show("오류","전화번호는 최대 11까지 입력 가능합니다.");
+                                        }
                                       },
                                       child: Text(
                                         '0',
@@ -548,10 +575,10 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                     child: TextButton(
                                       onPressed: () {
                                         // 버튼이 클릭될 때 실행되는 함수
-                                        if(_phone.length == 17){
+                                        if(waitingGet.phone.length == 17){
                                           print("[전화번호 입력 완료] 입장 인원 추가로 이동");
                                           Navigator.push(
-                                            context, MaterialPageRoute(builder: (context) => WaitingPeople(_phone))
+                                            context, MaterialPageRoute(builder: (context) => WaitingPeople(waitingGet.phone))
                                           );
 
                                         }else{
@@ -588,45 +615,5 @@ class _WaitingPhoneState extends State<WaitingPhone> {
         ),
       ),
     );
-  }
-
-  /*
-    전화번호 입력하는 함수
-   */
-  void addPhoneNumber(var number) {
-    var changedPhone = this._phone + number;
-
-    if(changedPhone.length == 10){
-      changedPhone += " - ";
-    }
-    else if(changedPhone.length == 18){
-      show("오류","전화번호는 최대 11까지 입력 가능합니다.");
-      print("[전화번호 입력] 이미 모두 입력했습니다");
-      changedPhone = changedPhone.substring(0,17);
-    }
-
-    setState(() {
-      _phone = changedPhone;
-      print("[번호] " + _phone);
-    });
-  }
-
-  /*
-    전화번호 지우는 함수
-   */
-  void removePhoneNumber() {
-    var changedPhone = this._phone.substring(0, this._phone.length - 1);
-    if(changedPhone.length == 12){
-      changedPhone = changedPhone.substring(0, 9);
-    }
-    else if(changedPhone.length == 5){
-      show("오류","전화번호를 더 이상 지울 수 없습니다.");
-      print("[전화번호 입력] 더 지울 수 없습니다. ");
-      changedPhone += " ";
-    }
-    setState(() {
-      _phone = changedPhone;
-      print("[번호] " + _phone);
-    });
   }
 }

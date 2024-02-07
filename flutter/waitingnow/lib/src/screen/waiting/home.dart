@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:waitingnow/src/get/WaitingGet.dart';
 import 'package:waitingnow/src/screen/waiting/WaitingPhone.dart';
 
 class Home extends StatefulWidget {
@@ -12,6 +14,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int count = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 전화번호, 인원 초기화
+      final waitingGet = Get.put(WaitingGet());
+      waitingGet.phone.value = "010 - ";
+      waitingGet.baby.value = 0;
+      waitingGet.adult.value = 0;
+      waitingGet.time.value = 10;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -57,10 +74,7 @@ class _HomeState extends State<Home> {
                     onPressed: () {
                       // 버튼이 클릭될 때 실행되는 함수
                       print('웨이팅 접수를 시작합니다');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => WaitingPhone()),
-                      );
+                      Get.to(WaitingPhone());
                     },
                     child: Text('웨이팅 접수', style: GoogleFonts.roboto(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold,),),
                     style: TextButton.styleFrom(

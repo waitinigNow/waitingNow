@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:waitingnow/src/screen/waiting/WaitingPeople.dart';
 
-// TODO 각종 오류 출력 안내
-
 class WaitingPhone extends StatefulWidget {
   const WaitingPhone({super.key});
 
@@ -14,6 +12,87 @@ class WaitingPhone extends StatefulWidget {
 class _WaitingPhoneState extends State<WaitingPhone> {
   var _phone = '010 - ';
 
+  void show(String title, String body) {
+    showDialog<String>(
+      context: context,
+
+      /// 다이얼로그 배경 컬러
+      // barrierColor: Colors.cyan.withOpacity(0.4),
+
+      /// 다이얼로그 배경을 터치했을 때 다이얼로그를 닫을지 말지 결정
+      /// true = 닫을 수 있음, false = 닫을 수 없음
+      barrierDismissible: true,
+
+      builder: (context) {
+        return Dialog(
+          /// 배경 컬러
+          backgroundColor: Colors.white,
+
+          /// 그림자 컬러
+          shadowColor: Colors.blue,
+
+          /// 다이얼로그의 모양 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+
+          /// z축 높이, elevation의 값이 높을 수록 그림자가 아래 위치하게 됩니다.
+          elevation: 10,
+
+          /// 다이얼로그의 위치 설정, 기본값은 center
+          alignment: Alignment.center,
+
+          /// Dialog의 padding 값입니다..
+          /// sizedBox의 가로세로 값읠 infinity로 설정해놓고
+          /// 가로패딩 50, 세로 패딩 200을 줬습니다.
+          /// 이렇게 하면 좌우 50, 위아래 200만큼의 패딩이 생기고 배경이 나오게 됩니다.
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 50,
+            vertical: 100,
+          ),
+
+          /// Material 3 에서만 사용됨
+          // surfaceTintColor: Colors.green,
+
+
+          child: SizedBox(
+              width: 100,
+              height: 200,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    body, style: TextStyle(fontSize: 15),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: 200,
+                    height: 40,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          /// Navigator.pop에서 result값을 넣어주면
+                          /// showDialog의 return 값이 됩니다.
+                          Navigator.pop(context, "return value");
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                        child: const Text("확인",style: TextStyle(color: Colors.white),)),
+                  ),
+                ],
+              )),
+        );
+      },
+    ).then((value) {
+      /// Navigator.pop 의 return 값이 들어옵니다.
+    }).whenComplete(() {
+      /// 다이얼로그가 종료됐을 때 호출됩니다.
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -476,7 +555,7 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                           );
 
                                         }else{
-                                          // TODO 전화번호 추가로 입력 안내
+                                          show("오류", "전화번호 11자리를 모두 입력해주세요");
                                           print("[전화번호 입력 미완] 전화번호를 추가로 입력해주세요!");
                                         }
                                       },
@@ -521,7 +600,7 @@ class _WaitingPhoneState extends State<WaitingPhone> {
       changedPhone += " - ";
     }
     else if(changedPhone.length == 18){
-      /* TODO [더 입력할 수 없습니다.] 경고문자 출력하기 */
+      show("오류","전화번호는 최대 11까지 입력 가능합니다.");
       print("[전화번호 입력] 이미 모두 입력했습니다");
       changedPhone = changedPhone.substring(0,17);
     }
@@ -541,7 +620,7 @@ class _WaitingPhoneState extends State<WaitingPhone> {
       changedPhone = changedPhone.substring(0, 9);
     }
     else if(changedPhone.length == 5){
-      /* TODO [더 지울 수 없습니다.] 경고문자 출력하기 */
+      show("오류","전화번호를 더 이상 지울 수 없습니다.");
       print("[전화번호 입력] 더 지울 수 없습니다. ");
       changedPhone += " ";
     }

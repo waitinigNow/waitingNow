@@ -71,7 +71,6 @@ class _WaitingPeopleState extends State<WaitingPeople> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 16),
                     Text(
                       title,
                       style: TextStyle(fontSize: 20),
@@ -104,7 +103,6 @@ class _WaitingPeopleState extends State<WaitingPeople> {
       });
     }
 
-    // TODO 오류 창 모달 띄우기
     void minusBaby() {
       int tempBaby = baby - 1;
 

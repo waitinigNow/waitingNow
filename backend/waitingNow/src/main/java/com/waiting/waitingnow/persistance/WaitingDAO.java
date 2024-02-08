@@ -50,14 +50,20 @@ public class WaitingDAO {
      * @return 마지막 다음 번호 (이제 사용될 번호)
      */
     public int selectLastWaitingNumber() throws Exception {
-        return (int)sqlSession.selectOne(namespace+".selectLastWaitingNumber");
+        int num = sqlSession.selectOne(namespace+".selectLastWaitingNumber");
+        return sqlSession.selectOne(namespace+".selectLastWaitingNumber");
     }
 
     /***
      * @return 마지막 다음 번호 (이제 사용될 번호)
      */
     public int selectCustomerNumber(int memberNumber) throws Exception {
-        return (int)sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber)+1;
+        int num = 1;
+        if(sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber) == null){
+        }else{
+            num = (int)sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber)+1;
+        }
+        return num;
     }
 
     public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{

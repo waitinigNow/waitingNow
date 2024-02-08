@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.waiting.waitingnow.mapper.deskAssignMapper">
+    <insert id="insert">
+        insert into deskassign (deskAssignKey, memberNumber, deskStoreNumber, waitingNumber, preorderExist)
+        values (#{deskAssignKey}, #{memberNumber}, #{deskStoreNumber}, #{waitingNumber}, #{preorderExist})
+    </insert>
+
+    <select id="selectDeskAssign" resultType="com.waiting.waitingnow.domain.DeskAssignVO">
+        select * from deskassign where memberNumber = #{memberNumber} and waitingNumber = #{waitingNumber}
+    </select>
+
+    <select id="lastAssignDeskKey" resultType="int">
+        select count(*) from deskassign
+    </select>
+
+    <select id="selectDeskSitAvailable" resultType="int">
+        select count(*) from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
+    </select>
+
+    <select id="deskSitAvailableList" resultType="com.waiting.waitingnow.domain.DeskAssignVO">
+        select * from deskassign where memberNumber = #{memberNumber}
+    </select>
+
+    <delete id="delete">
+        delete from deskassign where memberNumber = #{memberNumber} and deskStoreNumber = #{deskStoreNumber}
+    </delete>
+
+    <select id="assignedWaitingNumber" resultType="int">
+        select waitingNumber from deskassign where deskStoreNumber = #{deskStoreNumber} and memberNumber = #{memberNumber}
+    </select>
+
+
+</mapper>

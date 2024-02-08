@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -50,14 +51,20 @@ public class WaitingDAO {
      * @return 마지막 다음 번호 (이제 사용될 번호)
      */
     public int selectLastWaitingNumber() throws Exception {
-        return (int)sqlSession.selectOne(namespace+".selectLastWaitingNumber")+1;
+        int num = sqlSession.selectOne(namespace+".selectLastWaitingNumber");
+        return sqlSession.selectOne(namespace+".selectLastWaitingNumber");
     }
 
     /***
      * @return 마지막 다음 번호 (이제 사용될 번호)
      */
     public int selectCustomerNumber(int memberNumber) throws Exception {
-        return (int)sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber)+1;
+        int num = 1;
+        if(sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber) == null){
+        }else{
+            num = (int)sqlSession.selectOne(namespace+".selectCustomerNumber", memberNumber)+1;
+        }
+        return num;
     }
 
     public WaitingVO waitingSearchByCustomerNumber(WaitingVO waiting) throws Exception{
@@ -71,8 +78,15 @@ public class WaitingDAO {
         return (int)sqlSession.selectOne(namespace+".selectPeopleByMemberNumber", memberNumber);
     }
 
-    public List<WaitingVO> selectWaitingListByMemberNumber(String memberNumber) throws Exception {
-        List<WaitingVO> waitings = sqlSession.selectList(namespace + ".selectWaitingListByMemberNumber", memberNumber);
+    public List<WaitingVO> selectWaitingListByMemberNumber(int memberNumber, String waitingStatus) throws Exception {
+        List<WaitingVO> waitings = new ArrayList<>();
+        if(waitingStatus.equals("waiting")){
+            waitings = sqlSession.selectList(namespace + ".selectWaitingListStatusWaitingByMemberNumber", memberNumber);
+        } else if (waitingStatus.equals("end")) {
+            waitings = sqlSession.selectList(namespace + ".selectWaitingListStatusEndByMemberNumber", memberNumber);
+        } else{
+            throw new NullPointerException("[HTTP 요청 오류] Param에 waitingStatus가 없습니다. (waitingStatus = waiting / waiting = end)");
+        }
         if (waitings != null) {
             return waitings;
         } else {

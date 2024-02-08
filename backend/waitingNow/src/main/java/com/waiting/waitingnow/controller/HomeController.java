@@ -2,15 +2,18 @@ package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.NewPhoneNumberVO;
 import com.waiting.waitingnow.DTO.RestResponse;
+import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.service.MemberService;
 import com.waiting.waitingnow.service.SendMessageService;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,13 +24,22 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
     private final MemberService memberService;
     private final SendMessageService sendMessageService;
+    private final JwtTokenService jwtTokenService;
+
+    @Autowired
+    private ServletContext servletContext;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     RestResponse<Object> restResponse = new RestResponse<>();
 
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public HomeController(MemberService memberService, SendMessageService sendMessageService){
+    public HomeController(MemberService memberService, SendMessageService sendMessageService, JwtTokenService jwtTokenService){
         this.memberService = memberService;
         this.sendMessageService = sendMessageService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     public String randomAuthNumber(){
@@ -55,12 +67,15 @@ public class HomeController {
         // 성공적으로 로그인 했을때.
         try{
             MemberVO full_member = memberService.loginMember(member, request);
+            String token = jwtTokenService.generateToken(Integer.toString(full_member.getMemberNumber()));
+            servletContext.setAttribute(token,full_member);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message("로그인 되었습니다.")
+                    .message(token)
                     .data(full_member)
                     .build();
+            System.out.println(restResponse.toString());
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());
         }
         // 일치하는 전화번호가 없을 때, NullpointerException 발생
@@ -91,7 +106,8 @@ public class HomeController {
     @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
     public ResponseEntity signup(@RequestBody MemberVO member, HttpServletRequest request) throws Exception {
         // 회원 가입 완료
-        if(memberService.signUpMember(member)){
+        try{
+            memberService.signUpMember(member);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.CREATED.value())
                     .httpStatus(HttpStatus.CREATED)
@@ -101,12 +117,12 @@ public class HomeController {
         }
         // 회원가입 실패 시, (중복된 번호가 존재할 때)
         // 중복된 번호가 존재하면, 휴대폰 인증 시 걸러짐
-        else{
-            MemberVO newMember = memberService.searchMember(member.getMemberPhone());
+        catch (IllegalStateException e){
+            MemberVO newMember = memberService.searchMemberByPhone(member.getMemberPhone());
             restResponse = RestResponse.builder()
                     .code(HttpStatus.FORBIDDEN.value())
                     .httpStatus(HttpStatus.FORBIDDEN)
-                    .message("duplicated Phone Number")
+                    .message(e.getMessage())
                     .data(newMember)
                     .build();
         }
@@ -123,7 +139,7 @@ public class HomeController {
         // 기존에 멤버가 존재하는 경우
         logger.info("호출");
         try{
-            memberService.searchMember(newPhoneNumber.getMemberPhone());
+            memberService.searchMemberByPhone(newPhoneNumber.getMemberPhone());
             restResponse = RestResponse.builder()
                     .code(HttpStatus.FORBIDDEN.value())
                     .httpStatus(HttpStatus.FORBIDDEN)

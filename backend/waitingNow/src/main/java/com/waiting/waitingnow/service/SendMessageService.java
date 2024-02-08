@@ -1,7 +1,9 @@
 package com.waiting.waitingnow.service;
 
 
+import com.waiting.waitingnow.domain.MemberVO;
 import com.waiting.waitingnow.domain.WaitingVO;
+import jakarta.servlet.http.HttpServletRequest;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.service.DefaultMessageService;
@@ -13,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Service;
 
+/**
+ * @see com.waiting.waitingnow.controller.HomeController#login(MemberVO, HttpServletRequest) 로그인
+ * @see <a href="https://coolsms.co.kr/">coolsms</a>
+ */
 @Service
 public class SendMessageService {
     private static final Logger logger = LoggerFactory.getLogger(SendMessageService.class);

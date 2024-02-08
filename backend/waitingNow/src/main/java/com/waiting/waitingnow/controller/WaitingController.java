@@ -1,6 +1,7 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
+import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.WaitingVO;
 import com.waiting.waitingnow.service.SendMessageService;
 import com.waiting.waitingnow.service.WaitingService;
@@ -20,13 +21,15 @@ public class WaitingController {
 
     private final WaitingService waitingService;
     private final SendMessageService sendMessageService;
+    private final JwtTokenService jwtTokenService;
 
     RestResponse<Object> restResponse = new RestResponse<>();
 
     @Autowired
-    public WaitingController(WaitingService waitingService,SendMessageService sendMessageService) {
+    public WaitingController(WaitingService waitingService,SendMessageService sendMessageService, JwtTokenService jwtTokenService) {
         this.waitingService = waitingService;
         this.sendMessageService = sendMessageService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     /**
@@ -36,9 +39,10 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting"}, method = RequestMethod.POST)
-    public ResponseEntity waitingRegist(@RequestBody WaitingVO waiting) throws Exception {
+    public ResponseEntity waitingRegist(@RequestBody WaitingVO waiting, @RequestHeader("Authorization") String token) throws Exception {
         // 1. waiting 등록 성공 시
         try{
+            waiting.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
             waitingService.insert(waiting);
             WaitingVO NewWaiting = waitingService.selectByid(waiting.getWaitingNumber());
             restResponse = RestResponse.builder()
@@ -97,13 +101,15 @@ public class WaitingController {
      * @apiNote 1. waiting 호출 성공 시 / 2. 파라미터 둘 중에 하나라도 잘못됨
      * @throws Exception
      */
+
+    //@TODO
     @ResponseBody
     @RequestMapping(value = {"/waiting/call"}, method = RequestMethod.GET)
-    public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestParam(value = "memberNumber") int memberNumber) throws Exception {
+    public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestHeader("Authorization") String token) throws Exception {
         // 1. waiting 호출 성공 시
         WaitingVO waiting = new WaitingVO();
         waiting.setWaitingCustomerNumber(waitingCustomerNumber);
-        waiting.setMemberNumber(memberNumber);
+        waiting.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
         try{
             WaitingVO newWaiting = waitingService.waitingSearchByCustomerNumber(waiting);
             String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);
@@ -164,9 +170,10 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting/now/people"}, method = RequestMethod.GET)
-    public ResponseEntity waitingNowPeople(@RequestParam int memberNumber) throws Exception {
+    public ResponseEntity waitingNowPeople(@RequestHeader("Authorization") String token) throws Exception {
         // 1. 현재 인원을 출력함
         try{
+            int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
             int people = waitingService.waitingNowPeople(memberNumber);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
@@ -188,17 +195,18 @@ public class WaitingController {
     }
 
     /**
-     * 회원 번호로 사람 리스트 출력하기 (대기중 / 완료)
-     * @param memberNumber
+     * 토큰으로 사람 리스트 출력하기 (대기중 / 완료)
+     * @param token
      * @apiNote 1. waiting List 조회 성공 시 / 2. 일치하는 웨이팅 번호가 없을 때
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting/now"}, method = RequestMethod.GET)
-    public ResponseEntity waitingSearchList(String memberNumber) throws Exception {
+    public ResponseEntity waitingSearchList(@RequestHeader("Authorization") String token, @RequestParam String waitingStatus) throws Exception {
         logger.info("/waiting/now 호출");
         try{
-            List<WaitingVO> waitings = waitingService.waitingNowList(memberNumber);
+            int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
+            List<WaitingVO> waitings = waitingService.waitingNowList(memberNumber,waitingStatus);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)

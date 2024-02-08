@@ -16,7 +16,7 @@
     </select>
 
     <!-- 사장님 번호로 찾기 -->
-    <select id="selectByMember" resultType="com.waiting.waitingnow.domain.DeskVO">
+    <select id="selectByMember" resultType="com.waiting.waitingnow.DTO.SendDeskVO">
         select * from desk where memberNumber = #{memberNumber}
     </select>
 

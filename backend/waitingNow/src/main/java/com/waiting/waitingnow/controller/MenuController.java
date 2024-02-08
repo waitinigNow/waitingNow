@@ -1,6 +1,7 @@
 package com.waiting.waitingnow.controller;
 
 import com.waiting.waitingnow.DTO.RestResponse;
+import com.waiting.waitingnow.config.JwtTokenService;
 import com.waiting.waitingnow.domain.MenuVO;
 import com.waiting.waitingnow.service.MenuService;
 import org.slf4j.Logger;
@@ -18,17 +19,19 @@ public class MenuController {
     private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
     private final MenuService menuService;
     RestResponse<Object> restResponse = new RestResponse<>();
-
+    private final JwtTokenService jwtTokenService;
     // 생성자 방식으로 의존성 주입
     @Autowired
-    public MenuController(MenuService menuService){
+    public MenuController(MenuService menuService, JwtTokenService jwtTokenService){
         this.menuService = menuService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     @RequestMapping(value = {"/menu"}, method = RequestMethod.GET)
-    public ResponseEntity menuView(@RequestParam int memberNumber) throws Exception {
+    public ResponseEntity menuView(@RequestHeader("Authorization") String token) throws Exception {
         // 1. menu 조회 기능
         try{
+            int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
             Map<String, List<MenuVO>> menus = menuService.selectByMember(memberNumber);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())

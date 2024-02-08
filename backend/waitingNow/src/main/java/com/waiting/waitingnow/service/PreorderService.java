@@ -2,14 +2,8 @@ package com.waiting.waitingnow.service;
 
 import com.waiting.waitingnow.DTO.MenuPreorderVO;
 import com.waiting.waitingnow.DTO.SetPreorderVO;
-import com.waiting.waitingnow.domain.MenuVO;
-import com.waiting.waitingnow.domain.OptionMenuVO;
-import com.waiting.waitingnow.domain.OptionPreorderVO;
-import com.waiting.waitingnow.domain.PreorderVO;
-import com.waiting.waitingnow.persistance.MenuDAO;
-import com.waiting.waitingnow.persistance.OptionMenuDAO;
-import com.waiting.waitingnow.persistance.PreorderDAO;
-import com.waiting.waitingnow.persistance.WaitingDAO;
+import com.waiting.waitingnow.domain.*;
+import com.waiting.waitingnow.persistance.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +20,19 @@ public class PreorderService {
     private final MenuDAO menuDAO;
     private final MenuService menuService;
     private final WaitingDAO waitingDAO;
+    private final DeskDAO deskDAO;
 
 
     private static final Logger logger = LoggerFactory.getLogger(PreorderService.class);
 
     @Autowired
-    public PreorderService(PreorderDAO preorderDAO, MenuDAO menuDAO, OptionMenuDAO optionMenuDAO, MenuService menuService, WaitingDAO waitingDAO){
+    public PreorderService(PreorderDAO preorderDAO, MenuDAO menuDAO, OptionMenuDAO optionMenuDAO, MenuService menuService, WaitingDAO waitingDAO, DeskDAO deskDAO){
         this.preorderDAO = preorderDAO;
         this.menuDAO = menuDAO;
         this.optionMenuDAO = optionMenuDAO;
         this.menuService = menuService;
         this.waitingDAO = waitingDAO;
+        this.deskDAO = deskDAO;
     }
 
     public List<MenuPreorderVO> setPreorder(SetPreorderVO preorder) throws Exception{
@@ -81,15 +77,16 @@ public class PreorderService {
 
     /***
      * 선주문 조회하는 함수
-     * @param waitingNumber
+     * @param deskAssignVO
      * @return
      * @throws Exception
      */
-    public List<MenuPreorderVO> searchPreorder(int waitingNumber) throws Exception{
+    public List<MenuPreorderVO> searchPreorder(DeskAssignVO deskAssignVO) throws Exception{
+        int waitingNumber = deskDAO.assignedWaitingNumber(deskAssignVO);
         // 선주문 테이블 불러옴
         List<PreorderVO> preorders = preorderDAO.selectByWaiting(waitingNumber);
         if(preorders.isEmpty()){
-            throw new NullPointerException("일치하지 않는 웨이팅 번호입니다.");
+            throw new NullPointerException("선주문 내역이 없습니다.");
         }
         List<MenuPreorderVO> newPreorders = new ArrayList<MenuPreorderVO>();
         List<MenuVO> menus = new ArrayList<MenuVO>(); // 전송할 메뉴들 저장할 공간

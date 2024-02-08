@@ -26,6 +26,12 @@ public class MenuDAO {
         return sqlSession.selectOne(namespace + ".selectByid", menuNumber);
     }
 
+    /**
+     * 메뉴 번호로 선주문 정보를 조회하는 메소드
+     * @param menuNumber (메뉴 번호)
+     * @return 선주문 정보(MenuPreorderVO)
+     * @throws Exception
+     */
     public MenuPreorderVO selectPreorderVOByid(int menuNumber) throws Exception {
         return sqlSession.selectOne(namespace + ".selectPreorderVOByid", menuNumber);
     }

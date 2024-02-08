@@ -25,7 +25,7 @@ public class MenuService {
     public Map<String, List<MenuVO>> selectByMember(int memberNumber) throws Exception{
         List<MenuVO> menus = menuDAO.selectByMember(memberNumber);
         if(menus.size() == 0){
-            throw new NullPointerException("일치하는 사장님의 회원번호가 없습니다");
+            throw new NullPointerException("메뉴가 등록되지 않았거나, 사장님 번호가 일치하지 않습니다.");
         }
 
         // 메뉴마다 옵션 Map으로 할당함

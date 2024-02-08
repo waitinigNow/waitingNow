@@ -56,7 +56,7 @@
     <!-- 선주문 가능 여부 설정하기 -->
     <update id="updatePreorderAvailable">
         update member set memberPreorder = #{memberPreorder}
-        where memberPhone = #{memberPhone}
+        where memberNumber = #{memberNumber}
     </update>
 
     <update id="updateMemberPhone">

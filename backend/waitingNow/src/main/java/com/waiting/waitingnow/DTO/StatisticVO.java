@@ -4,20 +4,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StatisticVO {
-    private String memberPhone;
+    private int memberNumber;
     private Date waitingDate;
 
-    public String getMemberPhone() {
-        return memberPhone;
+    public int getMemberNumber() {
+        return memberNumber;
+    }
+
+    public void setMemberNumber(int memberNumber) {
+        this.memberNumber = memberNumber;
     }
 
     public String getWaitingDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(waitingDate);
-    }
-
-    public void setMemberPhone(String memberPhone) {
-        this.memberPhone = memberPhone;
     }
 
     public void setWaitingDate(Date waitingDate) {

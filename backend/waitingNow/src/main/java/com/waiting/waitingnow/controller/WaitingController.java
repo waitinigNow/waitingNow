@@ -202,11 +202,11 @@ public class WaitingController {
      */
     @ResponseBody
     @RequestMapping(value = {"/waiting/now"}, method = RequestMethod.GET)
-    public ResponseEntity waitingSearchList(@RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity waitingSearchList(@RequestHeader("Authorization") String token, @RequestParam String waitingStatus) throws Exception {
         logger.info("/waiting/now 호출");
         try{
             int memberNumber = Integer.valueOf(jwtTokenService.getUsernameFromToken(token));
-            List<WaitingVO> waitings = waitingService.waitingNowList(memberNumber);
+            List<WaitingVO> waitings = waitingService.waitingNowList(memberNumber,waitingStatus);
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)

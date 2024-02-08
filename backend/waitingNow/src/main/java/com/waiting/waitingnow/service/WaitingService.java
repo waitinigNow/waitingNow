@@ -85,8 +85,8 @@ public class WaitingService {
         return waitingDAO.selectPeopleByMemberNumber(memberNumber);
     }
 
-    public List<WaitingVO> waitingNowList(int memberNumber) throws Exception{
-        List<WaitingVO> waitings = waitingDAO.selectWaitingListByMemberNumber(memberNumber);
+    public List<WaitingVO> waitingNowList(int memberNumber, String waitingStatus) throws Exception{
+        List<WaitingVO> waitings = waitingDAO.selectWaitingListByMemberNumber(memberNumber, waitingStatus);
         if(!waitings.isEmpty()) {
             return waitings;
         }

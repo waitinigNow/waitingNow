@@ -48,10 +48,13 @@
         select count(*) from waiting where memberNumber = #{memberNumber} and (waitingAvailable = 1 or waitingAvailable = 2);
     </select>
 
-    <select id="selectWaitingListByMemberNumber" resultType="com.waiting.waitingnow.domain.WaitingVO">
-        select * from waiting where memberNumber = #{memberNumber};
+    <select id="selectWaitingListStatusWaitingByMemberNumber" resultType="com.waiting.waitingnow.domain.WaitingVO">
+        select * from waiting where memberNumber = #{memberNumber} and (waitingAvailable = 1 or waitingAvailable = 2);
     </select>
 
+    <select id="selectWaitingListStatusEndByMemberNumber" resultType="com.waiting.waitingnow.domain.WaitingVO">
+        select * from waiting where memberNumber = #{memberNumber} and (waitingAvailable = 0 or waitingAvailable = -1 or waitingAvailable = -2);
+    </select>
 
 </mapper>
 

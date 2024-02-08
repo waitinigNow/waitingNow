@@ -6,6 +6,8 @@ import 'package:waitingnow/src/Controller/WaitingController.dart';
 import 'package:waitingnow/src/Get/WaitingGet.dart';
 import 'package:waitingnow/src/Screen/waiting/WaitingPhone.dart';
 
+import '../Widget/DrawerWidget.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -39,6 +41,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     Color myColor = Color(0xFF747474);
+
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
 
     void show(String title, String body) {
       showDialog<String>(
@@ -131,6 +135,24 @@ class _HomeState extends State<Home> {
           if (snapshot.hasData && snapshot.data as int != -1) {
             int waitingNowPeople = snapshot.data as int;
             return Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                toolbarHeight: 80,
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        _scaffoldKey.currentState?.openEndDrawer();
+                      },
+                      icon: Icon(
+                        Icons.menu,
+                        size: 40,
+                      )),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+              endDrawer: DrawerWidget(),
               body: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -139,7 +161,9 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              color: myColor, width: 800, height: 150,
+                              color: myColor,
+                              width: 800,
+                              height: 150,
                               child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Row(
@@ -148,46 +172,73 @@ class _HomeState extends State<Home> {
                                         padding: const EdgeInsets.all(10.0),
                                         child: Align(
                                           alignment: Alignment.bottomLeft,
-                                          child: Text('현재 대기', style: GoogleFonts.roboto(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),),
+                                          child: Text(
+                                            '현재 대기',
+                                            style: GoogleFonts.roboto(
+                                              color: Colors.white,
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       Align(
                                         alignment: Alignment.bottomLeft,
-                                        child: Text(waitingNowPeople.toString(), style: GoogleFonts.roboto(color: Colors.white, fontSize: 70, fontWeight: FontWeight.bold,),),
+                                        child: Text(
+                                          waitingNowPeople.toString(),
+                                          style: GoogleFonts.roboto(
+                                            color: Colors.white,
+                                            fontSize: 70,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: Align(
                                           alignment: Alignment.bottomLeft,
-                                          child: Text('팀', style: GoogleFonts.roboto(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),),
+                                          child: Text(
+                                            '팀',
+                                            style: GoogleFonts.roboto(
+                                              color: Colors.white,
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
-                                  )
-
-                              )
-                          ),
+                                  ))),
                           TextButton(
                             onPressed: () {
                               // 버튼이 클릭될 때 실행되는 함수
                               print('웨이팅 접수를 시작합니다');
                               Get.to(WaitingPhone());
                             },
-                            child: Text('웨이팅 접수', style: GoogleFonts.roboto(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold,),),
+                            child: Text(
+                              '웨이팅 접수',
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             style: TextButton.styleFrom(
-                              primary: Colors.white, // 텍스트 색상
-                              backgroundColor: Colors.orange, // 버튼 배경색
+                              primary: Colors.white,
+                              // 텍스트 색상
+                              backgroundColor: Colors.orange,
+                              // 버튼 배경색
                               fixedSize: Size(300, 150.0),
-                              padding: EdgeInsets.all(16.0), // 내부 여백
+                              padding: EdgeInsets.all(16.0),
+                              // 내부 여백
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0.0), // 버튼 모양 설정
+                                borderRadius:
+                                    BorderRadius.circular(0.0), // 버튼 모양 설정
                               ),
                             ),
                           ),
                         ],
-                      )
-                  )
-              ),
+                      ))),
             );
           } else if (snapshot.hasError || snapshot.data as int == -1) {
             return Scaffold(
@@ -199,7 +250,9 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              color: myColor, width: 800, height: 150,
+                              color: myColor,
+                              width: 800,
+                              height: 150,
                               child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Row(
@@ -208,47 +261,57 @@ class _HomeState extends State<Home> {
                                         padding: const EdgeInsets.all(10.0),
                                         child: Align(
                                           alignment: Alignment.center,
-                                          child: Text('웨이팅 인원을 불러오는데 오류가 발생했습니다', style: GoogleFonts.roboto(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),),
+                                          child: Text(
+                                            '웨이팅 인원을 불러오는데 오류가 발생했습니다',
+                                            style: GoogleFonts.roboto(
+                                              color: Colors.white,
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
-                                  )
-
-                              )
-                          ),
+                                  ))),
                           TextButton(
                             onPressed: () {
                               // 버튼이 클릭될 때 실행되는 함수
                               print('[홈] 화면 새로 고침');
                               Get.offAll(() => Home());
                             },
-                            child: Text('새로 고침', style: GoogleFonts.roboto(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold,),),
+                            child: Text(
+                              '새로 고침',
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             style: TextButton.styleFrom(
-                              primary: Colors.white, // 텍스트 색상
-                              backgroundColor: Colors.orange, // 버튼 배경색
+                              primary: Colors.white,
+                              // 텍스트 색상
+                              backgroundColor: Colors.orange,
+                              // 버튼 배경색
                               fixedSize: Size(300, 150.0),
-                              padding: EdgeInsets.all(16.0), // 내부 여백
+                              padding: EdgeInsets.all(16.0),
+                              // 내부 여백
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0.0), // 버튼 모양 설정
+                                borderRadius:
+                                    BorderRadius.circular(0.0), // 버튼 모양 설정
                               ),
                             ),
                           ),
                         ],
-                      )
-                  )
-              ),
+                      ))),
             );
           }
         }
 
         return Column(children: [
           const SizedBox(height: 50),
-          Container(
-              width: 50, height: 50, child: CircularProgressIndicator())
+          Container(width: 50, height: 50, child: CircularProgressIndicator())
         ]);
       },
     );
-
-
   }
 }

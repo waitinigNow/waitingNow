@@ -7,7 +7,6 @@ import '../global/global.dart';
 final GetStorage _storage = GetStorage();
 
 class WaitingService extends GetConnect {
-
   final waitingGet = Get.put(WaitingGet());
 
   Future waitingNowPeople() async{
@@ -30,6 +29,30 @@ class WaitingService extends GetConnect {
     Map<String, dynamic> body = response.body;
 
     if(body['code'] != 201){
+      throw Exception(body['message']);
+    } else{
+      return body['data'];
+    }
+  }
+
+  Future waitingStatusPeopleList() async{
+    Response response = await get('/waiting/now?waitingStatus=waiting');
+
+    Map<String, dynamic> body = response.body;
+
+    if(body['code'] != 200){
+      throw Exception(body['message']);
+    } else{
+      return body['data'];
+    }
+
+  }
+
+  Future endStatusPeopleList() async{
+    Response response = await get('/waiting/now?waitingStatus=end');
+    Map<String, dynamic> body = response.body;
+
+    if(body['code'] != 200){
       throw Exception(body['message']);
     } else{
       return body['data'];

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:waitingnow/src/Screen/Desk/DeskHome.dart';
-import 'package:waitingnow/src/Screen/preorder/Preorder.dart';
+import 'package:waitingnow/src/Screen/Admin/Admin.dart';
 
 import '../../Domain/UserVO.dart';
 import '../waiting/Home.dart';
@@ -72,7 +71,7 @@ class DrawerWidget extends StatelessWidget {
               ),
               onTap: () {
                 Get.back();
-                Get.offAll(() => DeskHome());
+                Get.offAll(() => Admin());
               }),
           SizedBox(
             height: 10,

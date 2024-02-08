@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:waitingnow/src/get/WaitingGet.dart';
-import 'package:waitingnow/src/screen/waiting/WaitingPeople.dart';
+import 'package:waitingnow/src/Get/WaitingGet.dart';
+import 'package:waitingnow/src/Screen/waiting/WaitingPeople.dart';
 
 class WaitingPhone extends StatefulWidget {
   const WaitingPhone({super.key});

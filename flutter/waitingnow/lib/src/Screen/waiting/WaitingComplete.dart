@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:waitingnow/src/get/WaitingGet.dart';
+import 'package:waitingnow/src/Get/WaitingGet.dart';
 
 import '../preorder/Preorder.dart';
 import 'Home.dart';

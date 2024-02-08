@@ -8,7 +8,9 @@ void main() async{
   await GetStorage.init();
 
   final memberController = Get.put(MemberController());
-  await memberController.login();
+  if(!await memberController.login()){
+    print("[로그인 실패]"); // TODO 추후 로그인 페이지 생성하면 dialog로 변경
+  }
 
   runApp(MyApp());
 }

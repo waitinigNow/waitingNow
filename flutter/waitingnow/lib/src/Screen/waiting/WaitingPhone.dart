@@ -575,7 +575,7 @@ class _WaitingPhoneState extends State<WaitingPhone> {
                                         // 버튼이 클릭될 때 실행되는 함수
                                         if(waitingGet.phone.value.length == 17){
                                           print("[전화번호 입력 완료] 입장 인원 추가로 이동");
-                                          Get.to(WaitingPeople());
+                                          Get.to(() => WaitingPeople());
                                         }else{
                                           show("오류", "전화번호 11자리를 모두 입력해주세요");
                                           print("[전화번호 입력 미완] 전화번호를 추가로 입력해주세요!");

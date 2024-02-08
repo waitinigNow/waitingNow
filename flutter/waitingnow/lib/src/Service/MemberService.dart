@@ -19,8 +19,8 @@ class MemberService extends GetConnect{
     }
     else{
       _storage.write('token', body['message']);
+      return body['data'];
     }
-    return body['data'];
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Controller/WaitingController.dart';
+import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
 
 import '../../Domain/WaitingVO.dart';
 
@@ -61,7 +62,11 @@ class _WaitingAdminState extends State<WaitingAdmin>
               children: <Widget>[
                 Card(
                   margin: const EdgeInsets.all(12.0),
-                  child: ListView(children: []),
+                  child: ListView(
+                    children: [
+                      WaitingAdminWidget(),
+                    ],
+                  )
                 ),
                 Card(
                   margin: const EdgeInsets.all(12.0),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../Domain/WaitingVO.dart';
+
 class WaitingAdminWidget extends StatelessWidget {
-  const WaitingAdminWidget({super.key});
+  final WaitingVO waitingVO;
+  final int index;
+  const WaitingAdminWidget(this.waitingVO, this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class WaitingAdminWidget extends StatelessWidget {
                     width: 30,
                   ),
                   Text(
-                    "1",
+                    "$index",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   SizedBox(
@@ -32,7 +36,7 @@ class WaitingAdminWidget extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(height: 4,),
-                      Text("010 - 8734 - 9687",style: TextStyle(fontSize: 14)),
+                      Text("${waitingVO.waitingPhone?.substring(0,3)} - ${waitingVO.waitingPhone?.substring(3,7)} - ${waitingVO.waitingPhone?.substring(7,11)}",style: TextStyle(fontSize: 14)),
                       Row(
                         children: [
                           Icon(
@@ -40,12 +44,12 @@ class WaitingAdminWidget extends StatelessWidget {
                             size: 14,
                           ),
                           Text(
-                            " 3",
+                            " ${waitingVO.waitingPeople}",
                             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
                           ),
                           SizedBox(width: 14),
                           Icon(Icons.timer, size: 14),
-                          Text("18:05:35")
+                          Text("${waitingVO.waitingDate?.substring(11)}")
                         ],
                       )
                     ],

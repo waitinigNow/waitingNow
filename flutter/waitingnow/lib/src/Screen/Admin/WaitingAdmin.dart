@@ -4,6 +4,8 @@ import 'package:waitingnow/src/Controller/WaitingController.dart';
 import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
 
 import '../../Domain/WaitingVO.dart';
+import '../../Get/WaitingAdminGet.dart';
+import 'WaitingAdminWidgetList.dart';
 
 class WaitingAdmin extends StatefulWidget {
   const WaitingAdmin({super.key});
@@ -19,21 +21,21 @@ class _WaitingAdminState extends State<WaitingAdmin>
   @override
   void initState() {
     final waitingController = Get.put(WaitingController());
+    final waitingAdminGet = Get.put(WaitingAdminGet());
 
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
 
-    // TODO 1. Waiting 정보를 출력하는 Widget 작성하기
     // TODO 2. 정해진 시간마다 한번 씩 화면을 갱신하는 방법 고민하기 -> 상태관리? update?
 
     waitingController.waitingStatusPeopleList().then((value) {
-      List<WaitingVO> waitings = value;
-      print("현재 대기팀 인원 : " + waitings.length.toString());
+      waitingAdminGet.waitingVO.value = value;
+      print("현재 대기팀 인원 : " + value.length.toString());
     });
 
     waitingController.endStatusPeopleList().then((value) {
-      List<WaitingVO> waitings = value;
-      print("완료 인원 : " + waitings.length.toString());
+      waitingAdminGet.endVO.value = value;
+      print("완료 인원 : " + value.length.toString());
     });
   }
 
@@ -62,11 +64,7 @@ class _WaitingAdminState extends State<WaitingAdmin>
               children: <Widget>[
                 Card(
                   margin: const EdgeInsets.all(12.0),
-                  child: ListView(
-                    children: [
-                      WaitingAdminWidget(),
-                    ],
-                  )
+                  child: WaitingAdminWidgetList()
                 ),
                 Card(
                   margin: const EdgeInsets.all(12.0),

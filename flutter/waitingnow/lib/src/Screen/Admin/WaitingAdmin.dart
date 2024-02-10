@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Controller/WaitingController.dart';
+import 'package:waitingnow/src/Screen/Admin/EndAdminWidgetList.dart';
+import 'package:waitingnow/src/Screen/Widget/EndAdminWidget.dart';
 import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
 
 import '../../Domain/WaitingVO.dart';
@@ -18,10 +20,11 @@ class _WaitingAdminState extends State<WaitingAdmin>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
+  final waitingAdminGet = Get.put(WaitingAdminGet());
+
   @override
   void initState() {
     final waitingController = Get.put(WaitingController());
-    final waitingAdminGet = Get.put(WaitingAdminGet());
 
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
@@ -53,9 +56,11 @@ class _WaitingAdminState extends State<WaitingAdmin>
         children: <Widget>[
           TabBar.secondary(
             controller: _tabController,
-            tabs: const <Widget>[
-              Tab(text: '대기팀 (0)'),
-              Tab(text: '완료 (0)'),
+            tabs: <Widget>[
+              Obx(() =>
+                  Tab(text: '대기팀 (${waitingAdminGet.waitingVO.value.length})')),
+              Obx(() =>
+                  Tab(text: '완료 (${waitingAdminGet.endVO.value.length})')),
             ],
           ),
           Expanded(
@@ -63,13 +68,11 @@ class _WaitingAdminState extends State<WaitingAdmin>
               controller: _tabController,
               children: <Widget>[
                 Card(
-                  margin: const EdgeInsets.all(12.0),
-                  child: WaitingAdminWidgetList()
-                ),
+                    margin: const EdgeInsets.all(12.0),
+                    child: WaitingAdminWidgetList()),
                 Card(
-                  margin: const EdgeInsets.all(12.0),
-                  child: Center(child: Text('ddd')),
-                ),
+                    margin: const EdgeInsets.all(12.0),
+                    child: EndAdminWidgetList()),
               ],
             ),
           ),

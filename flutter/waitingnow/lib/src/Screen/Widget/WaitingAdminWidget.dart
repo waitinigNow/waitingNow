@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Screen/Admin/Admin.dart';
+import 'package:waitingnow/src/Controller/TimerController.dart';
 
 import '../../Controller/WaitingController.dart';
 import '../../Domain/WaitingVO.dart';
 
-class WaitingAdminWidget extends StatelessWidget {
+class WaitingAdminWidget extends StatefulWidget {
   final WaitingVO waitingVO;
   final int index;
-  const WaitingAdminWidget(this.waitingVO, this.index, {super.key});
+  const WaitingAdminWidget(this.waitingVO, this.index);
+
+  @override
+  State<WaitingAdminWidget> createState() => _WaitingAdminWidgetState();
+}
+
+class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
+  final TimerController timerController = Get.put(TimerController());
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +189,9 @@ class WaitingAdminWidget extends StatelessWidget {
                           height: 40,
                           child: ElevatedButton(
                               onPressed: () async {
-                                if(await waitingController.waitingCall(waitingVO.waitingCustomerNumber)){
+                                if(await waitingController.waitingCall(widget.waitingVO.waitingCustomerNumber)){
                                   show("호출 완료", "정상 호출 되었습니다.");
+                                  timerController.startTimer();
                                 }else{
                                   show("호출 실패", "호출에 실패하였습니다");
                                 }
@@ -225,7 +234,7 @@ class WaitingAdminWidget extends StatelessWidget {
                     width: 30,
                   ),
                   Text(
-                    "$index",
+                    "${widget.index}",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   SizedBox(
@@ -234,7 +243,7 @@ class WaitingAdminWidget extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(height: 4,),
-                      Text("${waitingVO.waitingPhone?.substring(0,3)} - ${waitingVO.waitingPhone?.substring(3,7)} - ${waitingVO.waitingPhone?.substring(7,11)}",style: TextStyle(fontSize: 16)),
+                      Text("${widget.waitingVO.waitingPhone?.substring(0,3)} - ${widget.waitingVO.waitingPhone?.substring(3,7)} - ${widget.waitingVO.waitingPhone?.substring(7,11)}",style: TextStyle(fontSize: 16)),
                       Row(
                         children: [
                           Icon(
@@ -242,12 +251,12 @@ class WaitingAdminWidget extends StatelessWidget {
                             size: 14,
                           ),
                           Text(
-                            " ${waitingVO.waitingPeople}",
+                            " ${widget.waitingVO.waitingPeople}",
                             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
                           ),
                           SizedBox(width: 14),
                           Icon(Icons.timer, size: 14),
-                          Text("${waitingVO.waitingDate?.substring(11)}")
+                          Text("${widget.waitingVO.waitingDate?.substring(11)}")
                         ],
                       )
                     ],
@@ -261,7 +270,7 @@ class WaitingAdminWidget extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      alert("호출하기", "${waitingVO.waitingPhone?.substring(0,3)} - ${waitingVO.waitingPhone?.substring(3,7)} - ${waitingVO.waitingPhone?.substring(7,11)}님을 호출하시겠습니까?");
+                      alert("호출하기", "${widget.waitingVO.waitingPhone?.substring(0,3)} - ${widget.waitingVO.waitingPhone?.substring(3,7)} - ${widget.waitingVO.waitingPhone?.substring(7,11)}님을 호출하시겠습니까?");
                     },
                     icon: Icon(Icons.notifications_outlined),
                     style: ElevatedButton.styleFrom(
@@ -277,7 +286,9 @@ class WaitingAdminWidget extends StatelessWidget {
                         children: [
                           SizedBox(height: 5,),
                           Text("호출"),
-                          Text("10:00:00"),
+                          Obx(() {
+                            return Text(timerController.remainingTime);
+                          }),
                         ]
                     ),
                   ),
@@ -320,7 +331,6 @@ class WaitingAdminWidget extends StatelessWidget {
         ),
       ),
     );
-
-
   }
 }
+

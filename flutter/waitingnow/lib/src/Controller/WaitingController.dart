@@ -86,7 +86,7 @@ class WaitingController extends GetConnect {
   }
 
   /**
-   * 현재 대기중인 사람들 출력
+   * 대기중인 사람들 호출
    */
   Future<bool> waitingCall(int? waitingCustomerNumber) async{
     try{

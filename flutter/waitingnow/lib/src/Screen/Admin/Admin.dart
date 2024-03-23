@@ -35,12 +35,14 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
       initialIndex: 2,
       length: 3,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           toolbarHeight: 80,
           actions: [
             IconButton(
                 onPressed: () {
                   _scaffoldKey.currentState?.openEndDrawer();
+                  print(_scaffoldKey.currentState);
                 },
                 icon: Icon(
                   Icons.menu,

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../Domain/WaitingVO.dart';
 
+/**
+ * TODO : 완료 페이지 [입장 / 미입장] 버튼 -> 다른 정보 추가하기
+ */
 class EndAdminWidget extends StatelessWidget {
   final WaitingVO waitingVO;
   final int index;
@@ -58,26 +61,6 @@ class EndAdminWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end, // 버튼을 행의 오른쪽에 정렬
                       children: [
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.notifications_outlined),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFFEEDA),
-                            foregroundColor: Colors.deepOrange,
-                            minimumSize: Size(75, 60),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(8), // 원하는 사각 버튼 모양을 정의할 수 있음
-                            ),
-                          ),
-                          label: Column(
-                              children: [
-                                SizedBox(height: 5,),
-                                Text("호출"),
-                                Text("10:00:00"),
-                              ]
-                          ),
-                        ),
                         SizedBox(width: 25,),
                         ElevatedButton.icon(
                             onPressed: () {},

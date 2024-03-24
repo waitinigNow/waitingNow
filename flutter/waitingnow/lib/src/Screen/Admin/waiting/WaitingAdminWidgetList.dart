@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waitingnow/src/Controller/TimerController.dart';
 import 'package:waitingnow/src/Get/WaitingAdminGet.dart';
 import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
-
-import '../../Controller/TimerController.dart';
 
 class WaitingAdminWidgetList extends StatelessWidget {
   final TimerController timerController;

@@ -106,6 +106,10 @@ class DrawerWidget extends StatelessWidget {
                                   Get.back();
                                   Get.offAll(() => Home());
                                 }
+                                else if(goto == "Admin"){
+                                  Get.back();
+                                  Get.offAll(() => Admin());
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange),
@@ -181,8 +185,9 @@ class DrawerWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               onTap: () {
-                Get.back();
-                Get.offAll(() => Admin());
+                if(thisPage == "Admin"){
+                  alert("오류", "지금 이동하시면 호출한 이력이 초기화 됩니다!\n 그래도 진행하시겠습니까?", "Admin");
+                }
               }),
           SizedBox(
             height: 10,

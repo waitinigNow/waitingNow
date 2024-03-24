@@ -311,7 +311,7 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
                   SizedBox(width: 25,),
                   ElevatedButton.icon(
                       onPressed: () {
-                        Get.to(TableAssign());
+                        Get.to(TableAssign(), arguments: widget.waitingVO);
                       },
                       icon: Icon(Icons.check),
                       style: ElevatedButton.styleFrom(

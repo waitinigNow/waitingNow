@@ -166,6 +166,9 @@ class DrawerWidget extends StatelessWidget {
                 if(thisPage == "Admin"){
                   alert("오류", "지금 이동하시면 호출한 이력이 초기화 됩니다!\n 그래도 진행하시겠습니까?", "Home");
                 }
+                else if(thisPage == "Home"){
+                  Get.offAll(() => Home());
+                }
               }),
           SizedBox(
             height: 10,
@@ -187,6 +190,9 @@ class DrawerWidget extends StatelessWidget {
               onTap: () {
                 if(thisPage == "Admin"){
                   alert("오류", "지금 이동하시면 호출한 이력이 초기화 됩니다!\n 그래도 진행하시겠습니까?", "Admin");
+                }
+                else if(thisPage == "Home"){
+                  Get.offAll(() => Admin());
                 }
               }),
           SizedBox(

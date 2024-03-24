@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waitingnow/src/Screen/Admin/Admin.dart';
 import 'package:waitingnow/src/Controller/TimerController.dart';
 import 'package:waitingnow/src/Screen/Admin/Table/TableAssign.dart';
 
-import '../../Controller/WaitingController.dart';
-import '../../Domain/WaitingVO.dart';
+import '../../../Controller/WaitingController.dart';
+import '../../../Domain/WaitingVO.dart';
 
 class WaitingAdminWidget extends StatefulWidget {
   final WaitingVO waitingVO;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../Domain/WaitingVO.dart';
+import '../../../Domain/WaitingVO.dart';
 
 /**
  * TODO : 완료 페이지 [입장 / 미입장] 버튼 -> 다른 정보 추가하기

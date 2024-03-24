@@ -84,4 +84,19 @@ class WaitingController extends GetConnect {
       return -1;
     }
   }
+
+  /**
+   * 대기중인 사람들 호출
+   */
+  Future<bool> waitingCall(int? waitingCustomerNumber) async{
+    try{
+      await waitingService.waitingCall(waitingCustomerNumber).then((data){
+      });
+      return true;
+    }
+    catch(e){
+      print("오류 : $e");
+      return false;
+    }
+  }
 }

@@ -224,8 +224,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              // 텍스트 색상
+                              foregroundColor: Colors.white,
                               backgroundColor: Colors.orange,
                               // 버튼 배경색
                               fixedSize: Size(300, 150.0),
@@ -288,8 +287,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              // 텍스트 색상
+                              foregroundColor: Colors.white,
                               backgroundColor: Colors.orange,
                               // 버튼 배경색
                               fixedSize: Size(300, 150.0),

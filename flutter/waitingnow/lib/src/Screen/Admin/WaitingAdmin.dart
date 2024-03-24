@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waitingnow/src/Controller/TimerController.dart';
 import 'package:waitingnow/src/Controller/WaitingController.dart';
+import 'package:waitingnow/src/Screen/Admin/EndAdminWidgetList.dart';
+import 'package:waitingnow/src/Screen/Widget/EndAdminWidget.dart';
+import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
 
 import '../../Domain/WaitingVO.dart';
+import '../../Get/WaitingAdminGet.dart';
+import 'WaitingAdminWidgetList.dart';
 
 class WaitingAdmin extends StatefulWidget {
-  const WaitingAdmin({super.key});
+  final TimerController timerController;
+  const WaitingAdmin(this.timerController);
 
   @override
   State<WaitingAdmin> createState() => _WaitingAdminState();
@@ -15,6 +22,8 @@ class _WaitingAdminState extends State<WaitingAdmin>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
+  final waitingAdminGet = Get.put(WaitingAdminGet());
+
   @override
   void initState() {
     final waitingController = Get.put(WaitingController());
@@ -22,17 +31,16 @@ class _WaitingAdminState extends State<WaitingAdmin>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
 
-    // TODO 1. Waiting 정보를 출력하는 Widget 작성하기
     // TODO 2. 정해진 시간마다 한번 씩 화면을 갱신하는 방법 고민하기 -> 상태관리? update?
 
     waitingController.waitingStatusPeopleList().then((value) {
-      List<WaitingVO> waitings = value;
-      print("현재 대기팀 인원 : " + waitings.length.toString());
+      waitingAdminGet.waitingVO.value = value;
+      print("현재 대기팀 인원 : " + value.length.toString());
     });
 
     waitingController.endStatusPeopleList().then((value) {
-      List<WaitingVO> waitings = value;
-      print("완료 인원 : " + waitings.length.toString());
+      waitingAdminGet.endVO.value = value;
+      print("완료 인원 : " + value.length.toString());
     });
   }
 
@@ -50,9 +58,11 @@ class _WaitingAdminState extends State<WaitingAdmin>
         children: <Widget>[
           TabBar.secondary(
             controller: _tabController,
-            tabs: const <Widget>[
-              Tab(text: '대기팀 (0)'),
-              Tab(text: '완료 (0)'),
+            tabs: <Widget>[
+              Obx(() =>
+                  Tab(text: '대기팀 (${waitingAdminGet.waitingVO.value.length})')),
+              Obx(() =>
+                  Tab(text: '완료 (${waitingAdminGet.endVO.value.length})')),
             ],
           ),
           Expanded(
@@ -60,13 +70,11 @@ class _WaitingAdminState extends State<WaitingAdmin>
               controller: _tabController,
               children: <Widget>[
                 Card(
-                  margin: const EdgeInsets.all(12.0),
-                  child: ListView(children: []),
-                ),
+                    margin: const EdgeInsets.all(12.0),
+                    child: WaitingAdminWidgetList(widget.timerController)),
                 Card(
-                  margin: const EdgeInsets.all(12.0),
-                  child: Center(child: Text('ddd')),
-                ),
+                    margin: const EdgeInsets.all(12.0),
+                    child: EndAdminWidgetList(widget.timerController)),
               ],
             ),
           ),

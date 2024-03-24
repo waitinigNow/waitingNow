@@ -59,6 +59,16 @@ class WaitingService extends GetConnect {
     }
   }
 
+  Future waitingCall(int? waitingCustomerNumber) async{
+    Response response = await get('/waiting/call?waitingCustomerNumber=$waitingCustomerNumber');
+    Map<String, dynamic> body = response.body;
+
+    if(body['code'] != 200){
+      throw Exception(body['message']);
+    } else{
+      return body['data'];
+    }
+  }
   @override
   void onInit() {
     allowAutoSignedCert = true;

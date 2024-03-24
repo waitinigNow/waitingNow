@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waitingnow/src/Screen/Admin/WaitingAdmin.dart';
+import 'package:waitingnow/src/Screen/Admin/waiting/WaitingAdmin.dart';
 import 'package:waitingnow/src/Screen/Widget/DrawerWidget.dart';
 
 import '../../Controller/TimerController.dart';
 
-
 class Admin extends StatefulWidget {
-  const Admin({super.key});
+  const Admin({Key? key}) : super(key: key);
 
   @override
   State<Admin> createState() => _AdminState();
@@ -20,9 +19,8 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    var initState = super.initState();
-    tabController = TabController(length: 3, vsync: this);
-    tabController.animateTo(initialTabIndex);
+    super.initState();
+    tabController = TabController(length: 3, vsync: this, initialIndex: initialTabIndex);
   }
 
   @override
@@ -71,7 +69,7 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
             ],
           ),
         ),
-        endDrawer: DrawerWidget(),
+        endDrawer: DrawerWidget("Admin"),
         body: TabBarView(
           controller: tabController,
           children: <Widget>[
@@ -80,9 +78,7 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
             Scaffold(),
           ],
         ),
-      )
-      ,
+      ),
     );
   }
 }
-

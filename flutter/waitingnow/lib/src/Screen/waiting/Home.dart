@@ -152,7 +152,7 @@ class _HomeState extends State<Home> {
                   )
                 ],
               ),
-              endDrawer: DrawerWidget(),
+              endDrawer: DrawerWidget("Home"),
               body: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(

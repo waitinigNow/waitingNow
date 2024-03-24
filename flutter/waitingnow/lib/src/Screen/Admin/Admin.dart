@@ -110,11 +110,7 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this, initialIndex: initialTabIndex);
-    deskController.checkDesk().then((value){
-      if(value == "False"){
-        show("오류", "테이블 조회 오류 발생");
-      }
-    });
+
   }
 
   @override

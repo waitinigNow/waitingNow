@@ -8,6 +8,7 @@ import 'package:waitingnow/src/Get/DeskGet.dart';
 import 'package:waitingnow/src/Screen/Admin/Table/TableAssignWidgetList.dart';
 
 import '../../../Domain/DeskVO.dart';
+import '../../../Domain/WaitingVO.dart';
 
 class TableAssign extends StatefulWidget {
   const TableAssign({super.key});
@@ -25,6 +26,12 @@ class _TableAssignState extends State<TableAssign> {
   void initState() {
     super.initState();
     desks = deskGet.Desks.value as List<DeskVO>;
+    waitingVO = Get.arguments;
+    deskController.checkDesk().then((value){
+      if(value == "False"){
+        show("오류", "테이블 조회 오류 발생");
+      }
+    });
   }
 
   @override

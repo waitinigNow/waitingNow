@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waitingnow/src/Controller/DeskController.dart';
+import 'package:waitingnow/src/Get/DeskGet.dart';
 import 'package:waitingnow/src/Screen/Admin/waiting/WaitingAdmin.dart';
 import 'package:waitingnow/src/Screen/Widget/DrawerWidget.dart';
 
@@ -15,6 +17,8 @@ class Admin extends StatefulWidget {
 class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
   late TabController tabController;
   final TimerController timerController = Get.put(TimerController());
+  final DeskController deskController = Get.put(DeskController());
+  final deskGet = Get.put(DeskGet());
   int initialTabIndex = Get.arguments ?? 0;
 
   void show(String title, String body) {
@@ -106,6 +110,11 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this, initialIndex: initialTabIndex);
+    deskController.checkDesk().then((value){
+      if(value == "False"){
+        show("오류", "테이블 조회 오류 발생");
+      }
+    });
   }
 
   @override

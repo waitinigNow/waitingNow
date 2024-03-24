@@ -111,8 +111,12 @@ class _TableAssignState extends State<TableAssign> {
   @override
   void initState() {
     super.initState();
-    desks = deskGet.Desks.value as List<DeskVO>;
+    desks = deskGet.Desks.value.cast<DeskVO>();
     waitingVO = Get.arguments;
+    
+    // 체크된 데스크 초기화
+    deskGet.checkedDesks.value = [];
+
     deskController.checkDesk().then((value){
       if(value == "False"){
         show("오류", "테이블 조회 오류 발생");
@@ -166,9 +170,11 @@ class _TableAssignState extends State<TableAssign> {
           Container(
             width: double.infinity, // 버튼이 화면에 꽉 차도록 설정
             child: TextButton(
-              onPressed: () {
+              onPressed: () async {
                 print('배정하기');
-                String value = deskController.assignDesk(waitingVO.waitingNumber!) as String;
+                // TODO 타이머 종료하기
+                // TODO 내부 연결 링크 추가하기
+                String value = await deskController.assignDesk(waitingVO.waitingNumber!);
                 if (value == "preorder"){
                   show("안내", "선주문 메뉴가 있습니다!");
                 }
@@ -178,7 +184,6 @@ class _TableAssignState extends State<TableAssign> {
                 else{
                   show("오류", "테이블 배정에 문제가 생겼습니다.");
                 }
-                
               },
               child: Text(
                 '배정하기',

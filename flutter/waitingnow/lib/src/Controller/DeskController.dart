@@ -36,7 +36,7 @@ class DeskController extends GetConnect {
   /**
    * 현재 테이블 상태 확인하기
    */
-  Future<Object> assignDesk(int waitingNumber) async{
+  Future<String> assignDesk(int waitingNumber) async{
     List<int> deskStoreNumber = deskGet.checkedDesks.value.cast<int>();
     try{
       await deskService.assignDesk(deskStoreNumber, waitingNumber).then((data) {

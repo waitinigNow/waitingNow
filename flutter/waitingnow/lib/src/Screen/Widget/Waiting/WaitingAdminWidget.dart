@@ -119,6 +119,25 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
       });
     }
 
+    void showLoadingDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        barrierDismissible: false, // 로딩 다이얼로그는 사용자가 닫을 수 없도록 설정합니다.
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.symmetric(horizontal:40, vertical: 20),
+            content: Row(
+              children: [
+                CircularProgressIndicator(), // 로딩 표시기
+                SizedBox(width: 20),
+                Text("호출하는 중"), // 로딩 메시지
+              ],
+            ),
+          );
+        },
+      );
+    }
+    
     void alert(String title, String body) {
       showDialog<String>(
         context: context,
@@ -201,23 +220,35 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
                           width: 100,
                           height: 40,
                           child: ElevatedButton(
-                              onPressed: () async {
-                                if(await waitingController.waitingCall(widget.waitingVO.waitingCustomerNumber)){
-                                  show("호출 완료", "정상 호출 되었습니다.");
-                                  widget.timerController.startTimer(widget.waitingVO.waitingNumber ?? 0);
-                                  setState(() {
-                                    isButtonEnabled = false; // 버튼 비활성화
-                                  });
-                                }else{
-                                  show("호출 실패", "호출에 실패하였습니다");
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.orange),
-                              child: const Text(
-                                "확인",
-                                style: TextStyle(color: Colors.white),
-                              )),
+                            onPressed: () async {
+                              // 버튼이 눌렸을 때 로딩을 표시합니다.
+                              showLoadingDialog(context);
+
+                              // 비동기 작업을 수행합니다.
+                              bool success = await waitingController.waitingCall(widget.waitingVO.waitingCustomerNumber);
+
+                              // 로딩 다이얼로그를 닫습니다.
+                              Navigator.pop(context); // 로딩 다이얼로그 닫기
+
+                              // 결과에 따라 적절한 동작을 수행합니다.
+                              if (success) {
+                                show("호출 완료", "정상 호출 되었습니다.");
+                                widget.timerController.startTimer(widget.waitingVO.waitingNumber ?? 0);
+                                setState(() {
+                                  isButtonEnabled = false; // 버튼 비활성화
+                                });
+                              } else {
+                                show("호출 실패", "호출에 실패하였습니다");
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                            ),
+                            child: const Text(
+                              "확인",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
                         ),
                       ],
                     )
@@ -231,6 +262,7 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
         /// 다이얼로그가 종료됐을 때 호출됩니다.
       });
     }
+
 
     return Padding(
       padding: EdgeInsets.all(30),

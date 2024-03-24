@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Screen/Admin/Admin.dart';
@@ -9,14 +11,25 @@ import '../../Domain/WaitingVO.dart';
 class WaitingAdminWidget extends StatefulWidget {
   final WaitingVO waitingVO;
   final int index;
-  const WaitingAdminWidget(this.waitingVO, this.index);
+  final TimerController timerController;
+  const WaitingAdminWidget(this.waitingVO, this.index, this.timerController);
 
   @override
   State<WaitingAdminWidget> createState() => _WaitingAdminWidgetState();
 }
 
 class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
-  final TimerController timerController = Get.put(TimerController());
+  bool isButtonEnabled = true; // 버튼이 눌렸는지 판단하는 변수
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.timerController.remainingTime(widget.waitingVO.waitingNumber ?? 0) != "10 : 00"){
+      setState(() {
+        isButtonEnabled = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +204,10 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
                               onPressed: () async {
                                 if(await waitingController.waitingCall(widget.waitingVO.waitingCustomerNumber)){
                                   show("호출 완료", "정상 호출 되었습니다.");
-                                  timerController.startTimer();
+                                  widget.timerController.startTimer(widget.waitingVO.waitingNumber ?? 0);
+                                  setState(() {
+                                    isButtonEnabled = false; // 버튼 비활성화
+                                  });
                                 }else{
                                   show("호출 실패", "호출에 실패하였습니다");
                                 }
@@ -269,9 +285,9 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
                 mainAxisAlignment: MainAxisAlignment.end, // 버튼을 행의 오른쪽에 정렬
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: isButtonEnabled ? () {
                       alert("호출하기", "${widget.waitingVO.waitingPhone?.substring(0,3)} - ${widget.waitingVO.waitingPhone?.substring(3,7)} - ${widget.waitingVO.waitingPhone?.substring(7,11)}님을 호출하시겠습니까?");
-                    },
+                    } : null,
                     icon: Icon(Icons.notifications_outlined),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFFFEEDA),
@@ -287,7 +303,7 @@ class _WaitingAdminWidgetState extends State<WaitingAdminWidget> {
                           SizedBox(height: 5,),
                           Text("호출"),
                           Obx(() {
-                            return Text(timerController.remainingTime);
+                            return Text(widget.timerController.remainingTime(widget.waitingVO.waitingNumber ?? 0));
                           }),
                         ]
                     ),

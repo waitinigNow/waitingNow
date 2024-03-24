@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:waitingnow/src/Screen/Admin/WaitingAdmin.dart';
 import 'package:waitingnow/src/Screen/Widget/DrawerWidget.dart';
 
+import '../../Controller/TimerController.dart';
+
 
 class Admin extends StatefulWidget {
   const Admin({super.key});
@@ -13,6 +15,7 @@ class Admin extends StatefulWidget {
 
 class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
   late TabController tabController;
+  final TimerController timerController = Get.put(TimerController());
   int initialTabIndex = Get.arguments ?? 0;
 
   @override
@@ -72,7 +75,7 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: tabController,
           children: <Widget>[
-            WaitingAdmin(),
+            WaitingAdmin(timerController),
             Scaffold(),
             Scaffold(),
           ],

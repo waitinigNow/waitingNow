@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waitingnow/src/Controller/TimerController.dart';
 import 'package:waitingnow/src/Controller/WaitingController.dart';
 import 'package:waitingnow/src/Screen/Admin/EndAdminWidgetList.dart';
 import 'package:waitingnow/src/Screen/Widget/EndAdminWidget.dart';
@@ -10,7 +11,8 @@ import '../../Get/WaitingAdminGet.dart';
 import 'WaitingAdminWidgetList.dart';
 
 class WaitingAdmin extends StatefulWidget {
-  const WaitingAdmin({super.key});
+  final TimerController timerController;
+  const WaitingAdmin(this.timerController);
 
   @override
   State<WaitingAdmin> createState() => _WaitingAdminState();
@@ -69,10 +71,10 @@ class _WaitingAdminState extends State<WaitingAdmin>
               children: <Widget>[
                 Card(
                     margin: const EdgeInsets.all(12.0),
-                    child: WaitingAdminWidgetList()),
+                    child: WaitingAdminWidgetList(widget.timerController)),
                 Card(
                     margin: const EdgeInsets.all(12.0),
-                    child: EndAdminWidgetList()),
+                    child: EndAdminWidgetList(widget.timerController)),
               ],
             ),
           ),

@@ -3,7 +3,12 @@ import 'package:get/get.dart';
 import 'package:waitingnow/src/Get/WaitingAdminGet.dart';
 import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
 
+import '../../Controller/TimerController.dart';
+
 class EndAdminWidgetList extends StatelessWidget {
+  final TimerController timerController;
+  EndAdminWidgetList(this.timerController);
+
   final WaitingAdminGet waitingAdminGet = Get.put(WaitingAdminGet());
 
   @override
@@ -22,6 +27,6 @@ class EndAdminWidgetList extends StatelessWidget {
   }
 
   Widget buildPage(dynamic item, int index) {
-    return WaitingAdminWidget(item, index);
+    return WaitingAdminWidget(item, index, timerController);
   }
 }

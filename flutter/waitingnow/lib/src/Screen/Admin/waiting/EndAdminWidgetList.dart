@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Get/WaitingAdminGet.dart';
-import 'package:waitingnow/src/Screen/Widget/EndAdminWidget.dart';
+import 'package:waitingnow/src/Screen/Widget/Waiting/EndAdminWidget.dart';
 
 import '../../../Controller/TimerController.dart';
 

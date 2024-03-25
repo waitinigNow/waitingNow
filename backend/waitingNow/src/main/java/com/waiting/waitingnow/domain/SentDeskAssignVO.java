@@ -2,6 +2,9 @@ package com.waiting.waitingnow.domain;
 
 import java.util.List;
 
+/**
+ * @SEE [DeskAssignVO와의 차이점 : deskStoreNumber : List] / [테이블 배정 해제는 DeskAssignVO 사용]
+ */
 public class SentDeskAssignVO {
     private int deskAssignKey;
     private int memberNumber;

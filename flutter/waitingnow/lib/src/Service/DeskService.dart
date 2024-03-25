@@ -57,16 +57,14 @@ class DeskService extends GetConnect {
   /**
    * 테이블 배정 해제
    */
-  Future deskOut() async{
-    Response response = await delete('/desk/out', query: {"deskStoreNumber":deskGet.checkedDesks.value.cast<int>()});
+  Future deskOut(int? deskStoreNumber) async{
+    Response response = await delete('/desk/out/$deskStoreNumber');
 
     Map<String, dynamic> body = response.body;
+    print(body.toString());
 
-    if(body['code'] != 200){
-      throw Exception(body['message']);
-    }else{
-      return body['data'];
-    }
+    return body['message'];
+
   }
 
   @override

@@ -32,15 +32,15 @@ class DeskController extends GetConnect {
       return "False";
     }
   }
-  
+
   /**
-   * 현재 테이블 상태 확인하기
+   * 웨이팅 한 손님 데스크 할당
    */
   Future<String> assignDesk(int waitingNumber) async{
     try{
       await deskService.assignDesk(waitingNumber).then((data) {
         if(data != null){
-          deskGet.checkedDesks.value = [];
+          deskGet.checkedDesks.value = []; // 체크 된 리스트 비워주어야함
           if(data['preorderExist'] == true){
             return "preorder";
           }
@@ -54,13 +54,13 @@ class DeskController extends GetConnect {
   }
 
   /**
-   * 현재 테이블 상태 확인하기
+   * 웨이팅 없이 테이블 할당
    */
   Future<String> assignDeskNoWaiting(int waitingPeople) async{
     try{
       await deskService.assignDeskNoWaiting(waitingPeople).then((data) {
         if(data != null){
-          deskGet.checkedDesks.value = [];
+          deskGet.checkedDesks.value = []; // 체크 된 리스트 비워주어야함
           if(data['preorderExist'] == true){
             return "preorder";
           }
@@ -73,4 +73,21 @@ class DeskController extends GetConnect {
     }
   }
 
+  /**
+   * 테이블 배정 해제
+   */
+  Future deskOut(int? deskStoreNumber) async{
+    String returnData = "";
+    try{
+      await deskService.deskOut(deskStoreNumber).then((message) {
+        checkDesk();
+        deskGet.checkedDesks.value = []; // 체크 된 리스트 비워주어야함
+        returnData = message;
+      });
+      return returnData;
+    }catch(e){
+      e.printError();
+      return e.toString();
+    }
+  }
 }

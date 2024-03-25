@@ -34,10 +34,9 @@ class _TableAssignWidgetState extends State<TableAssignWidget> {
     void toggleCheckbox(bool? value) {
       // 체크 박스 상태 변경 함수
       setState(() {
-        if (!tableAvailable){
+        if (!tableAvailable) {
           isChecked = false;
-        }
-        else{
+        } else {
           isChecked = value ?? false; // 널 처리
           if (isChecked) {
             deskGet.checkedDesks.value.add(widget.deskVO.deskStoreNumber);
@@ -57,59 +56,63 @@ class _TableAssignWidgetState extends State<TableAssignWidget> {
         color: containerColor, // 배경 색상 적용
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(width: 30),
-                  Checkbox(
-                    activeColor: Colors.white,
-                    checkColor: Color(0xFFF19530),
-                    value: isChecked,
-                    onChanged: toggleCheckbox,
-                  ),
-                  SizedBox(width: 30),
-                  Text(
-                    "${widget.index + 1}번 테이블",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  SizedBox(width: 20),
-                  Icon(Icons.person),
-                  SizedBox(width: 5,),
-                  Text("${widget.deskVO.deskPeople}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.orange),)
-                ],
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(width: 30),
+                Checkbox(
+                  activeColor: Colors.white,
+                  checkColor: Color(0xFFF19530),
+                  value: isChecked,
+                  onChanged: toggleCheckbox,
+                ),
+                SizedBox(width: 30),
+                Text(
+                  "${widget.index + 1}번 테이블",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                SizedBox(width: 20),
+                Icon(Icons.person),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "${widget.deskVO.deskPeople}",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.orange),
+                )
+              ],
             ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FlutterSwitch(
-                    width: 95,
-                    height: 40,
-                    disabled: true,
-                    showOnOff: true,
-                    valueFontSize: 14.0,
-                    value: tableAvailable,
-                    activeText: "대기중",
-                    inactiveText: "배정완료",
-                    activeTextFontWeight: FontWeight.bold,
-                    inactiveTextFontWeight: FontWeight.bold,
-                    borderRadius: 30.0,
-                    activeColor: Colors.orange,
-                    inactiveColor: Colors.grey,
-                    onToggle: (val) {
-                      setState(() {
-                        isChecked = val;
-                      });
-                    },
-                  ),
-                  SizedBox(width: 30)
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FlutterSwitch(
+                  width: 95,
+                  height: 40,
+                  disabled: true,
+                  showOnOff: true,
+                  valueFontSize: 14.0,
+                  value: tableAvailable,
+                  activeText: "대기중",
+                  inactiveText: "배정완료",
+                  activeTextFontWeight: FontWeight.bold,
+                  inactiveTextFontWeight: FontWeight.bold,
+                  borderRadius: 30.0,
+                  activeColor: Colors.orange,
+                  inactiveColor: Colors.grey,
+                  onToggle: (val) {
+                    setState(() {
+                      isChecked = val;
+                    });
+                  },
+                ),
+                SizedBox(width: 30)
+              ],
             ),
           ],
         ),

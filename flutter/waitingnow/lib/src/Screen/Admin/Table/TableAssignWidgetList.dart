@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waitingnow/src/Screen/Widget/Desk/TableAndOrderWidget.dart';
 import 'package:waitingnow/src/Screen/Widget/Desk/TableAssignWidget.dart';
 import 'package:waitingnow/src/Screen/Widget/Waiting/WaitingAdminWidget.dart';
 
@@ -12,8 +13,7 @@ class TableAssignWidgetList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       List<dynamic> items = deskGet.Desks.value;
-      return Expanded( // Expanded 위젯 추가
-        child: ListView.separated(
+      return ListView.separated(
           itemCount: items.length,
           itemBuilder: (context, index) {
             return TableAssignWidget(items[index], index);
@@ -25,7 +25,6 @@ class TableAssignWidgetList extends StatelessWidget {
               color: Color(0xFFCCCCCC),
             );
           },
-        ),
       );
     });
   }

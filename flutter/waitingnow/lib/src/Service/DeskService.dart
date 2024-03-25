@@ -57,8 +57,8 @@ class DeskService extends GetConnect {
   /**
    * 테이블 배정 해제
    */
-  Future deskOut(List<int> deskStoreNumber) async{
-    Response response = await delete('/desk/out', query: {"deskStoreNumber":deskStoreNumber});
+  Future deskOut() async{
+    Response response = await delete('/desk/out', query: {"deskStoreNumber":deskGet.checkedDesks.value.cast<int>()});
 
     Map<String, dynamic> body = response.body;
 

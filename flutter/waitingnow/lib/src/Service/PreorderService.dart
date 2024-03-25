@@ -15,11 +15,7 @@ class PreorderService extends GetConnect {
 
     Map<String, dynamic> body = response.body;
 
-    if(body['code'] != 200){
-        return body['message'];
-    }else{
-      return body['data'];
-    }
+    return body;
   }
 
   @override

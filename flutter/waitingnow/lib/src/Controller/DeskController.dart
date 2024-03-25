@@ -39,6 +39,7 @@ class DeskController extends GetConnect {
   Future<String> assignDesk(int waitingNumber) async{
     try{
       await deskService.assignDesk(waitingNumber).then((data) {
+        checkDesk(); // 배정 했으면 상태관리
         if(data != null){
           deskGet.checkedDesks.value = []; // 체크 된 리스트 비워주어야함
           if(data['preorderExist'] == true){
@@ -59,6 +60,7 @@ class DeskController extends GetConnect {
   Future<String> assignDeskNoWaiting(int waitingPeople) async{
     try{
       await deskService.assignDeskNoWaiting(waitingPeople).then((data) {
+        checkDesk(); // 배정 했으면 상태관리
         if(data != null){
           deskGet.checkedDesks.value = []; // 체크 된 리스트 비워주어야함
           if(data['preorderExist'] == true){

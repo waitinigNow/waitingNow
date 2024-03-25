@@ -19,7 +19,7 @@ class _TableAndOrderState extends State<TableAndOrder> {
   final deskGet = Get.put(DeskGet());
   List<DeskVO> desks = [];
 
-  void show(String title, String body) {
+  void show(String title, String body, int times) {
     showDialog<String>(
       context: context,
 
@@ -83,8 +83,14 @@ class _TableAndOrderState extends State<TableAndOrder> {
                         onPressed: () {
                           /// Navigator.pop에서 result값을 넣어주면
                           /// showDialog의 return 값이 됩니다.
-                          Navigator.pop(context, "return value");
-                          Navigator.pop(context, "return value");
+                          if(times == 1){
+                            Navigator.pop(context, "return value");
+                          }
+                          else{
+                            Navigator.pop(context, "return value");
+                            Navigator.pop(context, "return value");
+                          }
+                          deskGet.updateDesk();
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.orange),
@@ -114,13 +120,32 @@ class _TableAndOrderState extends State<TableAndOrder> {
 
     deskController.checkDesk().then((value) {
       if (value == "False") {
-        show("오류", "테이블 조회 오류 발생");
+        show("오류", "테이블 조회 오류 발생",1);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    void showLoadingDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        barrierDismissible: false, // 로딩 다이얼로그는 사용자가 닫을 수 없도록 설정합니다.
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.symmetric(horizontal:40, vertical: 20),
+            content: Row(
+              children: [
+                CircularProgressIndicator(), // 로딩 표시기
+                SizedBox(width: 20),
+                Text("호출하는 중"), // 로딩 메시지
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     // 사람 수를 체크하는 모달창
     void showPeople() {
       deskGet.people.value = 0;
@@ -224,11 +249,31 @@ class _TableAndOrderState extends State<TableAndOrder> {
                       width: 200,
                       height: 40,
                       child: ElevatedButton(
-                          onPressed: () {
-                            /// Navigator.pop에서 result값을 넣어주면
-                            /// showDialog의 return 값이 됩니다.
-                            Navigator.pop(context, "return value");
-                            Navigator.pop(context, "return value");
+                          onPressed: () async {
+                            // 사람을 선택하지 않는 경우도 고려
+                            if (deskGet.people.value == 0){
+                              show("오류", "사람을 1명 이상 추가해주세요.",1);
+                            }
+                            else{
+                              // 로딩 표시기
+                              showLoadingDialog(context);
+
+                              // 배정 할당 실행
+                              String value = await deskController.assignDeskNoWaiting(deskGet.people.value);
+
+                              // 로딩 다이얼로그를 닫습니다.
+                              Navigator.pop(context); // 로딩 다이얼로그 닫기
+
+                              if (value == "preorder"){
+                                show("안내", "선주문 메뉴가 있습니다!",2);
+                              }
+                              else if (value == "True"){
+                                show("안내", "테이블이 배정되었습니다.",2);
+                              }
+                              else{
+                                show("오류", "테이블 배정에 문제가 생겼습니다.",2);
+                              }
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange),
@@ -288,25 +333,11 @@ class _TableAndOrderState extends State<TableAndOrder> {
           child: TextButton(
             onPressed: () async {
               if(deskGet.checkedDesks.isEmpty){
-                show("오류","배정할 테이블을 선택하세요.");
+                show("오류","배정할 테이블을 선택하세요.",1);
               }else{
                 showPeople();
               }
               print('배정하기');
-              // TODO 타이머 종료하기
-              // TODO 내부 연결 링크 추가하기
-              /*
-              String value = await deskController.assignDesk();
-              if (value == "preorder"){
-                show("안내", "선주문 메뉴가 있습니다!");
-              }
-              else if (value == "True"){
-                show("안내", "테이블이 배정되었습니다.");
-              }
-              else{
-                show("오류", "테이블 배정에 문제가 생겼습니다.");
-              }
-              */
             },
             child: Text(
               '배정하기',

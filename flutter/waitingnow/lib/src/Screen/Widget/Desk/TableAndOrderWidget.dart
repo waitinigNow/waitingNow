@@ -256,6 +256,7 @@ class _TableAndOrderWidgetState extends State<TableAndOrderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    tableAvailable = widget.deskVO.deskAvailable!;
     void toggleCheckbox(bool? value) {
       // 체크 박스 상태 변경 함수
       setState(() {

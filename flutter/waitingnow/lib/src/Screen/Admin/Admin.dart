@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Controller/DeskController.dart';
 import 'package:waitingnow/src/Get/DeskGet.dart';
+import 'package:waitingnow/src/Screen/Admin/Table/TableAndOrder.dart';
 import 'package:waitingnow/src/Screen/Admin/waiting/WaitingAdmin.dart';
 import 'package:waitingnow/src/Screen/Widget/DrawerWidget.dart';
 
@@ -164,7 +165,7 @@ class _AdminState extends State<Admin> with SingleTickerProviderStateMixin {
           controller: tabController,
           children: <Widget>[
             WaitingAdmin(timerController),
-            Scaffold(),
+            TableAndOrder(),
             Scaffold(),
           ],
         ),

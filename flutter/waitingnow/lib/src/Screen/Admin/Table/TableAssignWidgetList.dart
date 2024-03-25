@@ -7,6 +7,9 @@ import 'package:waitingnow/src/Screen/Widget/Waiting/WaitingAdminWidget.dart';
 import '../../../Get/DeskGet.dart';
 
 class TableAssignWidgetList extends StatelessWidget {
+  final String gotoPage;
+  TableAssignWidgetList(this.gotoPage);
+
   final DeskGet deskGet = Get.put(DeskGet());
 
   @override
@@ -16,7 +19,12 @@ class TableAssignWidgetList extends StatelessWidget {
       return ListView.separated(
           itemCount: items.length,
           itemBuilder: (context, index) {
-            return TableAssignWidget(items[index], index);
+            if(this.gotoPage == "TableAssignWidget"){
+              return TableAssignWidget(items[index], index);
+            }
+            else if(this.gotoPage == "TableAndOrderWidget"){
+              return TableAndOrderWidget(items[index], index);
+            }
           },
           separatorBuilder: (context, index) {
             return Divider(
@@ -30,6 +38,14 @@ class TableAssignWidgetList extends StatelessWidget {
   }
 
   Widget buildPage(dynamic item, int index) {
-    return TableAssignWidget(item, index);
+    if(this.gotoPage == "TableAssignWidget"){
+      return TableAssignWidget(item, index);
+    }
+    else if(this.gotoPage == "TableAndOrderWidget"){
+      return TableAndOrderWidget(item, index);
+    }
+    else{
+      return TableAssignWidget(item, index);
+    }
   }
 }

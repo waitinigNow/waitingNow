@@ -156,7 +156,7 @@ class _TableAssignState extends State<TableAssign> {
                       Divider(thickness: 1, height: 1, color: Color(0xFFCCCCCC)),
                       Container(
                         height: 560,
-                        child: TableAssignWidgetList(),
+                        child: TableAssignWidgetList("TableAssignWidget"),
                       ),
                     ],
                   ),

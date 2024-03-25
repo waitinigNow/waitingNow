@@ -39,7 +39,10 @@ class EndAdminWidget extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(height: 4,),
-                      Text("${waitingVO.waitingPhone?.substring(0,3)} - ${waitingVO.waitingPhone?.substring(3,7)} - ${waitingVO.waitingPhone?.substring(7,11)}",style: TextStyle(fontSize: 16)),
+                      Text(
+                        "${waitingVO.waitingPhone != null ? '${waitingVO.waitingPhone?.substring(0, 3)} - ${waitingVO.waitingPhone?.substring(3, 7)} - ${waitingVO.waitingPhone?.substring(7, 11)}' : '현장 입장자'}",
+                        style: TextStyle(fontSize: 16),
+                      ),
                       Row(
                         children: [
                           Icon(
@@ -52,7 +55,10 @@ class EndAdminWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 14),
                           Icon(Icons.timer, size: 14),
-                          Text("${waitingVO.waitingDate?.substring(11)}")
+                          Text(" ${waitingVO.waitingDate?.substring(11)}"),
+                          SizedBox(width: 30),
+                          Icon(Icons.calendar_today, size: 14),
+                          Text(" ${waitingVO.waitingDate?.substring(0,11)}")
                         ],
                       )
                     ],

@@ -42,8 +42,8 @@ class DeskService extends GetConnect {
   /**
    * 웨이팅 없이 입장한 고객 테이블 배정
    */
-  Future assignDeskNoWaiting(int enterPeople) async{
-    Response response = await post('/desk/sit/nowaiting', {"deskStoreNumber":deskGet.checkedDesks.value.cast<int>(), "enterPeople":enterPeople});
+  Future assignDeskNoWaiting(int entryPeople) async{
+    Response response = await post('/desk/sit/nowaiting', {"deskStoreNumber":deskGet.checkedDesks.value.cast<int>(), "entryPeople":entryPeople});
 
     Map<String, dynamic> body = response.body;
 

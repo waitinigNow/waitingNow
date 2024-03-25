@@ -287,7 +287,11 @@ class _TableAndOrderState extends State<TableAndOrder> {
           width: double.infinity, // 버튼이 화면에 꽉 차도록 설정
           child: TextButton(
             onPressed: () async {
-              showPeople();
+              if(deskGet.checkedDesks.isEmpty){
+                show("오류","배정할 테이블을 선택하세요.");
+              }else{
+                showPeople();
+              }
               print('배정하기');
               // TODO 타이머 종료하기
               // TODO 내부 연결 링크 추가하기

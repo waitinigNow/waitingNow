@@ -172,17 +172,21 @@ class _TableAssignState extends State<TableAssign> {
             child: TextButton(
               onPressed: () async {
                 print('배정하기');
-                // TODO 타이머 종료하기
-                // TODO 내부 연결 링크 추가하기
-                String value = await deskController.assignDesk(waitingVO.waitingNumber!);
-                if (value == "preorder"){
-                  show("안내", "선주문 메뉴가 있습니다!");
-                }
-                else if (value == "True"){
-                  show("안내", "테이블이 배정되었습니다.");
-                }
-                else{
-                  show("오류", "테이블 배정에 문제가 생겼습니다.");
+                if(deskGet.checkedDesks.isEmpty){
+                  show("오류","배정할 테이블을 선택하세요.");
+                }else{
+                  // TODO 타이머 종료하기
+                  // TODO 내부 연결 링크 추가하기
+                  String value = await deskController.assignDesk(waitingVO.waitingNumber!);
+                  if (value == "preorder"){
+                    show("안내", "선주문 메뉴가 있습니다!");
+                  }
+                  else if (value == "True"){
+                    show("안내", "테이블이 배정되었습니다.");
+                  }
+                  else{
+                    show("오류", "테이블 배정에 문제가 생겼습니다.");
+                  }
                 }
               },
               child: Text(

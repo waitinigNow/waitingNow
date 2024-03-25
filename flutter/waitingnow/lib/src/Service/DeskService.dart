@@ -27,8 +27,8 @@ class DeskService extends GetConnect {
   /**
    * 웨이팅 고객 테이블 배정
    */
-  Future assignDesk(List<int> deskStoreNumber, int waitingNumber) async{
-    Response response = await post('/desk/sit/waiting', {"deskStoreNumber":deskStoreNumber, "waitingNumber":waitingNumber});
+  Future assignDesk(int waitingNumber) async{
+    Response response = await post('/desk/sit/waiting', {"deskStoreNumber":deskGet.checkedDesks.value.cast<int>(), "waitingNumber":waitingNumber});
 
     Map<String, dynamic> body = response.body;
 
@@ -42,8 +42,8 @@ class DeskService extends GetConnect {
   /**
    * 웨이팅 없이 입장한 고객 테이블 배정
    */
-  Future assignDeskNoWaiting(List<int> deskStoreNumber, int enterPeople) async{
-    Response response = await post('/desk/sit/nowaiting', {"deskStoreNumber":deskStoreNumber, "enterPeople":enterPeople});
+  Future assignDeskNoWaiting(int enterPeople) async{
+    Response response = await post('/desk/sit/nowaiting', {"deskStoreNumber":deskGet.checkedDesks.value.cast<int>(), "enterPeople":enterPeople});
 
     Map<String, dynamic> body = response.body;
 

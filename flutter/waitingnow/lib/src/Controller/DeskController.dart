@@ -37,9 +37,28 @@ class DeskController extends GetConnect {
    * 현재 테이블 상태 확인하기
    */
   Future<String> assignDesk(int waitingNumber) async{
-    List<int> deskStoreNumber = deskGet.checkedDesks.value.cast<int>();
     try{
-      await deskService.assignDesk(deskStoreNumber, waitingNumber).then((data) {
+      await deskService.assignDesk(waitingNumber).then((data) {
+        if(data != null){
+          deskGet.checkedDesks.value = [];
+          if(data['preorderExist'] == true){
+            return "preorder";
+          }
+        }
+      });
+      return "True";
+    }catch(e){
+      print("데스크 할당 오류 : " + e.toString());
+      return "False";
+    }
+  }
+
+  /**
+   * 현재 테이블 상태 확인하기
+   */
+  Future<String> assignDeskNoWaiting(int waitingPeople) async{
+    try{
+      await deskService.assignDeskNoWaiting(waitingPeople).then((data) {
         if(data != null){
           deskGet.checkedDesks.value = [];
           if(data['preorderExist'] == true){

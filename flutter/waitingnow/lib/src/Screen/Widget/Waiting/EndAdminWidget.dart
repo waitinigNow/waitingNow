@@ -69,31 +69,19 @@ class EndAdminWidget extends StatelessWidget {
                       children: [
                         SizedBox(width: 25,),
                         ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: null, // disabled 처리
                             icon: Icon(Icons.check),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFD2FFC7),
+
                               foregroundColor: Color(0xFF027C00),
                               minimumSize: Size(85, 60),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8), // 원하는 사각 버튼 모양을 정의할 수 있음
                               ),
                             ),
-                            label: Text("입장")),
+                            label: Text("입장 완료")),
                         SizedBox(width: 25,),
-                        ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: Icon(Icons.cancel_outlined),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFFFDADA),
-                              foregroundColor: Color(0xFFFF2222),
-                              minimumSize: Size(85, 60),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(8), // 원하는 사각 버튼 모양을 정의할 수 있음
-                              ),
-                            ),
-                            label: Text("미입장")),
                         SizedBox(
                           width: 30,
                         ),

@@ -6,6 +6,7 @@ import 'package:waitingnow/src/Screen/Widget/Waiting/WaitingAdminWidget.dart';
 
 class WaitingAdminWidgetList extends StatelessWidget {
   final TimerController timerController;
+
   WaitingAdminWidgetList(this.timerController);
 
   final WaitingAdminGet waitingAdminGet = Get.put(WaitingAdminGet());

@@ -15,7 +15,7 @@
     </select>
 
     <select id="lastAssignDeskKey" resultType="int">
-        select count(*) from deskassign
+        select max(deskAssignKey) from deskassign
     </select>
 
     <select id="selectDeskSitAvailable" resultType="int">

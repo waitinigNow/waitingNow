@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waitingnow/src/Controller/TimerController.dart';
 import 'package:waitingnow/src/Controller/WaitingController.dart';
-import 'package:waitingnow/src/Screen/Admin/EndAdminWidgetList.dart';
-import 'package:waitingnow/src/Screen/Widget/EndAdminWidget.dart';
-import 'package:waitingnow/src/Screen/Widget/WaitingAdminWidget.dart';
+import 'package:waitingnow/src/Screen/Admin/waiting/EndAdminWidgetList.dart';
 
-import '../../Domain/WaitingVO.dart';
-import '../../Get/WaitingAdminGet.dart';
+import '../../../Get/WaitingAdminGet.dart';
 import 'WaitingAdminWidgetList.dart';
 
 class WaitingAdmin extends StatefulWidget {

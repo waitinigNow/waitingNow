@@ -4,6 +4,7 @@ import com.waiting.waitingnow.DTO.RestResponse;
 import com.waiting.waitingnow.DTO.SendDeskVO;
 import com.waiting.waitingnow.DTO.noWaitingSentDeskAssignVO;
 import com.waiting.waitingnow.config.JwtTokenService;
+import com.waiting.waitingnow.domain.DeskAssignVO;
 import com.waiting.waitingnow.domain.SentDeskAssignVO;
 import com.waiting.waitingnow.service.DeskService;
 import com.waiting.waitingnow.service.WaitingService;
@@ -120,7 +121,7 @@ public class DeskController {
             logger.info("[desk 배정] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : " + deskAssignVO.getDeskStoreNumber());
 
             //웨이팅으로 등록하기 (전화번호와 대기번호는 null)
-            deskAssignVO.setWaitingNumber(waitingService.noWaiting(deskAssignVO.getMemberNumber(),noWaitingSentDeskAssign.getEntryPeople()));
+            deskAssignVO.setWaitingNumber(waitingService.noWaiting(deskAssignVO.getMemberNumber(), noWaitingSentDeskAssign.getEntryPeople()));
             SentDeskAssignVO desk = deskService.noWaitingAssignDesk(deskAssignVO);
 
             restResponse = RestResponse.builder()
@@ -150,9 +151,13 @@ public class DeskController {
     }
 
     @ResponseBody
-    @RequestMapping(value = {"/desk/out"}, method = RequestMethod.DELETE)
-    public ResponseEntity deskOut(@RequestBody SentDeskAssignVO deskAssignVO, @RequestHeader("Authorization") String token) throws Exception {
-        deskAssignVO.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
+    @RequestMapping(value = {"/desk/out/{deskStoreNumber}"}, method = RequestMethod.DELETE)
+    public ResponseEntity deskOut(@PathVariable("deskStoreNumber") int deskStoreNumber, @RequestHeader("Authorization") String token) throws Exception {
+        DeskAssignVO deskAssignVO = new DeskAssignVO();
+
+        deskAssignVO.setMemberNumber(Integer.parseInt(jwtTokenService.getUsernameFromToken(token)));
+        deskAssignVO.setDeskStoreNumber(deskStoreNumber);
+
         logger.info("[desk 배정 반환] memberNumber : " + deskAssignVO.getMemberNumber() + "/ deskStoreNumber : " + deskAssignVO.getDeskStoreNumber());
         try {
             // 요청은 (memberNumber, deskStoreNumber, waitingNumber)

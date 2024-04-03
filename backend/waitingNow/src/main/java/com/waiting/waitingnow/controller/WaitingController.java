@@ -102,7 +102,7 @@ public class WaitingController {
      * @throws Exception
      */
 
-    //@TODO
+    //TODO 현재 문자 호출 중단 > 추후 문자 호출 재개해야함
     @ResponseBody
     @RequestMapping(value = {"/waiting/call"}, method = RequestMethod.GET)
     public ResponseEntity waitingCall(@RequestParam (value = "waitingCustomerNumber") int waitingCustomerNumber, @RequestHeader("Authorization") String token) throws Exception {
@@ -112,12 +112,12 @@ public class WaitingController {
         waiting.setMemberNumber(Integer.valueOf(jwtTokenService.getUsernameFromToken(token)));
         try{
             WaitingVO newWaiting = waitingService.waitingSearchByCustomerNumber(waiting);
-            String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);
+            // String sentMessage = sendMessageService.sendWaitingCallMessage(newWaiting);
             // TODO 추후 선주문 내용도 담겨야함.
             restResponse = RestResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
-                    .message(sentMessage)
+                    .message("호출함")
                     .data(newWaiting)
                     .build();
             return new ResponseEntity<>(restResponse, restResponse.getHttpStatus());

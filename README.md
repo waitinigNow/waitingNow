@@ -2,11 +2,9 @@
 <br>
 
 ## 📣 프로젝트 소개
-맛집에는 항상 웨이팅이 있었습니다. 하지만 기술의 발전으로 매장 앞 웨이팅 키오스크가 생겼고, 이제 더 이상 줄 서지 않아도 됩니다.<br>
+맛집에는 항상 웨이팅이 있었습니다. 하지만 기술의 발전으로 매장 앞 웨이팅 키오스크가 생겼고, 이제 더 이상 줄 서지 않아도 됩니다. 웨이팅 나우로 고객은 **편하게 웨이팅**하고, 사장님은 고객을 **편하게 관리**해보세요. 
 
-웨이팅 나우로 고객은 **편하게 웨이팅**하고, 사장님은 고객을 **편하게 관리**해보세요. 
-
-<br><br>
+<br>
 
 ## ⚙️ 기술 스택
 
@@ -60,3 +58,6 @@
 | :------: | :------: | :------: |
 | [<img width="140px" src="https://avatars.githubusercontent.com/u/96652450?v=4" height=150 width=150> <br/> @minz-cha](https://github.com/minz-cha) | [<img width="140px" src="https://avatars.githubusercontent.com/u/31847789?v=4" height=150 width=150> <br/> @guswns7452](https://github.com/guswns7452) | [<img width="140px" src="https://avatars.githubusercontent.com/u/68106298?v=4" height=150 width=150> <br/> @dahyeon-da](https://github.com/dahyeon-da) |
 | Frontend | Backend, Frontend (Flutter) | Frontend | 
+
+- [UI / React] 김민주, 이다현
+- [Spring / Flutter] 전현준
